@@ -10,6 +10,7 @@ export default class Post extends Component {
         <h1> Title </h1>
         <p> Artist </p>
         <textarea type="text" className="commentForm" placeholder="Leave a comment" />
+        <button> Comment </button>
       </div>
     );
   }
