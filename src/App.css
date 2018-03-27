@@ -4,14 +4,6 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-/* .App-header {
-  background-color: #222;
-  height: 50px;
-  padding: 20px;
-  color: white;
-  text-align: left;
-} */
-
 .App-title {
   font-size: 1.5em;
 }
@@ -20,11 +12,6 @@
   font-size: large;
 }
 
-/* .post-div{
-  text-align: left;
-  width: 500px;
-  margin: auto;
-} */
 
 .commentForm{
   border-radius: 5px;
@@ -37,4 +24,31 @@
 
 .show-grid{
   justify-content: center;
+}
+
+.subButton{
+  margin: auto;
+}
+
+.buttonCol{
+  margin: auto;
+  padding-top: 20px;
+}
+
+.container{
+  padding-top: 20px;
+}
+
+/*The feed, a list of cards*/
+.list-group{
+  max-width: 600px;
+  margin: auto;
+}
+
+.card{
+  margin-top: 20px;
+}
+
+.img-fluid{
+padding: 5px;
 }

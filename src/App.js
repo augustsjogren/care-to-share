@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-      <Navbar color="indigo" dark expand="md" scrolling> 
+      <Navbar color="blue" dark expand="md" static> 
                  <NavbarBrand href="/">
                      <strong>Care To Share</strong>
                  </NavbarBrand>

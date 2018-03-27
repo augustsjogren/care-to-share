@@ -5,7 +5,6 @@ import uuidv1 from "uuid";
 import { addPost } from '../actions/index';
 
 import {
-  Button,
   FormGroup,
   ControlLabel,
   FormControl,
@@ -14,6 +13,8 @@ import {
   Col,
 }
   from 'react-bootstrap';
+
+  import { Button} from 'mdbreact';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -77,7 +78,9 @@ type State = {
               placeholder="Write a post"
               onChange={this.handleChange}
             />
-            <Button bsStyle="primary" type="submit" > Submit </Button>
+            <Col xs={5} sm={5} className="buttonCol">
+            <Button className="subButton" color="primary" type="submit" block> Submit </Button>
+            </Col>
             </FormGroup>
           </form>
 
