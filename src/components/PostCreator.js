@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
@@ -9,11 +10,19 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
- class ConnectedPostCreator extends Component {
+type Props = {
+  addPost: ''
+};
+
+type State = {
+  postContent: string;
+}
+
+ class ConnectedPostCreator extends Component<Props, State> {
    constructor(){
      super();
      this.state = {
-       postContent: ''
+       postContent: ""
      };
 
      this.handleChange = this.handleChange.bind(this);

@@ -15,8 +15,8 @@ class App extends Component {
           <h1 className="App-title">CareToShare</h1>
         </header>
         {/*<Form />*/}
-        <List />
         <PostCreator />
+        <List />
       </div>
     );
   }
