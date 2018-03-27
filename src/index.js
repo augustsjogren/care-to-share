@@ -6,6 +6,10 @@ import registerServiceWorker from './registerServiceWorker';
 import { Provider } from "react-redux";
 import store from "./store/index";
 
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

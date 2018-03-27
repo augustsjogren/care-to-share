@@ -1,14 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+
 .App {
-  text-align: center;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.App-header {
+/* .App-header {
   background-color: #222;
   height: 50px;
   padding: 20px;
   color: white;
   text-align: left;
-}
+} */
 
 .App-title {
   font-size: 1.5em;
@@ -18,11 +20,11 @@
   font-size: large;
 }
 
-.post-div{
+/* .post-div{
   text-align: left;
   width: 500px;
   margin: auto;
-}
+} */
 
 .commentForm{
   border-radius: 5px;
@@ -31,4 +33,8 @@
   width: 100%;
   box-sizing: border-box;
   padding: 5px;
+}
+
+.show-grid{
+  justify-content: center;
 }
