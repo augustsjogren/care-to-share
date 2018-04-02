@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-// import 'bootstrap/dist/css/bootstrap.css';
 
 
 import List from './components/List.js';
@@ -18,7 +17,7 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-      <Navbar color="blue" dark expand="md" static> 
+      <Navbar color="blue" dark expand="md" static="true">
                  <NavbarBrand href="/">
                      <strong>Care To Share</strong>
                  </NavbarBrand>
@@ -33,8 +32,6 @@ class App extends Component {
                          </form> */}
                      </NavbarNav>
              </Navbar>
-
-        {/*<Form />*/}
         <PostCreator />
         <List />
       </div>

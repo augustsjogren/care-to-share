@@ -1,13 +1,13 @@
 // @flow
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import rootReducer from "../reducers/index";
-
-// const store = createStore(rootReducer);
+import thunk from 'redux-thunk';
 
 // Load the redux browser extension
 const store = createStore(
    rootReducer, /* preloadedState, */
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(thunk)
  );
 
 export default store;

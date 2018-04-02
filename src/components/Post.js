@@ -11,9 +11,10 @@ export default class Post extends Component {
       <Card>
       <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
       <CardBody>
-          <CardTitle>Song title</CardTitle>
+          <CardTitle>{this.props.title}</CardTitle>
           <CardText>{this.props.content}</CardText>
-          <Button color="red" href=""><i class="fa fa-heart-o" aria-hidden="true"></i></Button>
+          <CardText>{this.props.author}</CardText>
+          <Button color="red" href=""><i className="fa fa-heart-o" aria-hidden="true"></i></Button>
       </CardBody>
   </Card>
     );
