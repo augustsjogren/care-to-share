@@ -29,7 +29,7 @@ class ConnectedList extends React.Component<Props, State> {
 
   // Update the state when the component recieves new props (posts)
   componentWillReceiveProps(nextProps){
-    this.setState({data: nextProps.posts[0]});
+    this.setState({data: nextProps.posts.reverse()});
   }
 
   render(){

@@ -1,4 +1,4 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS } from "../constants/action-types";
+import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS } from "../constants/action-types";
 
 const initialState = {
   articles: [],
@@ -15,6 +15,9 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, posts: [...state.posts, action.payload] };
     case FETCH_SUCCESS:
       return { ...state, posts: [...state.posts, action.payload] };
+    case POST_SUCCESS:
+      return { ...state, posts: [...state.posts, action.payload] };
+      break;
 
       break;
     default:

@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var bodyParser = require('body-parser');
 var Post = require('./model/posts');
 
+require('dotenv').config({path: './secrets.env'});
+
 //and create our instances
 var app = express();
 var router = express.Router();
@@ -13,9 +15,10 @@ var router = express.Router();
 //set our port to either a predetermined port number if you have set it up, or 3001
 var port = process.env.API_PORT || 3001;
 
-
+var test = process.env.DB_PASS;
+console.log(test);
 //db config
-var mongoDB = 'mongodb://august:67EbGYoxX1SB@ds227199.mlab.com:27199/care-to-share';
+var mongoDB = 'mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@ds227199.mlab.com:27199/care-to-share';
 mongoose.connect(mongoDB, { useMongoClient: true })
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

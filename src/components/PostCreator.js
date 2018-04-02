@@ -18,7 +18,7 @@ import {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addPost: post => dispatch(addPost(post))
+    addPost: (url, post) => dispatch(addPost(url, post))
   };
 };
 
@@ -27,14 +27,20 @@ type Props = {
 };
 
 type State = {
-  postContent: string;
+  text: string;
+  author: atring;
+  title: string;
 }
 
  class ConnectedPostCreator extends Component<Props, State> {
    constructor(){
      super();
      this.state = {
-       postContent: ""
+       postContent: "",
+       text: "",
+       title: "",
+       author: "",
+       _id: ""
      };
 
      this.handleChange = this.handleChange.bind(this);
@@ -46,19 +52,30 @@ type State = {
      event.preventDefault();
 
      const { postContent } = this.state;
-     const id = uuidv1();
 
-     this.props.addPost({ postContent, id});
+     const data = this.state;
+
+     // console.log(data);
+
+     const url = 'http://localhost:3001/api/posts';
+
+     this.props.addPost({url , data});
      this.setState({ postContent: "" });
    }
 
    handleChange(event) {
-     this.setState({ [event.target.id]: event.target.value });
+     const id = uuidv1();
+     
+     this.setState({
+       text: event.target.value,
+       _id: id
+
+     });
    }
 
 
   render(){
-    const {postContent} = this.state;
+    const {text} = this.state.text;
     return(
       // <div className="create-post-div">
 
@@ -73,8 +90,7 @@ type State = {
              <FormControl
               componentClass="textarea"
               className='post-area'
-              id="postContent"
-              value={postContent}
+              value={text}
               placeholder="Write a post"
               onChange={this.handleChange}
             />
