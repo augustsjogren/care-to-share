@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 
-
 import List from './components/List.js';
-import Form from './components/Form.js';
-import Post from './components/Post.js';
 import PostCreator from './components/PostCreator.js';
 
-import { Navbar, NavbarBrand, NavbarNav, NavbarToggler,
-  Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
+import { Navbar, NavbarBrand, NavbarNav,
+   NavItem, NavLink} from 'mdbreact';
 
 class App extends Component {
   render() {
@@ -21,16 +17,11 @@ class App extends Component {
                  <NavbarBrand href="/">
                      <strong>Care To Share</strong>
                  </NavbarBrand>
-
-
-                     <NavbarNav className="ml-auto" right>
-                     <NavItem active>
-                         <NavLink className="nav-link" to="#profile" >Profile</NavLink>
-                     </NavItem>
-                         {/*<form className="form-inline">
-                         <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
-                         </form> */}
-                     </NavbarNav>
+                 <NavbarNav className="ml-auto" right>
+                   <NavItem active>
+                       <NavLink className="nav-link" to="#profile" >Profile</NavLink>
+                   </NavItem>
+                 </NavbarNav>
              </Navbar>
         <PostCreator />
         <List />

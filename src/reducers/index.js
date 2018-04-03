@@ -17,9 +17,6 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, posts: [...state.posts, action.payload] };
     case POST_SUCCESS:
       return { ...state, posts: [...state.posts, action.payload] };
-      break;
-
-      break;
     default:
       return state;
   }

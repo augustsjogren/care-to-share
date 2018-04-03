@@ -6,7 +6,6 @@ import { addPost } from '../actions/index';
 
 import {
   FormGroup,
-  ControlLabel,
   FormControl,
   Grid,
   Row,
@@ -51,12 +50,7 @@ type State = {
    handleSubmit(event){
      event.preventDefault();
 
-     const { postContent } = this.state;
-
      const data = this.state;
-
-     // console.log(data);
-
      const url = 'http://localhost:3001/api/posts';
 
      this.props.addPost({url , data});
@@ -65,7 +59,7 @@ type State = {
 
    handleChange(event) {
      const id = uuidv1();
-     
+
      this.setState({
        text: event.target.value,
        _id: id
@@ -77,8 +71,6 @@ type State = {
   render(){
     const {text} = this.state.text;
     return(
-      // <div className="create-post-div">
-
       <Grid>
         <Row className="show-grid">
           <Col xs={12} sm={12} md={8} lg={8} >
@@ -99,17 +91,9 @@ type State = {
             </Col>
             </FormGroup>
           </form>
-
-
           </Col>
-
         </Row>
-
       </Grid>
-
-
-
-      // </div>
     );
   }
 }

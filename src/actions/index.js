@@ -1,7 +1,4 @@
-import { ADD_ARTICLE } from "../constants/action-types";
-import { ADD_POST } from '../constants/action-types';
-import { FETCH_POSTS } from '../constants/action-types';
-import { FETCH_SUCCESS, POST_SUCCESS } from '../constants/action-types';
+import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS } from '../constants/action-types';
 
 import axios from 'axios';
 
