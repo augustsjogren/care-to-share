@@ -5,7 +5,9 @@ import './App.css';
 import List from './components/List.js';
 import PostCreator from './components/PostCreator.js';
 
-import { Navbar, NavbarBrand, NavbarNav,
+// import Button from 'react-bootstrap';
+
+import { Button, Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
 
 class App extends Component {
@@ -20,6 +22,7 @@ class App extends Component {
                  <NavbarNav className="ml-auto" right>
                    <NavItem active>
                        <NavLink className="nav-link" to="#profile" >Profile</NavLink>
+                       <Button href="http://localhost:3001/api/login"> Sign in </Button>
                    </NavItem>
                  </NavbarNav>
              </Navbar>
