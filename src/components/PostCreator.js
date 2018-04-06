@@ -10,6 +10,8 @@ import {
   Grid,
   Row,
   Col,
+  OverlayTrigger,
+  Popover
 }
   from 'react-bootstrap';
 
@@ -18,14 +20,8 @@ import axios from 'axios';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 
-// var spotifyApi = new SpotifyWebApi();
-//
-// spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE')
-//   .then(function(data) {
-//     console.log('Artist albums', data);
-//   }, function(err) {
-//     console.error(err);
-//   });
+var spotifyApi = new SpotifyWebApi();
+
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -38,9 +34,13 @@ type Props = {
 };
 
 type State = {
-  text: string;
-  author: atring;
-  title: string;
+  data: {
+    text: string,
+    author: string,
+    title: string,
+  },
+  searchQuery: string,
+  searchResult: object
 };
 
 
@@ -48,11 +48,16 @@ type State = {
    constructor(){
      super();
      this.state = {
-       postContent: "",
-       text: "",
-       title: "",
-       author: "",
-       _id: ""
+       data: {
+         postContent: "",
+         text: "",
+         title: "",
+         author: "",
+         _id: ""
+       },
+       searchQuery: "",
+       searchResult: ""
+
      };
 
      this.handleChange = this.handleChange.bind(this);
@@ -65,7 +70,8 @@ type State = {
    handleSubmit(event){
      event.preventDefault();
 
-     const data = this.state;
+     const data = this.state.data;
+     console.log(data);
      const url = 'http://localhost:3001/api/posts';
 
      this.props.addPost({url , data});
@@ -76,14 +82,13 @@ type State = {
      const id = uuidv1();
 
      this.setState({
-       text: event.target.value,
-       _id: id
+       data:{
+         text: event.target.value,
+         _id: id
+
+       }
 
      });
-   }
-
-   handleSearchChange(event) {
-     console.log('change');
    }
 
   getParameterByName(name, url) {
@@ -95,21 +100,50 @@ type State = {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+  componentDidMount(){
+
+    if(this.getParameterByName('access_token')){
+      let token = this.getParameterByName('access_token');
+      console.log('Token: ' + token);
+      spotifyApi.setAccessToken(token);
+    }
+    else {
+      console.log('No Access Token');
+    }
+
+  }
+
+  handleSearchChange(event) {
+    this.setState({searchQuery: event.target.value});
+
+  }
+
+  handleSearch(event){
+    event.preventDefault();
+    console.log(this.state.searchQuery);
+
+    var response = "";
+
+    spotifyApi.searchTracks(this.state.searchQuery)
+    .then(function(data) {
+      console.log('Search: ', data);
+      var response = data;
+
+    }, function(err) {
+      console.error(err);
+    });
+
+    this.setState({searchResult: response})
+
+  }
 
 
-
-   handleSearch(event){
-
-     event.preventDefault();
-     console.log('search');
-
-     let token = this.getParameterByName('access_token');
-     console.log(token);
-
-   }
 
   render(){
-    const {text} = this.state.text;
+    const {text} = this.state.data.text;
+
+
+
     return(
       <Grid>
         <Row className="show-grid">
@@ -142,7 +176,7 @@ type State = {
               />
               </Col>
               <Col md={1} >
-              <Button color="primary" type="submit"> Search  </Button>
+                <Button color="primary" type="submit"> Search </Button>
               </Col>
             </Row>
           </form>
