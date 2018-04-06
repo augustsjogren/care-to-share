@@ -15,7 +15,7 @@ import {
 }
   from 'react-bootstrap';
 
-import { Button} from 'mdbreact';
+import { Button, ListGroup, ListGroupItem} from 'mdbreact';
 import axios from 'axios';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -118,31 +118,31 @@ type State = {
 
   }
 
+  // Fetch tracks from spotify API based on search
   handleSearch(event){
     event.preventDefault();
-    console.log(this.state.searchQuery);
-
-    var response = "";
-
     spotifyApi.searchTracks(this.state.searchQuery)
-    .then(function(data) {
-      console.log('Search: ', data);
-      var response = data;
-
-    }, function(err) {
-      console.error(err);
-    });
-
-    this.setState({searchResult: response})
-
+    .then((response) =>{
+      this.setState({searchResult: response.tracks.items})
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
-
 
 
   render(){
     const {text} = this.state.data.text;
 
+    const content = this.state.searchResult;
 
+    console.log(content);
+
+    const popoverHoverFocus = (
+      <Popover id="popover-trigger-hover-click" title="Popover bottom">
+        <strong>Holy guacamole!</strong> Check this info.
+      </Popover>
+    );
 
     return(
       <Grid>
@@ -170,6 +170,7 @@ type State = {
           <form onSubmit={this.handleSearch}>
             <Row>
               <Col md={12} >
+
               <FormControl
                 placeholder="Search for a track"
                 onChange={this.handleSearchChange}
@@ -179,6 +180,20 @@ type State = {
                 <Button color="primary" type="submit"> Search </Button>
               </Col>
             </Row>
+
+            <Row>
+              <Col md={12}>
+                <ListGroup>
+
+                {Object.keys(content).map((item, index) =>(
+                  <ListGroupItem>
+                  Title: {content[item].name} <br/>
+                  Artist: {content[item].artists[0].name} </ListGroupItem>
+                ))}
+                </ListGroup>
+              </Col>
+            </Row>
+
           </form>
           </Col>
         </Row>
