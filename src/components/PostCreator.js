@@ -58,8 +58,7 @@ type State = {
      this.handleChange = this.handleChange.bind(this);
      this.handleSearchChange = this.handleSearchChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
-     this.handleLogin = this.handleLogin.bind(this);
-     this.getHashParams = this.getHashParams.bind(this);
+     this.handleSearch = this.handleSearch.bind(this);
 
    }
 
@@ -87,35 +86,26 @@ type State = {
      console.log('change');
    }
 
-   getHashParams() {
-          var hashParams = {};
-          var e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-          while ( e = r.exec(q)) {
-             hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          console.log(hashParams);
-          return hashParams;
-        }
+  getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 
 
-   handleLogin(event){
+   handleSearch(event){
 
      event.preventDefault();
+     console.log('search');
 
-     this.getHashParams();
+     let token = this.getParameterByName('access_token');
+     console.log(token);
 
-
-
-     // const url = 'http://localhost:3001/api/login';
-     //
-     // axios.get(url)
-     // .then(
-     //   console.log('login')
-     // ).catch(function (error) {
-     //   console.log(error);
-     // });
    }
 
   render(){
@@ -143,7 +133,7 @@ type State = {
             </FormGroup>
           </form>
 
-          <form onSubmit={this.handleLogin}>
+          <form onSubmit={this.handleSearch}>
             <Row>
               <Col md={12} >
               <FormControl
@@ -152,7 +142,7 @@ type State = {
               />
               </Col>
               <Col md={1} >
-              <Button color="primary" href="http://localhost:3001/api/login" type="submit"> Search  </Button>
+              <Button color="primary" type="submit"> Search  </Button>
               </Col>
             </Row>
           </form>
