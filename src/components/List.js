@@ -35,7 +35,7 @@ class ConnectedList extends React.Component<Props, State> {
     return(
       <ul className="list-group list-group-flush">
           {this.state.data.map(el => (
-            <Post title={el.title} content={el.text} author={el.author} key={ el['_id'] }/>
+            <Post title={el.title} artist={el.artist} content={el.text} imageUrl={el.imageUrl} author={el.author} key={ el['_id'] }/>
           ))}
         </ul>
     );

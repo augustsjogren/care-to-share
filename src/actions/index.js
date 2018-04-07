@@ -41,7 +41,10 @@ export function addPost(post){
     axios.post(post.url, {
       author: data.author,
       text: data.text,
-      _id: post.id
+      _id: data.id,
+      title: data.title,
+      artist: data.artist,
+      imageUrl: data.imageUrl
     })
     .then( function (response) {
       console.log(response);

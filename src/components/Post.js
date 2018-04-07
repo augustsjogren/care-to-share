@@ -1,18 +1,33 @@
 import React, {Component} from 'react';
-import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact';
+import { Button, Card, CardBody, CardImage, CardTitle, CardText, Media } from 'mdbreact';
 
 export default class Post extends Component {
 
   render(){
     return(
       <Card>
-      <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
-      <CardBody>
-          <CardTitle>{this.props.title}</CardTitle>
-          <CardText>{this.props.content}</CardText>
-          <CardText>{this.props.author}</CardText>
-          <Button color="red" href=""><i className="fa fa-heart-o" aria-hidden="true"></i></Button>
-      </CardBody>
+
+        <Media>
+          <Media left className="mr-3" href="#">
+            <Media object src={this.props.imageUrl} alt="Generic placeholder image" />
+          </Media>
+          <Media body>
+            <Media heading>
+              {this.props.title}
+            </Media>
+            <h5>
+              {this.props.artist}
+            </h5>
+            <p>
+              {this.props.content}
+            </p>
+
+          </Media>
+        </Media>
+
+
+
+
   </Card>
     );
   }

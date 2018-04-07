@@ -69,6 +69,8 @@ router.route('/posts')
     post.author = req.body.author;
     post.text = req.body.text;
     post.title = req.body.title;
+    post.artist = req.body.artist;
+    post.imageUrl = req.body.imageUrl;
 
     post.save(function(err) {
       if (err)

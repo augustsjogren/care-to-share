@@ -5,7 +5,9 @@ var PostsSchema = new Schema({
   author: String,
   text: String,
   title: String,
-  id: String
+  artist: String,
+  imageUrl: String,
+  id: String,
 });
 
 module.exports = mongoose.model('Post', PostsSchema);

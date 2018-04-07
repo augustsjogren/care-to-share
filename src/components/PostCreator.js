@@ -15,7 +15,7 @@ import {
 }
   from 'react-bootstrap';
 
-import { Button, ListGroup, ListGroupItem} from 'mdbreact';
+import { Button, ListGroup, ListGroupItem, Media} from 'mdbreact';
 import axios from 'axios';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -38,10 +38,14 @@ type State = {
     text: string,
     author: string,
     title: string,
+    artist: string,
+    imageUrl: string,
+    _id: string
   },
   searchQuery: string,
   searchResult: object,
-  selectedItem: object
+  selectedItem: object,
+  searchListShowing: string
 };
 
 
@@ -53,12 +57,15 @@ type State = {
          postContent: "",
          text: "",
          title: "",
+         artist: "",
          author: "",
-         _id: ""
+         _id: "",
+         imageUrl: "",
        },
        searchQuery: "",
        searchResult: "",
-       selectedItem: ""
+       selectedItem: "",
+       searchListShowing: 'none'
 
      };
 
@@ -84,15 +91,13 @@ type State = {
    handleChange(event) {
      const id = uuidv1();
 
-     // let title = ;
-     // console.log(title);
-
      this.setState({
        data:{
          text: event.target.value,
          _id: id,
-         title: this.state.selectedItem.name
-
+         title: this.state.selectedItem.name,
+         artist: this.state.selectedItem.artists[0].name,
+         imageUrl: this.state.selectedItem.album.images[1].url,
        }
 
      });
@@ -121,7 +126,15 @@ type State = {
   }
 
   handleSearchChange(event) {
+    this.setState({searchListShowing: 'block'});
     this.setState({searchQuery: event.target.value});
+    spotifyApi.searchTracks(event.target.value)
+    .then((response) =>{
+      this.setState({searchResult: response.tracks.items})
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 
   }
 
@@ -139,7 +152,12 @@ type State = {
 
   handleListClick(content){
     console.log(content);
-    this.setState({selectedItem: content});
+    this.setState({ selectedItem: content });
+    this.hideList();
+  }
+
+  hideList(){
+    this.setState({searchListShowing: 'none'});
   }
 
 
@@ -150,11 +168,11 @@ type State = {
 
     console.log(content);
 
-    const popoverHoverFocus = (
-      <Popover id="popover-trigger-hover-click" title="Popover bottom">
-        <strong>Holy guacamole!</strong> Check this info.
-      </Popover>
-    );
+    console.log(this.state.searchListShowing);
+
+    const listStyle = {
+      display: this.state.searchListShowing
+    }
 
     return(
       <Grid>
@@ -173,41 +191,46 @@ type State = {
               onChange={this.handleChange}
             />
 
-          <Col sm={6} xs={12} className="buttonCol w-100">
-            <Button className="" color="primary" type="submit" block> Submit </Button>
-            </Col>
+
             </FormGroup>
           </form>
 
           <form onSubmit={this.handleSearch}>
             <Row>
-              <Col md={12} >
+              <Col md={8} >
 
               <FormControl
+                className="align-middle"
                 placeholder="Search for a track"
                 onChange={this.handleSearchChange}
               />
               </Col>
-              <Col sm={6} xs={12} className="buttonCol w-100" >
-                <Button className="mt-2 mb-2" color="primary" type="submit" block > Search </Button>
+              <Col sm={6} xs={12} md={4} className="" >
+                <Button className="" color="primary" type="submit" block > Search </Button>
               </Col>
             </Row>
 
             <Row>
               <Col md={12}>
-                <ListGroup className="w-100 mw-100">
+                <ListGroup style={listStyle} className="w-100 mw-100">
 
                 {Object.keys(content).map((item, index) =>(
                   <ListGroupItem onClick={() => this.handleListClick(content[item])}>
                     <Row className="searchResultRow">
-                      <Col xs={2}>
-                        <img src={content[item].album.images[2].url} alt="Image not found"></img>
-                      </Col>
+
                       <Col className="searchResultItem" xs={9}>
-                          <p>
-                            Title: {content[item].name} <br/>
-                            Artist: {content[item].artists[0].name}
-                          </p>
+
+                        <Media>
+                          <Media left className="mr-3" href="#">
+                            <Media object src={content[item].album.images[2].url} alt="Image not found" />
+                          </Media>
+                          <Media body>
+                            <Media heading>
+                              {content[item].name}
+                            </Media>
+                              {content[item].artists[0].name}
+                          </Media>
+                        </Media>
                       </Col>
                     </Row>
 
@@ -218,6 +241,10 @@ type State = {
             </Row>
 
           </form>
+
+          <Col sm={6} xs={12} className="buttonCol w-100">
+            <Button className="" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
+            </Col>
           </Col>
         </Row>
       </Grid>
