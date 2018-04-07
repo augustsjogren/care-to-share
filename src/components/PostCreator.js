@@ -40,7 +40,8 @@ type State = {
     title: string,
   },
   searchQuery: string,
-  searchResult: object
+  searchResult: object,
+  selectedItem: object
 };
 
 
@@ -56,7 +57,8 @@ type State = {
          _id: ""
        },
        searchQuery: "",
-       searchResult: ""
+       searchResult: "",
+       selectedItem: ""
 
      };
 
@@ -64,6 +66,7 @@ type State = {
      this.handleSearchChange = this.handleSearchChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
      this.handleSearch = this.handleSearch.bind(this);
+     this.handleListClick = this.handleListClick.bind(this);
 
    }
 
@@ -81,10 +84,14 @@ type State = {
    handleChange(event) {
      const id = uuidv1();
 
+     // let title = ;
+     // console.log(title);
+
      this.setState({
        data:{
          text: event.target.value,
-         _id: id
+         _id: id,
+         title: this.state.selectedItem.name
 
        }
 
@@ -130,6 +137,11 @@ type State = {
     })
   }
 
+  handleListClick(content){
+    console.log(content);
+    this.setState({selectedItem: content});
+  }
+
 
   render(){
     const {text} = this.state.data.text;
@@ -161,8 +173,8 @@ type State = {
               onChange={this.handleChange}
             />
 
-            <Col xs={5} sm={5} className="buttonCol">
-            <Button className="subButton" color="primary" type="submit" block> Submit </Button>
+          <Col sm={6} xs={12} className="buttonCol w-100">
+            <Button className="" color="primary" type="submit" block> Submit </Button>
             </Col>
             </FormGroup>
           </form>
@@ -176,19 +188,30 @@ type State = {
                 onChange={this.handleSearchChange}
               />
               </Col>
-              <Col md={1} >
-                <Button color="primary" type="submit"> Search </Button>
+              <Col sm={6} xs={12} className="buttonCol w-100" >
+                <Button className="mt-2 mb-2" color="primary" type="submit" block > Search </Button>
               </Col>
             </Row>
 
             <Row>
               <Col md={12}>
-                <ListGroup>
+                <ListGroup className="w-100 mw-100">
 
                 {Object.keys(content).map((item, index) =>(
-                  <ListGroupItem>
-                  Title: {content[item].name} <br/>
-                  Artist: {content[item].artists[0].name} </ListGroupItem>
+                  <ListGroupItem onClick={() => this.handleListClick(content[item])}>
+                    <Row className="searchResultRow">
+                      <Col xs={2}>
+                        <img src={content[item].album.images[2].url} alt="Image not found"></img>
+                      </Col>
+                      <Col className="searchResultItem" xs={9}>
+                          <p>
+                            Title: {content[item].name} <br/>
+                            Artist: {content[item].artists[0].name}
+                          </p>
+                      </Col>
+                    </Row>
+
+                  </ListGroupItem>
                 ))}
                 </ListGroup>
               </Col>

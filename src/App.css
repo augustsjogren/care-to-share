@@ -26,8 +26,13 @@
   justify-content: center;
 }
 
-.subButton{
-  margin: auto;
+.searchResultItem{
+  padding-left: 10px;
+  /* font-size: 13px; */
+}
+
+.searchResultRow{
+  flex-wrap: nowrap !important;
 }
 
 .buttonCol{
