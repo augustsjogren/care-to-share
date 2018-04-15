@@ -35,6 +35,18 @@
   flex-wrap: nowrap !important;
 }
 
+.selectedTrackHeading{
+  font-size: 14px;
+}
+
+.formBox{
+  /* border: 1px solid;
+  border-color: #d3d3d3;
+  border-radius: 5px; */
+  box-sizing: border-box;
+  padding: 20px;
+}
+
 .buttonCol{
   margin: auto;
   padding-top: 20px;
@@ -46,8 +58,13 @@
 
 /*The feed, a list of cards*/
 .list-group{
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
+}
+
+.feed-img{
+  height: auto;
+  width: 100%;
 }
 
 .card{

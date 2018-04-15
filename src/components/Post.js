@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Card, CardBody, CardImage, CardTitle, CardText, Media } from 'mdbreact';
+import {Row, Col} from 'react-bootstrap';
 
 export default class Post extends Component {
 
@@ -7,28 +8,27 @@ export default class Post extends Component {
     return(
       <Card>
 
-        <Media>
-          <Media left className="mr-3" href="#">
-            <Media object src={this.props.imageUrl} alt="Generic placeholder image" />
-          </Media>
-          <Media body>
-            <Media heading>
+        <Row>
+          <Col sm={3}>
+            <img className="feed-img" src={this.props.imageUrl} alt="Image not found" />
+          </Col>
+
+          <Col sm={9}>
+            <h2>
               {this.props.title}
-            </Media>
+            </h2>
+
             <h5>
               {this.props.artist}
             </h5>
             <p>
               {this.props.content}
             </p>
+          </Col>
 
-          </Media>
-        </Media>
+        </Row>
 
-
-
-
-  </Card>
+      </Card>
     );
   }
 }
