@@ -1,16 +1,46 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { connect } from "react-redux";
+import { setAccessToken } from './actions/index';
 import './App.css';
 
 import List from './components/List.js';
 import PostCreator from './components/PostCreator.js';
 
-// import Button from 'react-bootstrap';
-
 import { Button, Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
 
-class App extends Component {
+
+ const mapDispatchToProps = dispatch => {
+   return {
+     setAccessToken: (token) => dispatch(setAccessToken(token))
+   };
+ };
+
+class ConnectedApp extends Component {
+
+  getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  componentDidMount(){
+
+    if(this.getParameterByName('access_token')){
+      let token = this.getParameterByName('access_token');
+      console.log('Token: ' + token);
+      this.props.setAccessToken({token})
+    }
+    else {
+      console.log('No Access Token');
+    }
+
+  }
+
   render() {
     return (
       <Router>
@@ -33,4 +63,5 @@ class App extends Component {
   }
 }
 
+const App = connect(null, mapDispatchToProps)(ConnectedApp);
 export default App;

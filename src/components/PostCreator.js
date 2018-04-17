@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addPost } from '../actions/index';
-
 import {
   FormGroup,
   FormControl,
@@ -27,6 +26,10 @@ const mapDispatchToProps = dispatch => {
   return {
     addPost: (url, post) => dispatch(addPost(url, post))
   };
+};
+
+const mapStateToProps = state => {
+  return { token: state.access_token.token };
 };
 
 type Props = {
@@ -108,24 +111,9 @@ class ConnectedPostCreator extends Component<Props, State> {
     }
   }
 
-  getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-  componentDidMount(){
-
-    if(this.getParameterByName('access_token')){
-      let token = this.getParameterByName('access_token');
-      console.log('Token: ' + token);
-      spotifyApi.setAccessToken(token);
-    }
-    else {
-      console.log('No Access Token');
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if (this.props.token != "") {
+      spotifyApi.setAccessToken(this.props.token);
     }
 
   }
@@ -200,8 +188,6 @@ class ConnectedPostCreator extends Component<Props, State> {
       margin: 10
     }
 
-    console.log(this.state.selectedItem);
-
     return(
       <Grid>
         <Row className="show-grid">
@@ -243,7 +229,7 @@ class ConnectedPostCreator extends Component<Props, State> {
                     <ListGroup style={listStyle} className="w-100 mw-100">
 
                       {Object.keys(content).map((item, index) =>(
-                        <ListGroupItem onClick={() => this.handleListClick(content[item])}>
+                        <ListGroupItem onClick={() => this.handleListClick(content[item])} key={uuidv1()}>
                           <Row className="searchResultRow">
 
                             <Col className="searchResultItem" xs={9}>
@@ -280,5 +266,5 @@ class ConnectedPostCreator extends Component<Props, State> {
     );
   }
 }
-const PostCreator = connect(null, mapDispatchToProps)(ConnectedPostCreator);
+const PostCreator = connect(mapStateToProps, mapDispatchToProps)(ConnectedPostCreator);
 export default PostCreator;
