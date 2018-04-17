@@ -223,17 +223,14 @@ class ConnectedPostCreator extends Component<Props, State> {
 
               <form onSubmit={this.handleSearch}>
                 <Row>
-                  <Col md={8} >
-
+                  <Col md={12} >
                     <FormControl
                       className="align-middle"
                       placeholder="Search for a track"
                       onChange={this.handleSearchChange}
                       />
                   </Col>
-                  <Col sm={6} xs={12} md={4} className="" >
-                    <Button className="" color="primary" type="submit" block > Search </Button>
-                  </Col>
+
                 </Row>
                 <Row style={trackStyle}>
                   <Col sm={12}>

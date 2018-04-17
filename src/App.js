@@ -21,8 +21,7 @@ class App extends Component {
                  </NavbarBrand>
                  <NavbarNav className="ml-auto" right>
                    <NavItem active>
-                       <NavLink className="nav-link" to="#profile" >Profile</NavLink>
-                       <Button href="http://localhost:3001/api/login"> Sign in </Button>
+                       <a className="nav-link" href="http://localhost:3001/api/login"> Sign in </a>
                    </NavItem>
                  </NavbarNav>
              </Navbar>
