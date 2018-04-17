@@ -128,11 +128,41 @@ class ConnectedPostCreator extends Component<Props, State> {
     }
   }
 
+  getAccessToken(){
+    var expires = localStorage.getItem('token_expires', '0');
+    console.log(expires);
+    if ((new Date()).getTime() > expires) {
+      return '';
+    }
+    var token = localStorage.getItem('access_token', '');
+    return token;
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
-    if (this.props.token != "") {
-      spotifyApi.setAccessToken(this.props.token);
+
+    let token = this.getAccessToken();
+    console.log('token: ' + token);
+
+    if (token != '') {
+      spotifyApi.setAccessToken(token);
+    }
+    else {
+      console.log("Please refresh access token.");
     }
 
+
+  }
+
+  componentDidMount(){
+    let token = this.getAccessToken();
+    console.log('token: ' + token);
+
+    if (token != '') {
+      spotifyApi.setAccessToken(token);
+    }
+    else {
+      console.log("Please refresh access token.");
+    }
   }
 
   handleSearchChange(event) {
@@ -204,8 +234,6 @@ class ConnectedPostCreator extends Component<Props, State> {
       display: this.state.selectedTrackShowing,
       margin: 10
     }
-
-    console.log('render');
 
     return(
       <Grid>
