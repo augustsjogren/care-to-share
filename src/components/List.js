@@ -33,7 +33,7 @@ class ConnectedList extends React.Component<Props, State> {
 
   render(){
     var reversedArray = this.state.data.slice().reverse();
-    
+
     return(
       <ul className="list-group list-group-flush">
           {reversedArray.map(el => (

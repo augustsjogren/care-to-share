@@ -89,6 +89,23 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     this.props.addPost({url , data});
     this.setState({ postContent: "" });
+
+    this.setState({
+      selectedTrackShowing: 'none',
+      data: {
+        postContent: "",
+        text: "",
+        title: "",
+        artist: "",
+        author: "",
+        _id: "",
+        imageUrl: "",
+      }
+    });
+
+    this.refs.postContent.reset();
+    this.refs.searchContent.reset();
+
   }
 
   handleChange(event) {
@@ -188,16 +205,19 @@ class ConnectedPostCreator extends Component<Props, State> {
       margin: 10
     }
 
+    console.log('render');
+
     return(
       <Grid>
         <Row className="show-grid">
           <Col xs={12} sm={12} md={8} lg={8} className="formBox" >
 
 
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmit} ref="postContent">
                 <FormGroup
                   controlId="formControlsTextarea" >
                   <FormControl
+                    ref="textContent"
                     componentClass="textarea"
                     className='post-area'
                     value={text}
@@ -207,7 +227,7 @@ class ConnectedPostCreator extends Component<Props, State> {
                 </FormGroup>
               </form>
 
-              <form onSubmit={this.handleSearch}>
+              <form onSubmit={this.handleSearch} ref="searchContent">
                 <Row>
                   <Col md={12} >
                     <FormControl
