@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from "react-redux";
 import { setAccessToken } from './actions/index';
 import './App.css';
 
 import List from './components/List.js';
 import PostCreator from './components/PostCreator.js';
+import Feed from './components/Feed';
 
 import { Button, Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
@@ -43,7 +44,7 @@ class ConnectedApp extends Component {
 
   render() {
     return (
-      <Router>
+      <BrowserRouter>
       <div className="App">
       <Navbar color="blue" dark expand="md" static="true">
                  <NavbarBrand href="/">
@@ -55,10 +56,13 @@ class ConnectedApp extends Component {
                    </NavItem>
                  </NavbarNav>
              </Navbar>
-        <PostCreator />
-        <List />
+
+             <Switch>
+              <Route exact path='/' component={Feed}/>
+            </Switch>
+
       </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
