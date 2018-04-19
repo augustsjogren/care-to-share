@@ -1,8 +1,9 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN } from "../constants/action-types";
+import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER } from "../constants/action-types";
 
 const initialState = {
   posts: [],
-  access_token: ""
+  access_token: "",
+  user: ""
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -19,6 +20,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, posts: [...state.posts, action.payload] };
     case SET_TOKEN:
       return { ...state, access_token: action.payload};
+    case SET_USER:
+      return { ...state, user: action.payload};
     default:
       return state;
   }

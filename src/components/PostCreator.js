@@ -141,7 +141,6 @@ class ConnectedPostCreator extends Component<Props, State> {
   componentDidUpdate(prevProps, prevState, snapshot){
 
     let token = this.getAccessToken();
-    console.log('token: ' + token);
 
     if (token != '') {
       spotifyApi.setAccessToken(token);

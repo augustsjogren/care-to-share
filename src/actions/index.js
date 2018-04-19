@@ -1,9 +1,10 @@
-import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN } from '../constants/action-types';
+import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER } from '../constants/action-types';
 
 import axios from 'axios';
 
 export const addArticle = article => ({ type: ADD_ARTICLE, payload: article });
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
+export const setUser = user => ({ type: SET_USER, payload: user });
 
 export function postSuccess (post){
 

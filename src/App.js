@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from "react-redux";
-import { setAccessToken } from './actions/index';
+import { setAccessToken, setUser } from './actions/index';
 import './App.css';
 
 import List from './components/List.js';
@@ -12,10 +12,15 @@ import Profile from './components/Profile';
 import { Button, Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
 
+import SpotifyWebApi from 'spotify-web-api-js';
+
+var spotifyApi = new SpotifyWebApi();
+
 
  const mapDispatchToProps = dispatch => {
    return {
-     setAccessToken: (token) => dispatch(setAccessToken(token))
+     setAccessToken: (token) => dispatch(setAccessToken(token)),
+     setUser: (user) => dispatch(setUser(user))
    };
  };
 
@@ -31,17 +36,30 @@ class ConnectedApp extends Component {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
+  getUserInfo(){
+    spotifyApi.getMe()
+    .then((user) =>{
+      console.log(user);
+      this.props.setUser({user});
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   componentDidMount(){
 
     // If a new token has been found
     if(this.getParameterByName('access_token')){
       let token = this.getParameterByName('access_token');
-      this.props.setAccessToken({token})
+      // this.props.setAccessToken({token})
       this.setSpotifyAccessToken(token, 3600000);
     }
     else {
       //console.log('No Access Token');
     }
+
+    this.getUserInfo();
 
   }
 
