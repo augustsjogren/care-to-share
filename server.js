@@ -89,18 +89,18 @@ var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri = 'http://localhost:3001/api/callback'; // Your redirect uri
 
-router.route('/login')
-.get(function(req, res) {
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: process.env.CLIENT_ID,
-      scope: 'user-read-private user-read-email',
-      redirect_uri
-    }))
-})
+// router.route('/login')
+// .get(function(req, res) {
+//   res.redirect('https://accounts.spotify.com/authorize?' +
+//     querystring.stringify({
+//       response_type: 'code',
+//       client_id: process.env.CLIENT_ID,
+//       scope: 'user-read-private user-read-email',
+//       redirect_uri
+//     }))
+// })
 
-router.route('/callback')
+router.route('/login')
 .get(function(req, res) {
   let code = req.query.code || null
   let authOptions = {
@@ -108,7 +108,7 @@ router.route('/callback')
     form: {
       code: code,
       redirect_uri,
-      grant_type: 'authorization_code'
+      grant_type: 'client_credentials'
     },
     headers: {
       'Authorization': 'Basic ' + (new Buffer(
