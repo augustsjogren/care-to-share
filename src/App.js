@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from "react-redux";
 import { setAccessToken, setUser } from './actions/index';
 import './App.css';
@@ -8,11 +8,17 @@ import List from './components/List.js';
 import PostCreator from './components/PostCreator.js';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
+import Callback from './components/Callback';
 
 import { Button, Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
 
 import SpotifyWebApi from 'spotify-web-api-js';
+
+import Auth from './Authentication/Auth.js';
+import history from './history.js'
+
+const auth = new Auth();
 
 var spotifyApi = new SpotifyWebApi();
 
@@ -24,7 +30,27 @@ var spotifyApi = new SpotifyWebApi();
    };
  };
 
+ const handleAuthentication = (nextState, replace) => {
+   if (/access_token|id_token|error/.test(nextState.location.hash)) {
+     auth.handleAuthentication();
+   }
+ }
+
+
 class ConnectedApp extends Component {
+
+  goTo(route) {
+    this.props.history.replace(`/${route}`)
+  }
+
+  login() {
+    auth.login();
+  }
+
+  logout() {
+  auth.logout();
+  this.forceUpdate();
+  }
 
   getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -68,9 +94,13 @@ class ConnectedApp extends Component {
   	localStorage.setItem('token_expires', (new Date()).getTime() + expires_in);
   }
 
+
   render() {
+
+    const { isAuthenticated } = auth;
+
     return (
-      <BrowserRouter>
+      <Router history={history}>
       <div className="App">
       <Navbar color="blue" dark expand="md" static="true">
                  <NavbarBrand href="/">
@@ -83,16 +113,32 @@ class ConnectedApp extends Component {
                    <NavItem >
                      <NavLink className="nav-link" to="/profile">Profile</NavLink>
                    </NavItem>
+
+                   { !auth.isAuthenticated() && (
+                       <NavItem >
+                         <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
+                       </NavItem>
+                     )}
+                   { auth.isAuthenticated() && (
+                       <NavItem >
+                         <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
+                       </NavItem>
+                     )}
+
                  </NavbarNav>
              </Navbar>
 
              <Switch>
-              <Route exact path='/' component={Feed}/>
-              <Route path='/profile' component={Profile}/>
-            </Switch>
+               <Route exact path='/' component={Feed}/>
+               <Route path='/profile' component={Profile}/>
+               <Route path="/callback" render={(props) => {
+                   handleAuthentication(props);
+                   return <Callback {...props} />
+                   }}/>
+             </Switch>
 
       </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
