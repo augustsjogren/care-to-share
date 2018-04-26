@@ -12,7 +12,7 @@ export default class Auth {
 
   auth0 = new auth0.WebAuth({
     domain: 'augustsjogren.eu.auth0.com',
-    clientID: 'WsYZFa_jUrqn7UmhhXk2a0Q5FV5bfFkA',
+    clientID: 'VuI1SMEzCtyuhVYEygk91m3PPtwC10fL',
     redirectUri: 'http://localhost:3000/callback',
     audience: 'https://augustsjogren.eu.auth0.com/userinfo',
     responseType: 'token id_token',
@@ -59,7 +59,6 @@ export default class Auth {
     // Check whether the current time is past the
     // Access Token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    console.log(new Date().getTime() + ' and ' + expiresAt);
     return new Date().getTime() < expiresAt;
   }
 }
