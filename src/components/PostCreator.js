@@ -129,12 +129,11 @@ class ConnectedPostCreator extends Component<Props, State> {
   }
 
   getAccessToken(){
-    var expires = localStorage.getItem('token_expires', '0');
-    console.log(expires);
+    var expires = localStorage.getItem('spotify_token_expires', '0');
     if ((new Date()).getTime() > expires) {
       return '';
     }
-    var token = localStorage.getItem('access_token', '');
+    var token = localStorage.getItem('spotify_access_token', '');
     return token;
   }
 
@@ -146,7 +145,7 @@ class ConnectedPostCreator extends Component<Props, State> {
       spotifyApi.setAccessToken(token);
     }
     else {
-      console.log("Please refresh access token.");
+      //console.log("Please refresh access token.");
     }
 
 
@@ -154,13 +153,12 @@ class ConnectedPostCreator extends Component<Props, State> {
 
   componentDidMount(){
     let token = this.getAccessToken();
-    console.log('token: ' + token);
 
     if (token != '') {
       spotifyApi.setAccessToken(token);
     }
     else {
-      console.log("Please refresh access token.");
+    //  console.log("Please refresh access token.");
     }
   }
 

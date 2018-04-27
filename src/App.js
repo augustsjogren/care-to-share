@@ -65,7 +65,7 @@ class ConnectedApp extends Component {
   getUserInfo(){
     spotifyApi.getMe()
     .then((user) =>{
-      console.log(user);
+    //  console.log(user);
       this.props.setUser({user});
     })
     .catch((err) => {
@@ -76,8 +76,8 @@ class ConnectedApp extends Component {
   componentDidMount(){
 
     // If a new token has been found
-    if(this.getParameterByName('access_token')){
-      let token = this.getParameterByName('access_token');
+    if(this.getParameterByName('spotify_access_token')){
+      let token = this.getParameterByName('spotify_access_token');
       // this.props.setAccessToken({token})
       this.setSpotifyAccessToken(token, 3600000);
     }
@@ -90,8 +90,9 @@ class ConnectedApp extends Component {
   }
 
   setSpotifyAccessToken(token, expires_in) {
-  	localStorage.setItem('access_token', token);
-  	localStorage.setItem('token_expires', (new Date()).getTime() + expires_in);
+    console.log('öj');
+  	localStorage.setItem('spotify_access_token', token);
+  	localStorage.setItem('spotify_token_expires', (new Date()).getTime() + expires_in);
   }
 
 
@@ -130,7 +131,9 @@ class ConnectedApp extends Component {
 
              <Switch>
                <Route exact path='/' component={Feed}/>
-               <Route path='/profile' component={Profile}/>
+               <Route path='/profile' render={(props) => {
+                   return <Profile auth={auth} {...props} />
+                 }}/>
                <Route path="/callback" render={(props) => {
                    handleAuthentication(props);
                    return <Callback {...props} />

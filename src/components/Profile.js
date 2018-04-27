@@ -16,7 +16,7 @@ class ConnectedProfile extends Component {
   constructor(){
     super();
     this.state = {
-      user: ""
+      profile: ""
     };
   }
 
@@ -32,6 +32,17 @@ class ConnectedProfile extends Component {
 
   componentDidMount(){
 
+    this.props.auth.getProfile((err, profile) => {
+      if (err) {
+        console.log("Error loading the Profile", err);
+        return;
+      }
+      this.setState({profile: profile});
+    }
+  );
+
+
+
     let token = this.getAccessToken();
 
     if (token != '') {
@@ -41,13 +52,12 @@ class ConnectedProfile extends Component {
       console.log("Please refresh access token.");
     }
 
-    if (this.props.user == "") {
-
-    }
 
   }
 
   render(){
+
+    console.log(this.state.profile);
     return(
       <div>
 
@@ -58,15 +68,15 @@ class ConnectedProfile extends Component {
             <div className="row">
 
               <div className="col-3">
-                <img src={this.props.user.images[0].url} alt="Profile image not found"></img>
+                <img src={this.state.profile.picture} className="img-fluid" alt="Profile image not found"></img>
               </div>
 
               <div className="col-8">
                 <p>
-                  <strong>User:</strong>  <br /> {this.props.user.display_name}
+                  <strong>User:</strong>  <br /> {this.state.profile.name}
                   </p>
                   <p>
-                    <strong>Email:</strong> <br /> {this.props.user.email}
+                    <strong>Email:</strong> <br /> Email
                     </p>
                   </div>
 
