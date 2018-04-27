@@ -8,7 +8,7 @@ var spotifyApi = new SpotifyWebApi();
 const mapStateToProps = state => {
   return {
     token: state.access_token.token,
-    user: state.user.user
+    user: state.user
     };
 };
 
@@ -32,17 +32,6 @@ class ConnectedProfile extends Component {
 
   componentDidMount(){
 
-    this.props.auth.getProfile((err, profile) => {
-      if (err) {
-        console.log("Error loading the Profile", err);
-        return;
-      }
-      this.setState({profile: profile});
-    }
-  );
-
-
-
     let token = this.getAccessToken();
 
     if (token != '') {
@@ -57,7 +46,7 @@ class ConnectedProfile extends Component {
 
   render(){
 
-    console.log(this.state.profile);
+    console.log(this.props.user);
     return(
       <div>
 
@@ -68,12 +57,13 @@ class ConnectedProfile extends Component {
             <div className="row">
 
               <div className="col-3">
-                <img src={this.state.profile.picture} className="img-fluid" alt="Profile image not found"></img>
+                <img src={this.props.user.profile.picture} className="img-fluid" alt="Profile image not found"></img>
               </div>
 
               <div className="col-8">
+
                 <p>
-                  <strong>User:</strong>  <br /> {this.state.profile.name}
+                  <strong>User:</strong>  <br /> {this.props.user.profile.name}
                   </p>
                   <p>
                     <strong>Email:</strong> <br /> Email
@@ -85,8 +75,8 @@ class ConnectedProfile extends Component {
             </div>
           </div>
         );
-  }
-}
+      }
+    }
 
 const Profile = connect(mapStateToProps, null)(ConnectedProfile);
 export default Profile;

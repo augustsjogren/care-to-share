@@ -30,6 +30,10 @@ var spotifyApi = new SpotifyWebApi();
    };
  };
 
+ const mapStateToProps = state => {
+   return { user: state.user };
+ };
+
  const handleAuthentication = (nextState, replace) => {
    if (/access_token|id_token|error/.test(nextState.location.hash)) {
      auth.handleAuthentication();
@@ -48,8 +52,8 @@ class ConnectedApp extends Component {
   }
 
   logout() {
-  auth.logout();
-  this.forceUpdate();
+    auth.logout();
+    this.forceUpdate();
   }
 
   getParameterByName(name, url) {
@@ -62,18 +66,21 @@ class ConnectedApp extends Component {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  getUserInfo(){
-    spotifyApi.getMe()
-    .then((user) =>{
-    //  console.log(user);
-      this.props.setUser({user});
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
-
   componentDidMount(){
+
+    // If user is loged in, store the user profile in redux store
+    if (auth.isAuthenticated()) {
+      auth.getProfile((err, profile) => {
+        if (err) {
+          console.log("Error loading the Profile", err);
+          return;
+        }
+        this.props.setUser({profile});
+      });
+    }
+    else {
+      // User not logged in
+    }
 
     // If a new token has been found
     if(this.getParameterByName('spotify_access_token')){
@@ -82,15 +89,13 @@ class ConnectedApp extends Component {
       this.setSpotifyAccessToken(token, 3600000);
     }
     else {
+      // No access token in the URL
       //console.log('No Access Token');
     }
-
-    this.getUserInfo();
 
   }
 
   setSpotifyAccessToken(token, expires_in) {
-    console.log('öj');
   	localStorage.setItem('spotify_access_token', token);
   	localStorage.setItem('spotify_token_expires', (new Date()).getTime() + expires_in);
   }
@@ -146,5 +151,5 @@ class ConnectedApp extends Component {
   }
 }
 
-const App = connect(null, mapDispatchToProps)(ConnectedApp);
+const App = connect(mapStateToProps, mapDispatchToProps)(ConnectedApp);
 export default App;
