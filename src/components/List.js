@@ -22,8 +22,10 @@ class ConnectedList extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-  const url = 'http://localhost:3001/api/posts';
-  this.props.fetchPosts({url});
+    if (this.props.posts == "") {
+      const url = 'http://localhost:3001/api/posts';
+      this.props.fetchPosts({url});
+    }
   }
 
   // Update the state when the component recieves new props (posts)
@@ -32,7 +34,7 @@ class ConnectedList extends React.Component<Props, State> {
   }
 
   render(){
-    var reversedArray = this.state.data.slice().reverse();
+    var reversedArray = this.props.posts.slice().reverse();
 
     return(
       <ul className="list-group list-group-flush">

@@ -8,7 +8,7 @@ var spotifyApi = new SpotifyWebApi();
 const mapStateToProps = state => {
   return {
     token: state.access_token.token,
-    user: state.user.user
+    user: state.user
     };
 };
 
@@ -16,7 +16,7 @@ class ConnectedProfile extends Component {
   constructor(){
     super();
     this.state = {
-      user: ""
+      profile: ""
     };
   }
 
@@ -41,13 +41,12 @@ class ConnectedProfile extends Component {
       console.log("Please refresh access token.");
     }
 
-    if (this.props.user == "") {
-
-    }
 
   }
 
   render(){
+
+    console.log(this.props.user);
     return(
       <div>
 
@@ -58,15 +57,16 @@ class ConnectedProfile extends Component {
             <div className="row">
 
               <div className="col-3">
-                <img src={this.props.user.images[0].url} alt="Profile image not found"></img>
+                <img src={this.props.user.profile.picture} className="img-fluid" alt="Profile image not found"></img>
               </div>
 
               <div className="col-8">
+
                 <p>
-                  <strong>User:</strong>  <br /> {this.props.user.display_name}
+                  <strong>User:</strong>  <br /> {this.props.user.profile.name}
                   </p>
                   <p>
-                    <strong>Email:</strong> <br /> {this.props.user.email}
+                    <strong>Email:</strong> <br /> Email
                     </p>
                   </div>
 
@@ -75,8 +75,8 @@ class ConnectedProfile extends Component {
             </div>
           </div>
         );
-  }
-}
+      }
+    }
 
 const Profile = connect(mapStateToProps, null)(ConnectedProfile);
 export default Profile;

@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 var Post = require('./model/posts');
@@ -122,7 +121,7 @@ router.route('/login')
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
     let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
-    res.redirect(uri + '?access_token=' + access_token)
+    res.redirect(uri + '?spotify_access_token=' + access_token)
   })
 })
 
