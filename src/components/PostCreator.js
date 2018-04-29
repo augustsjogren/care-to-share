@@ -9,13 +9,10 @@ import {
   Grid,
   Row,
   Col,
-  OverlayTrigger,
-  Popover
 }
 from 'react-bootstrap';
 
-import { Button, ListGroup, ListGroupItem, Media, Card} from 'mdbreact';
-import axios from 'axios';
+import { Button, ListGroup, ListGroupItem, Media} from 'mdbreact';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 

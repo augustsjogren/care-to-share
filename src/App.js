@@ -4,24 +4,17 @@ import { connect } from "react-redux";
 import { setAccessToken, setUser } from './actions/index';
 import './App.css';
 
-import List from './components/List.js';
-import PostCreator from './components/PostCreator.js';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Callback from './components/Callback';
 
-import { Button, Navbar, NavbarBrand, NavbarNav,
+import { Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
-
-import SpotifyWebApi from 'spotify-web-api-js';
 
 import Auth from './Authentication/Auth.js';
 import history from './history.js'
 
 const auth = new Auth();
-
-var spotifyApi = new SpotifyWebApi();
-
 
  const mapDispatchToProps = dispatch => {
    return {
@@ -102,8 +95,6 @@ class ConnectedApp extends Component {
 
 
   render() {
-
-    const { isAuthenticated } = auth;
 
     return (
       <Router history={history}>

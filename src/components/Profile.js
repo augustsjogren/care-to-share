@@ -57,7 +57,7 @@ class ConnectedProfile extends Component {
             <div className="row">
 
               <div className="col-3">
-                <img src={this.props.user.profile.picture} className="img-fluid" alt="Profile image not found"></img>
+                <img src={this.props.user.profile.picture} className="img-fluid" alt=""></img>
               </div>
 
               <div className="col-8">

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Card, CardBody, CardImage, CardTitle, CardText, Media } from 'mdbreact';
+import {Card} from 'mdbreact';
 import {Row, Col} from 'react-bootstrap';
 
 export default class Post extends Component {
@@ -10,7 +10,7 @@ export default class Post extends Component {
 
         <Row>
           <Col sm={3}>
-            <img className="feed-img" src={this.props.imageUrl} alt="Image not found" />
+            <img className="feed-img" src={this.props.imageUrl} alt="" />
           </Col>
 
           <Col sm={9}>

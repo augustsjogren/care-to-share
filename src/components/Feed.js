@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Row, Col} from 'react-bootstrap';
 import PostCreator from './PostCreator';
 import List from './List';
 
