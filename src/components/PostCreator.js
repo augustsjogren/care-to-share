@@ -26,7 +26,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  return { token: state.access_token.token };
+  return {
+    token: state.access_token.token,
+    user: state.user
+   };
 };
 
 type Props = {
@@ -112,6 +115,7 @@ class ConnectedPostCreator extends Component<Props, State> {
 
       this.setState({
         data:{
+          author: this.props.user.profile.name,
           text: event.target.value,
           _id: id,
           title: this.state.selectedItem.name,

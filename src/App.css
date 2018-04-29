@@ -28,7 +28,6 @@
 
 .searchResultItem{
   padding-left: 10px;
-  /* font-size: 13px; */
 }
 
 .searchResultRow{
@@ -40,9 +39,6 @@
 }
 
 .formBox{
-  /* border: 1px solid;
-  border-color: #d3d3d3;
-  border-radius: 5px; */
   box-sizing: border-box;
   padding: 20px;
 }
@@ -69,6 +65,12 @@
 
 .card{
   margin-top: 20px;
+}
+
+.authorText{
+  font-weight: lighter;
+  position: absolute;
+  bottom: 0;
 }
 
 .img-fluid{

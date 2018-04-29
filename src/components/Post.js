@@ -24,9 +24,13 @@ export default class Post extends Component {
             <p>
               {this.props.content}
             </p>
+            <p className="authorText">
+              Posted by: {this.props.author}
+            </p>
           </Col>
 
         </Row>
+
 
       </Card>
     );
