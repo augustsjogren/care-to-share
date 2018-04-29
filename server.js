@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 var Post = require('./model/posts');
