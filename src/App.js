@@ -107,9 +107,11 @@ class ConnectedApp extends Component {
                    <NavItem href="http://localhost:3001/api/login">
                        <a className="nav-link" href="http://localhost:3001/api/login"> Sign in </a>
                    </NavItem>
-                   <NavItem >
-                     <NavLink className="nav-link" to="/profile">Profile</NavLink>
-                   </NavItem>
+                   { auth.isAuthenticated() &&
+                     <NavItem >
+                       <NavLink className="nav-link" to="/profile">Profile</NavLink>
+                     </NavItem>
+                   }
 
                    { !auth.isAuthenticated() && (
                        <NavItem >
