@@ -46,6 +46,7 @@ class ConnectedApp extends Component {
 
   logout() {
     auth.logout();
+    this.props.setUser("");
     this.forceUpdate();
   }
 
@@ -60,7 +61,6 @@ class ConnectedApp extends Component {
   }
 
   componentDidMount(){
-
     // If user is loged in, store the user profile in redux store
     if (auth.isAuthenticated()) {
       auth.getProfile((err, profile) => {
@@ -72,7 +72,7 @@ class ConnectedApp extends Component {
       });
     }
     else {
-      // User not logged in
+      //console.log('Not logged in');
     }
 
     // If a new token has been found

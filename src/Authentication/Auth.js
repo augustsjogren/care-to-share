@@ -41,6 +41,7 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/');
+        window.location.reload();
       } else if (err) {
         history.replace('/');
         console.log(err);
@@ -55,7 +56,7 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     // navigate to the home route
-    history.replace('/');
+    history.push('/');
   }
 
   logout() {
@@ -64,14 +65,15 @@ export default class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    history.replace('/');
+    history.push('/');
   }
 
   isAuthenticated() {
     // Check whether the current time is past the
     // Access Token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+    let currentTime = new Date().getTime();
+    return currentTime < expiresAt;
   }
 
   getProfile(cb) {
