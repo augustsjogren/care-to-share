@@ -3,21 +3,11 @@ import React, {Component} from 'react';
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addPost } from '../actions/index';
-import {
-  FormGroup,
-  FormControl,
-  Grid,
-  Row,
-  Col,
-}
-from 'react-bootstrap';
-
+import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, ListGroupItem, Media} from 'mdbreact';
 
 import SpotifyWebApi from 'spotify-web-api-js';
-
 var spotifyApi = new SpotifyWebApi();
-
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -29,7 +19,7 @@ const mapStateToProps = state => {
   return {
     token: state.access_token.token,
     user: state.user
-   };
+  };
 };
 
 type Props = {
@@ -159,21 +149,29 @@ class ConnectedPostCreator extends Component<Props, State> {
       spotifyApi.setAccessToken(token);
     }
     else {
-    //  console.log("Please refresh access token.");
+      //  console.log("Please refresh access token.");
     }
   }
 
   handleSearchChange(event) {
-    this.setState({searchListShowing: 'block'});
     this.setState({searchQuery: event.target.value});
-    spotifyApi.searchTracks(event.target.value)
-    .then((response) =>{
-      this.setState({searchResult: response.tracks.items})
-    })
-    .catch((err) => {
-      console.log(err);
-    })
 
+    if (event.target.value.length > 0) {
+      this.setState({searchListShowing: 'block'});
+      spotifyApi.searchTracks(event.target.value)
+      .then((response) =>{
+        this.setState({searchResult: response.tracks.items})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+    else {
+      this.setState({
+        searchListShowing: 'none',
+        searchResult: []
+      });
+    }
   }
 
   // Fetch tracks from spotify API based on search
@@ -193,10 +191,6 @@ class ConnectedPostCreator extends Component<Props, State> {
       selectedItem: content,
       selectedTrackShowing: 'block'
     });
-    this.hideList();
-  }
-
-  hideList(){
     this.setState({searchListShowing: 'none'});
   }
 
@@ -239,72 +233,72 @@ class ConnectedPostCreator extends Component<Props, State> {
           <Col xs={12} sm={12} md={8} lg={8} className="formBox" >
 
 
-              <form onSubmit={this.handleSubmit} ref="postContent">
-                <FormGroup
-                  controlId="formControlsTextarea" >
+            <form onSubmit={this.handleSubmit} ref="postContent">
+              <FormGroup
+                controlId="formControlsTextarea" >
+                <FormControl
+                  ref="textContent"
+                  componentClass="textarea"
+                  className='post-area'
+                  value={text}
+                  placeholder="Write a post"
+                  onChange={this.handleChange}
+                  />
+              </FormGroup>
+            </form>
+
+            <form onSubmit={this.handleSearch} ref="searchContent">
+              <Row>
+                <Col md={12} >
                   <FormControl
-                    ref="textContent"
-                    componentClass="textarea"
-                    className='post-area'
-                    value={text}
-                    placeholder="Write a post"
-                    onChange={this.handleChange}
+                    className="align-middle"
+                    placeholder="Search for a track"
+                    onChange={this.handleSearchChange}
                     />
-                </FormGroup>
-              </form>
+                </Col>
 
-              <form onSubmit={this.handleSearch} ref="searchContent">
-                <Row>
-                  <Col md={12} >
-                    <FormControl
-                      className="align-middle"
-                      placeholder="Search for a track"
-                      onChange={this.handleSearchChange}
-                      />
-                  </Col>
+              </Row>
+              <Row style={trackStyle}>
+                <Col sm={12}>
+                  {this.showSelectedItem()}
+                </Col>
+              </Row>
 
-                </Row>
-                <Row style={trackStyle}>
-                  <Col sm={12}>
-                    {this.showSelectedItem()}
-                  </Col>
-                </Row>
+              <Row>
+                <Col md={12}>
+                  <ListGroup style={listStyle} className="w-100 mw-100">
 
-                <Row>
-                  <Col md={12}>
-                    <ListGroup style={listStyle} className="w-100 mw-100">
+                    {Object.keys(content).map((item, index) =>(
+                      <ListGroupItem onClick={() => this.handleListClick(content[item])} key={uuidv1()}>
+                        <Row className="searchResultRow">
 
-                      {Object.keys(content).map((item, index) =>(
-                        <ListGroupItem onClick={() => this.handleListClick(content[item])} key={uuidv1()}>
-                          <Row className="searchResultRow">
+                          <Col className="searchResultItem" xs={9}>
 
-                            <Col className="searchResultItem" xs={9}>
-
-                              <Media>
-                                <Media left className="mr-3" href="#">
-                                  <Media object src={content[item].album.images[2].url} alt="Image not found" />
-                                </Media>
-                                <Media body>
-                                  <Media heading>
-                                    {content[item].name}
-                                  </Media>
-                                  {content[item].artists[0].name}
-                                </Media>
+                            <Media>
+                              <Media left className="mr-3" href="#">
+                                <Media object src={content[item].album.images[2].url} alt="Image not found" />
                               </Media>
-                            </Col>
-                          </Row>
+                              <Media body>
+                                <Media heading>
+                                  {content[item].name}
+                                </Media>
+                                {content[item].artists[0].name}
+                              </Media>
+                            </Media>
+                          </Col>
+                        </Row>
 
-                        </ListGroupItem>
-                      ))}
-                    </ListGroup>
-                  </Col>
-                </Row>
+                      </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                </Col>
+              </Row>
 
-              </form>
+            </form>
 
-              <Col sm={6} xs={12} className="buttonCol w-100">
-                <Button className="" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
-              </Col>
+            <Col sm={6} xs={12} className="buttonCol w-100">
+              <Button className="" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
+            </Col>
 
           </Col>
         </Row>
