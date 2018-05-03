@@ -61,7 +61,7 @@ router.route('/posts')
       res.json(posts)
     });
   })
-  //post new comment to the database
+  //Add new post to the database
   .post(function(req, res) {
     var post = new Post();
     //body parser lets us use the req.body
