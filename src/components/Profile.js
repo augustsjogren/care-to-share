@@ -21,12 +21,12 @@ class ConnectedProfile extends Component {
   }
 
   getAccessToken(){
-    var expires = localStorage.getItem('token_expires', '0');
+    var expires = localStorage.getItem('spotify_token_expires', '0');
     console.log(expires);
     if ((new Date()).getTime() > expires) {
       return '';
     }
-    var token = localStorage.getItem('access_token', '');
+    var token = localStorage.getItem('spotify_access_token', '');
     return token;
   }
 
