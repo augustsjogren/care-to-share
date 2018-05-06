@@ -1,10 +1,26 @@
-import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER } from '../constants/action-types';
+import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE } from '../constants/action-types';
 
 import axios from 'axios';
 
 export const addArticle = article => ({ type: ADD_ARTICLE, payload: article });
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 export const setUser = user => ({ type: SET_USER, payload: user });
+
+
+export function toggleLike (id, likes){
+  // Add or remove like from a specific post
+
+  axios.put('http://localhost:3001/api/posts', {
+     id: id,
+     change: {likes: likes + 1}
+  });
+
+  let newLikes = likes + 1;
+
+  return dispatch =>{
+    dispatch({type: TOGGLE_LIKE, payload: {id, newLikes}});
+  }
+}
 
 export function postSuccess (post){
 
@@ -47,7 +63,8 @@ export function addPost(post){
       title: data.title,
       artist: data.artist,
       imageUrl: data.imageUrl,
-      date: data.date
+      date: data.date,
+      likes: data.likes
     })
     .then( function (response) {
       console.log(response);

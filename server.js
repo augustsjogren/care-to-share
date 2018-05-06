@@ -21,11 +21,23 @@ app.use(cors());
 
 var port = process.env.API_PORT || 3001;
 
+const option = {
+    socketTimeoutMS: 30000,
+    keepAlive: true,
+    reconnectTries: 30000
+};
+
 //db config
 var mongoDB = 'mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@ds227199.mlab.com:27199/care-to-share';
-mongoose.connect(mongoDB, { useMongoClient: true })
+// var mongoDB = 'mongodb://localhost/test';
+// mongoose.connect(mongoDB, option)
+mongoose.connect(mongoDB)
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log('yay');
+});
 
 
 //Configure the API to use bodyParser and look for JSON data in the request body
@@ -71,12 +83,39 @@ router.route('/posts')
     post.artist = req.body.artist;
     post.imageUrl = req.body.imageUrl;
     post.date = req.body.date;
+    post.likes = req.body.likes;
 
     post.save(function(err) {
       if (err)
         res.send(err);
       res.json({ message: 'Post successfully added!' });
     });
+  })
+  .put(function(req, res) {
+
+    console.log(req.body);
+
+    Post.findByIdAndUpdate(
+      // the id of the item to find
+      req.body.id,
+
+      // the change to be made. Mongoose will smartly combine your existing
+      // document with this change, which allows for partial updates too
+      req.body.change,
+
+      // an option that asks mongoose to return the updated version
+      // of the document instead of the pre-updated one.
+      {new: true},
+
+      // the callback function
+      (err, todo) => {
+        // console.log(res.);
+        // Handle any possible database errors
+        if (err) return res.status(500).send(err);
+        return res.json(todo);
+      }
+    )
+
   });
 
 

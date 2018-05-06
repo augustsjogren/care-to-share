@@ -39,7 +39,7 @@ class ConnectedList extends React.Component<Props, State> {
     return(
       <ul className="list-group list-group-flush">
           {reversedArray.map(el => (
-            <Post title={el.title} artist={el.artist} content={el.text} imageUrl={el.imageUrl} author={el.author} date={el.date} key={ el['_id'] }/>
+            <Post title={el.title} artist={el.artist} content={el.text} likes={el.likes} imageUrl={el.imageUrl} author={el.author} date={el.date} id={el['_id']} key={ el['_id'] }/>
           ))}
         </ul>
     );

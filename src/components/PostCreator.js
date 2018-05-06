@@ -54,7 +54,8 @@ class ConnectedPostCreator extends Component<Props, State> {
         author: "",
         _id: "",
         imageUrl: "",
-        date: ""
+        date: "",
+        likes: 0
       },
       searchQuery: "",
       searchResult: "",
@@ -92,6 +93,7 @@ class ConnectedPostCreator extends Component<Props, State> {
         artist: "",
         imageUrl: "",
         date: "",
+        likes: 0
       }
     });
 
@@ -115,7 +117,8 @@ class ConnectedPostCreator extends Component<Props, State> {
           title: this.state.selectedItem.name,
           artist: this.state.selectedItem.artists[0].name,
           imageUrl: this.state.selectedItem.album.images[1].url,
-          date: theDate
+          date: theDate,
+          likes: 0
         },
         textInput: event.target.value
 
@@ -206,7 +209,8 @@ class ConnectedPostCreator extends Component<Props, State> {
         title: content.name,
         artist: content.artists[0].name,
         imageUrl: content.album.images[1].url,
-        date: theDate
+        date: theDate,
+        likes: 0
       }
 
     });

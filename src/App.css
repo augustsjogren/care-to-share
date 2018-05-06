@@ -67,10 +67,8 @@
   margin-top: 20px;
 }
 
-.authorText{
+.bottomRow{
   font-weight: lighter;
-  position: absolute;
-  bottom: 0;
 }
 
 .img-fluid{
