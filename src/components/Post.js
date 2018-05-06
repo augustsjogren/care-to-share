@@ -5,6 +5,9 @@ import {Row, Col} from 'react-bootstrap';
 export default class Post extends Component {
 
   render(){
+
+    const date = new Date(this.props.date).toLocaleString('sv');
+
     return(
       <Card>
 
@@ -25,7 +28,10 @@ export default class Post extends Component {
               {this.props.content}
             </p>
             <p className="authorText">
-              Posted by: {this.props.author}
+              Posted by: {this.props.author} <br/>
+            {date}
+            </p>
+            <p>
             </p>
           </Col>
 

@@ -41,7 +41,17 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/');
-        window.location.reload();
+
+        let spotifyToken = localStorage.getItem('spotify_access_token');
+        let spotifyTokenExpires = localStorage.getItem('spotify_token_expires');
+
+        if (spotifyToken && new Date().getTime() < spotifyTokenExpires) {
+          window.location.reload();
+        } else {
+          // Get a spotify access token
+          window.location = 'http://localhost:3001/api/login';
+        }
+
       } else if (err) {
         history.replace('/');
         console.log(err);

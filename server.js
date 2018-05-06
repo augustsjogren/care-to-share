@@ -61,7 +61,7 @@ router.route('/posts')
       res.json(posts)
     });
   })
-  //post new comment to the database
+  //Add new post to the database
   .post(function(req, res) {
     var post = new Post();
     //body parser lets us use the req.body
@@ -70,6 +70,7 @@ router.route('/posts')
     post.title = req.body.title;
     post.artist = req.body.artist;
     post.imageUrl = req.body.imageUrl;
+    post.date = req.body.date;
 
     post.save(function(err) {
       if (err)
