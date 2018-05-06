@@ -104,9 +104,6 @@ class ConnectedApp extends Component {
                      <strong>Care To Share</strong>
                  </NavbarBrand>
                  <NavbarNav className="ml-auto" right>
-                   <NavItem href="http://localhost:3001/api/login">
-                       <a className="nav-link" href="http://localhost:3001/api/login"> Sign in </a>
-                   </NavItem>
                    { auth.isAuthenticated() &&
                      <NavItem >
                        <NavLink className="nav-link" to="/profile">Profile</NavLink>

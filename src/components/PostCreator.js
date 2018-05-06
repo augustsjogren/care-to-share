@@ -54,12 +54,14 @@ class ConnectedPostCreator extends Component<Props, State> {
         author: "",
         _id: "",
         imageUrl: "",
+        date: ""
       },
       searchQuery: "",
       searchResult: "",
       selectedItem: "",
       searchListShowing: 'none',
-      selectedTrackShowing: "none"
+      selectedTrackShowing: "none",
+      textInput: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -82,14 +84,14 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     this.setState({
       selectedTrackShowing: 'none',
-      data: {
-        postContent: "",
+      data:{
+        author: "",
         text: "",
+        _id: "",
         title: "",
         artist: "",
-        author: "",
-        _id: "",
         imageUrl: "",
+        date: "",
       }
     });
 
@@ -103,6 +105,8 @@ class ConnectedPostCreator extends Component<Props, State> {
     try {
       const id = uuidv1();
 
+      let theDate = new Date().toJSON();
+
       this.setState({
         data:{
           author: this.props.user.profile.name,
@@ -111,7 +115,9 @@ class ConnectedPostCreator extends Component<Props, State> {
           title: this.state.selectedItem.name,
           artist: this.state.selectedItem.artists[0].name,
           imageUrl: this.state.selectedItem.album.images[1].url,
-        }
+          date: theDate
+        },
+        textInput: event.target.value
 
       });
     } catch (e) {
@@ -187,9 +193,22 @@ class ConnectedPostCreator extends Component<Props, State> {
   }
 
   handleListClick(content){
+    const id = uuidv1();
+    let theDate = new Date().toJSON();
+
     this.setState({
       selectedItem: content,
-      selectedTrackShowing: 'block'
+      selectedTrackShowing: 'block',
+      data:{
+        author: this.props.user.profile.name,
+        _id: id,
+        text: this.state.textInput,
+        title: content.name,
+        artist: content.artists[0].name,
+        imageUrl: content.album.images[1].url,
+        date: theDate
+      }
+
     });
     this.setState({searchListShowing: 'none'});
   }

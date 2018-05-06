@@ -46,7 +46,8 @@ export function addPost(post){
       _id: data.id,
       title: data.title,
       artist: data.artist,
-      imageUrl: data.imageUrl
+      imageUrl: data.imageUrl,
+      date: data.date
     })
     .then( function (response) {
       console.log(response);

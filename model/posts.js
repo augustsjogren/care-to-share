@@ -8,6 +8,7 @@ var PostsSchema = new Schema({
   artist: String,
   imageUrl: String,
   id: String,
+  date: Object
 });
 
 module.exports = mongoose.model('Post', PostsSchema);

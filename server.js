@@ -70,6 +70,7 @@ router.route('/posts')
     post.title = req.body.title;
     post.artist = req.body.artist;
     post.imageUrl = req.body.imageUrl;
+    post.date = req.body.date;
 
     post.save(function(err) {
       if (err)
