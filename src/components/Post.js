@@ -10,6 +10,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return {
+    user: state.user
+   };
+};
+
 class ConnectedPost extends Component {
 
   handleLike = () => {
@@ -47,9 +53,11 @@ class ConnectedPost extends Component {
                 {date}
               </p>
             </Col>
+            { this.props.user &&
             <Col className="float-right">
               <Button color="primary" className="" onClick={this.handleLike}><Fa icon="thumbs-o-up" /> Like ({this.props.likes})</Button>
             </Col>
+          }
           </Row>
         </Col>
       </Row>
@@ -59,5 +67,5 @@ class ConnectedPost extends Component {
 }
 }
 
-const Post = connect(null, mapDispatchToProps)(ConnectedPost);
+const Post = connect(mapStateToProps, mapDispatchToProps)(ConnectedPost);
 export default Post;
