@@ -1,4 +1,5 @@
 import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE } from "../constants/action-types";
+import update from 'immutability-helper';
 
 const initialState = {
   posts: [],
@@ -23,7 +24,20 @@ const rootReducer = (state = initialState, action) => {
     case SET_USER:
       return { ...state, user: action.payload};
     case TOGGLE_LIKE:
-      return state;
+    console.log(action.payload);
+      const index = state.posts.findIndex(function(post){
+        return post._id === action.payload.id;
+      });
+      console.log(index);
+
+        // return state;
+      return update(state, {
+        posts: {
+            [index]:{
+              likes: {$set: action.payload.newLikes}
+            }
+          }
+      });
     default:
       return state;
   }
