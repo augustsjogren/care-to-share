@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleLike: (id, userID, change, hasLiked) => dispatch(toggleLike( id, userID, change, hasLiked))
+    toggleLike: (id, userID, change, likedBy) => dispatch(toggleLike( id, userID, change, likedBy))
   };
 };
 
@@ -20,8 +20,6 @@ const mapStateToProps = state => {
 class ConnectedPost extends Component {
 
   handleLike = () => {
-    // console.log(this.props.id);
-    // console.log(this.props.posts[2].artist);
 
     const ID = this.props.id;
 
@@ -29,26 +27,10 @@ class ConnectedPost extends Component {
       return post._id === ID;
     });
 
-    // console.log(index);
-
-    // Check if user has already liked the track
-
     let userID = this.props.user.profile.sub;
     userID = userID.split('|');
 
-    let hasLiked = false;
-
-    // console.log(this.props.posts[index].likedBy);
-    // console.log(this.props.posts[index].likedBy.includes(userID[1]));
-    // console.log(userID);
-
-    if (this.props.posts[index].likedBy.includes(userID[1])) {
-        hasLiked = true;
-    }
-
-
-
-    this.props.toggleLike(this.props.id, userID[1], this.props.likes, hasLiked);
+    this.props.toggleLike(this.props.id, userID[1], this.props.likes, this.props.posts[index].likedBy);
   }
 
   render(){

@@ -7,34 +7,52 @@ export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 export const setUser = user => ({ type: SET_USER, payload: user });
 
 
-export function toggleLike (id, userID, likes, hasLiked){
+export function toggleLike (postID, userID, likes, likedBy){
   // Add or remove like from a specific post
 
+  const urlString = 'http://localhost:3001/api/posts/' + postID;
+  let hasLiked = false;
   let newLikes;
+
+  if (likedBy.includes(userID)) {
+      hasLiked = true;
+  }
 
   if (!hasLiked) {
     // Add a like
-    axios.put('http://localhost:3001/api/posts', {
-      id: id,
-      userID: userID,
-      change: {likes: likes + 1}
-    });
+
+    likedBy.push(userID);
 
     newLikes = likes + 1;
+
+    axios.put(urlString, {
+      userID: userID,
+      change: {
+        likes: newLikes,
+        likedBy: likedBy
+      }
+    });
   }
   else{
     // Remove like, user has already liked the post
-    axios.put('http://localhost:3001/api/posts', {
-      id: id,
-      userID: userID,
-      change: {likes: likes - 1}
+
+    likedBy = likedBy.filter(function(item){
+      return item != userID;
     });
 
     newLikes = likes - 1;
+
+    axios.put(urlString, {
+      userID: userID,
+      change: {
+        likes: newLikes,
+        likedBy: likedBy
+      }
+    });
   }
 
   return dispatch =>{
-    dispatch({type: TOGGLE_LIKE, payload: {id, newLikes, userID, hasLiked}});
+    dispatch({type: TOGGLE_LIKE, payload: {postID, newLikes, userID, likedBy}});
   }
 
 }

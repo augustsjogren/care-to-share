@@ -119,7 +119,30 @@ router.route('/posts')
 
   });
 
+  router.get('/posts/:id', function (req, res) {
 
+    Post.findById(
+
+      req.params.id,
+
+      function (err, post) {
+        if (err) return res.status(500).send("There was a problem finding the post.");
+        if (!post) return res.status(404).send("No post found.");
+        res.status(200).send(post);
+    });
+});
+
+router.put('/posts/:id', function (req, res) {
+
+    Post.findByIdAndUpdate(
+      req.params.id,
+      req.body.change,
+      {new: true},
+      function (err, post) {
+        if (err) return res.status(500).send("There was a problem updating the post.");
+        res.status(200).send(post);
+    });
+});
 
 
 
