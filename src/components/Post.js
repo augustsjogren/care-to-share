@@ -27,6 +27,11 @@ class ConnectedPost extends Component {
 
     const date = new Date(this.props.date).toLocaleString('sv');
 
+    let numberOfLikes = 0;
+    if (this.props.likes) {
+      numberOfLikes = this.props.likes;
+    }
+
     return(
       <Card>
 
@@ -55,7 +60,7 @@ class ConnectedPost extends Component {
             </Col>
             { this.props.user &&
             <Col className="float-right">
-              <Button color="primary" className="" onClick={this.handleLike}><Fa icon="thumbs-o-up" /> Like ({this.props.likes})</Button>
+              <Button color="primary" className="" onClick={this.handleLike}><Fa icon="thumbs-o-up" /> Like ({numberOfLikes})</Button>
             </Col>
           }
           </Row>
