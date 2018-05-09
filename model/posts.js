@@ -9,7 +9,8 @@ var PostsSchema = new Schema({
   imageUrl: String,
   id: String,
   date: Object,
-  likes: Number
+  likes: Number,
+  likedBy: []
 });
 
 module.exports = mongoose.model('Post', PostsSchema);

@@ -24,20 +24,34 @@ const rootReducer = (state = initialState, action) => {
     case SET_USER:
       return { ...state, user: action.payload};
     case TOGGLE_LIKE:
+
     console.log(action.payload);
       const index = state.posts.findIndex(function(post){
         return post._id === action.payload.id;
       });
       console.log(index);
 
-        // return state;
-      return update(state, {
-        posts: {
-            [index]:{
-              likes: {$set: action.payload.newLikes}
+      if (!action.payload.hasLiked) {
+        return update(state, {
+          posts: {
+              [index]:{
+                likes: {$set: action.payload.newLikes},
+                likedBy: {$push: [action.payload.userID]}
+              }
             }
-          }
-      });
+        });
+      } else {
+        return update(state, {
+          posts: {
+              [index]:{
+                likes: {$set: action.payload.newLikes},
+                likedBy: arr => arr.filter(item => item != action.payload.userID)
+              }
+            }
+        });
+      }
+
+
     default:
       return state;
   }

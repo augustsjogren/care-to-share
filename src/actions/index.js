@@ -7,19 +7,36 @@ export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 export const setUser = user => ({ type: SET_USER, payload: user });
 
 
-export function toggleLike (id, likes){
+export function toggleLike (id, userID, likes, hasLiked){
   // Add or remove like from a specific post
 
-  axios.put('http://localhost:3001/api/posts', {
-     id: id,
-     change: {likes: likes + 1}
-  });
+  let newLikes;
 
-  let newLikes = likes + 1;
+  if (!hasLiked) {
+    // Add a like
+    axios.put('http://localhost:3001/api/posts', {
+      id: id,
+      userID: userID,
+      change: {likes: likes + 1}
+    });
+
+    newLikes = likes + 1;
+  }
+  else{
+    // Remove like, user has already liked the post
+    axios.put('http://localhost:3001/api/posts', {
+      id: id,
+      userID: userID,
+      change: {likes: likes - 1}
+    });
+
+    newLikes = likes - 1;
+  }
 
   return dispatch =>{
-    dispatch({type: TOGGLE_LIKE, payload: {id, newLikes}});
+    dispatch({type: TOGGLE_LIKE, payload: {id, newLikes, userID, hasLiked}});
   }
+
 }
 
 export function postSuccess (post){
@@ -64,7 +81,8 @@ export function addPost(post){
       artist: data.artist,
       imageUrl: data.imageUrl,
       date: data.date,
-      likes: data.likes
+      likes: data.likes,
+      likedBy: []
     })
     .then( function (response) {
       console.log(response);

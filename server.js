@@ -84,6 +84,7 @@ router.route('/posts')
     post.imageUrl = req.body.imageUrl;
     post.date = req.body.date;
     post.likes = req.body.likes;
+    post.likedBy = [];
 
     post.save(function(err) {
       if (err)
