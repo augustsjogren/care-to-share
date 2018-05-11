@@ -320,7 +320,7 @@ class ConnectedPostCreator extends Component<Props, State> {
             </form>
 
             <Col sm={6} xs={12} className="buttonCol w-100">
-              <Button className="" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
+              <Button className="submitButton" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
             </Col>
 
           </Col>

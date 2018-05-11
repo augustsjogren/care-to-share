@@ -67,6 +67,19 @@
   margin-top: 20px;
 }
 
+.likeButton{
+  /* font-size: 20px !important; */
+  border-radius: 40px !important;
+}
+
+.submitButton{
+  border-radius: 40px !important;
+}
+
+.likeThumb{
+  /* font-size: 20px !important; */
+}
+
 .bottomRow{
   font-weight: lighter;
 }

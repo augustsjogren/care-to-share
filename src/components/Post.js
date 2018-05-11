@@ -19,6 +19,12 @@ const mapStateToProps = state => {
 
 class ConnectedPost extends Component {
 
+  getUserID = () => {
+    let userID = this.props.user.profile.sub;
+    userID = userID.split('|');
+    return userID[1];
+  }
+
   handleLike = () => {
 
     const ID = this.props.id;
@@ -27,10 +33,16 @@ class ConnectedPost extends Component {
       return post._id === ID;
     });
 
-    let userID = this.props.user.profile.sub;
-    userID = userID.split('|');
+    this.props.toggleLike(this.props.id, this.getUserID(), this.props.likes, this.props.posts[index].likedBy);
+  }
 
-    this.props.toggleLike(this.props.id, userID[1], this.props.likes, this.props.posts[index].likedBy);
+  setLikeColor = () => {
+
+    if (!this.props.likedBy.includes(this.getUserID())) {
+      return('primary');
+    } else {
+      return('success');
+    }
   }
 
   render(){
@@ -70,7 +82,9 @@ class ConnectedPost extends Component {
             </Col>
             { this.props.user &&
             <Col className="float-right">
-              <Button color="primary" className="" onClick={this.handleLike}><Fa icon="thumbs-o-up" /> Like ({numberOfLikes})</Button>
+              <Button color={this.setLikeColor()} className="likeButton" onClick={this.handleLike}>
+                <Fa className="likeThumb"  icon="thumbs-o-up" /> <span className="align-middle">({this.props.likes}) </span>
+              </Button>
             </Col>
           }
           </Row>
