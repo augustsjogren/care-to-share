@@ -19,7 +19,9 @@ var router = express.Router();
 
 app.use(cors());
 
-var port = process.env.API_PORT || 3001;
+var port = process.env.PORT || 3001;
+
+console.log(port);
 
 const option = {
     socketTimeoutMS: 30000,
@@ -36,7 +38,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   // we're connected!
-  console.log('yay');
 });
 
 
@@ -150,18 +151,16 @@ router.put('/posts/:id', function (req, res) {
 
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
-var redirect_uri = 'http://localhost:3001/api/callback'; // Your redirect uri
 
-// router.route('/login')
-// .get(function(req, res) {
-//   res.redirect('https://accounts.spotify.com/authorize?' +
-//     querystring.stringify({
-//       response_type: 'code',
-//       client_id: process.env.CLIENT_ID,
-//       scope: 'user-read-private user-read-email',
-//       redirect_uri
-//     }))
-// })
+var os = require("os");
+var hostname = os.hostname();
+
+// Use localhost if developing
+if (hostname == 'august-laptop') {
+  var redirect_uri = 'http://localhost:'+port+'/api/callback'; // Your redirect uri
+} else {
+  var redirect_uri = 'http://shareatune.herokuapp.com/callback'; // Your redirect uri
+}
 
 router.route('/login')
 .get(function(req, res) {

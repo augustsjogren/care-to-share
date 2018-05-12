@@ -10,11 +10,13 @@ export const setUser = user => ({ type: SET_USER, payload: user });
 export function toggleLike (postID, userID, likes, likedBy){
   // Add or remove like from a specific post
 
-  const urlString = 'http://localhost:3001/api/posts/' + postID;
+  var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts/" : "https://shareatune.herokuapp.com/api/posts");
+
+  const urlString = 'http://localhost:3100/api/posts/' + postID;
   let hasLiked = false;
   let newLikes;
 
-  if (likedBy.includes(userID)) {
+  if (likedBy && likedBy.includes(userID)) {
       hasLiked = true;
   }
 

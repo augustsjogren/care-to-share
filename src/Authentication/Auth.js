@@ -1,6 +1,8 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
+var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3000/callback" : "https://shareatune.herokuapp.com/callback");
+
 export default class Auth {
 
   constructor() {
@@ -25,7 +27,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'augustsjogren.eu.auth0.com',
     clientID: 'VuI1SMEzCtyuhVYEygk91m3PPtwC10fL',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: URI,
     audience: 'https://augustsjogren.eu.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid profile'
@@ -49,7 +51,12 @@ export default class Auth {
           window.location.reload();
         } else {
           // Get a spotify access token
-          window.location = 'http://localhost:3001/api/login';
+          if (window.location.host == 'localhost:3000') {
+            window.location = 'http://localhost:3100/api/login';
+          }
+          else{
+            window.location = 'https://shareatune.herokuapp.com/login';
+          }
         }
 
       } else if (err) {

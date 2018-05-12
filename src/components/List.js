@@ -15,6 +15,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts" : "https://shareatune.herokuapp.com/api/posts");
+
 class ConnectedList extends React.Component<Props, State> {
   constructor() {
     super();
@@ -23,7 +25,7 @@ class ConnectedList extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.posts == "") {
-      const url = 'http://localhost:3001/api/posts';
+      const url = URI;
       this.props.fetchPosts({url});
     }
   }

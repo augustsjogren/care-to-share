@@ -38,7 +38,7 @@ class ConnectedPost extends Component {
 
   setLikeColor = () => {
 
-    if (!this.props.likedBy.includes(this.getUserID())) {
+    if (!this.props.likedBy || !this.props.likedBy.includes(this.getUserID())) {
       return('primary');
     } else {
       return('success');

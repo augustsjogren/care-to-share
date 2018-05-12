@@ -41,6 +41,8 @@ type State = {
   searchListShowing: string
 };
 
+var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts" : "https://shareatune.herokuapp.com/api/posts");
+
 
 class ConnectedPostCreator extends Component<Props, State> {
   constructor(){
@@ -78,7 +80,7 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     const data = this.state.data;
     console.log(data);
-    const url = 'http://localhost:3001/api/posts';
+    const url = URI;
 
     this.props.addPost({url , data});
     this.setState({ postContent: "" });
