@@ -86,6 +86,9 @@ router.route('/posts')
     post.date = req.body.date;
     post.likes = req.body.likes;
     post.likedBy = [];
+    post.comments = [];
+
+    console.log(post);
 
     post.save(function(err) {
       if (err)

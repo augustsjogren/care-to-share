@@ -58,6 +58,32 @@
   margin: auto;
 }
 
+.comment-list{
+  max-width: 800px;
+  border-top: 1px solid #bfbfbf;
+  border-bottom: 1px solid #bfbfbf;
+  width: 90%;
+  margin: auto;
+  /* padding-top: 10px; */
+  padding-left: 0;
+}
+
+.commentRow{
+  /* padding-top: 10px; */
+}
+
+.comment{
+  border: 1px solid #bfbfbf;
+  border-radius: 5px;
+  /* margin-top: 10px; */
+  /* margin-bottom: 20px; */
+}
+
+.comment-area{
+  width: 90%;
+  margin: auto;
+}
+
 .feed-img{
   height: auto;
   width: 100%;

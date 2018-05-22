@@ -14,6 +14,10 @@ import { Navbar, NavbarBrand, NavbarNav,
 import Auth from './Authentication/Auth.js';
 import history from './history.js'
 
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/scale.css';
+
 const auth = new Auth();
 
  const mapDispatchToProps = dispatch => {
@@ -123,6 +127,8 @@ class ConnectedApp extends Component {
 
                  </NavbarNav>
              </Navbar>
+
+             <Alert stack={{limit: 3}} />
 
              <Switch>
                <Route exact path='/' component={Feed}/>

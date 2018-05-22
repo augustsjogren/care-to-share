@@ -1,4 +1,4 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE } from "../constants/action-types";
+import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT } from "../constants/action-types";
 import update from 'immutability-helper';
 
 const initialState = {
@@ -26,7 +26,7 @@ const rootReducer = (state = initialState, action) => {
     case TOGGLE_LIKE:
 
       // Find the index of the post in the posts array
-      const index = state.posts.findIndex(function(post){
+      var index = state.posts.findIndex(function(post){
         return post._id === action.payload.postID;
       });
 
@@ -38,6 +38,21 @@ const rootReducer = (state = initialState, action) => {
           }
         }
       });
+
+      case ADD_COMMENT:
+
+        // Find the index of the post in the posts array
+        index = state.posts.findIndex(function(post){
+          return post._id === action.payload.postID;
+        });
+
+        return update(state, {
+          posts: {
+            [index]:{
+              comments: {$set: action.payload.comments}
+            }
+          }
+        });
 
     default:
       return state;

@@ -25,9 +25,9 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-error-overlay": "4.0.0",
-    "react-fittext": "^1.0.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-s-alert": "^1.4.1",
     "react-scripts": "1.1.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "start-dev": "nf start -p 3000 -f Procfile_dev",
+    "start-dev": "nf start -p 3000 --procfile Procfile_dev",
     "heroku-postbuild": "yarn --production=false && yarn run build"
   },
   "devDependencies": {

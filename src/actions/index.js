@@ -1,8 +1,9 @@
-import { ADD_ARTICLE, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE } from '../constants/action-types';
+import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT } from '../constants/action-types';
 
 import axios from 'axios';
 
-export const addArticle = article => ({ type: ADD_ARTICLE, payload: article });
+var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts/" : "https://shareatune.herokuapp.com/api/posts");
+
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 export const setUser = user => ({ type: SET_USER, payload: user });
 
@@ -10,9 +11,7 @@ export const setUser = user => ({ type: SET_USER, payload: user });
 export function toggleLike (postID, userID, likes, likedBy){
   // Add or remove like from a specific post
 
-  var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts/" : "https://shareatune.herokuapp.com/api/posts");
-
-  const urlString = 'http://localhost:3100/api/posts/' + postID;
+  const urlString = URI + postID;
   let hasLiked = false;
   let newLikes;
 
@@ -55,6 +54,31 @@ export function toggleLike (postID, userID, likes, likedBy){
 
   return dispatch =>{
     dispatch({type: TOGGLE_LIKE, payload: {postID, newLikes, userID, likedBy}});
+  }
+
+}
+
+export function addComment(postID, comment, userID, comments){
+
+  const urlString = URI + postID;
+
+  console.log(comments);
+
+  try {
+    comments.push(comment);
+    axios.put(urlString, {
+      userID: userID,
+      change: {
+        comments: comments
+      }
+    });
+
+  } catch (e) {
+    console.log(e);
+  }
+
+  return dispatch =>{
+    dispatch({type: ADD_COMMENT, payload: {postID, comments}});
   }
 
 }
@@ -102,7 +126,8 @@ export function addPost(post){
       imageUrl: data.imageUrl,
       date: data.date,
       likes: data.likes,
-      likedBy: []
+      likedBy: [],
+      comments: []
     })
     .then( function (response) {
       console.log(response);
