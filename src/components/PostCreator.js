@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addPost } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup, ListGroupItem, Media} from 'mdbreact';
+import { Button, ListGroup, ListGroupItem, Media, Fa} from 'mdbreact';
 import Alert from 'react-s-alert';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -92,7 +92,6 @@ class ConnectedPostCreator extends Component<Props, State> {
           });
     } else {
       const data = this.state.data;
-      console.log(data);
       const url = URI;
 
       this.props.addPost({url , data});
@@ -220,7 +219,7 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     this.setState({
       selectedItem: content,
-      selectedTrackShowing: 'block',
+      selectedTrackShowing: 'flex',
       data:{
         author: this.props.user.profile.name,
         _id: id,
@@ -236,6 +235,26 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     });
     this.setState({searchListShowing: 'none'});
+    this.refs.searchContent.reset();
+  }
+
+  handleTrash = () => {
+    this.setState({
+      selectedTrackShowing: 'none',
+      data:{
+        author: "",
+        text: "",
+        _id: "",
+        title: "",
+        artist: "",
+        imageUrl: "",
+        date: "",
+        likes: 0,
+        likedBy: [],
+        comments: []
+      },
+      searchResult: ''
+    });
   }
 
   showSelectedItem = () => {
@@ -276,7 +295,6 @@ class ConnectedPostCreator extends Component<Props, State> {
         <Row className="show-grid">
           <Col xs={12} sm={12} md={8} lg={8} className="formBox" >
 
-
             <form onSubmit={this.handleSubmit} ref="postContent">
               <FormGroup
                 controlId="formControlsTextarea" >
@@ -302,9 +320,14 @@ class ConnectedPostCreator extends Component<Props, State> {
                 </Col>
 
               </Row>
-              <Row style={trackStyle}>
-                <Col sm={12}>
+              <Row style={trackStyle} className="pt-2">
+                <Col sm={10}>
                   {this.showSelectedItem()}
+                </Col>
+                <Col sm={2}>
+                  <Button color="deep-orange" className="likeButton" onClick={this.handleTrash}>
+                    <Fa className="likeThumb"  icon="trash-o" />
+                  </Button>
                 </Col>
               </Row>
 

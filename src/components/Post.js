@@ -80,6 +80,8 @@ class ConnectedPost extends Component {
 
       this.props.addComment(this.props.id, comment, this.getUserID(), this.props.posts[index].comments);
       this.setState({pendingComment: ""});
+
+      this.refs.commentForm.reset();
     }
   }
 
@@ -157,7 +159,6 @@ class ConnectedPost extends Component {
                 <FormGroup
                   controlId="formControlsTextarea" >
                   <FormControl
-                    ref="commentContent"
                     componentClass="textarea"
                     value={text}
                     placeholder="Write a comment"

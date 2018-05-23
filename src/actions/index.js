@@ -130,7 +130,6 @@ export function addPost(post){
       comments: []
     })
     .then( function (response) {
-      console.log(response);
       dispatch(postSuccess(data));
     })
     .catch(function (error) {
