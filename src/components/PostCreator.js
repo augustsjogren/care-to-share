@@ -5,6 +5,7 @@ import uuidv1 from "uuid";
 import { addPost } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, ListGroupItem, Media} from 'mdbreact';
+import Alert from 'react-s-alert';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 var spotifyApi = new SpotifyWebApi();
@@ -79,33 +80,43 @@ class ConnectedPostCreator extends Component<Props, State> {
 
   handleSubmit(event){
     event.preventDefault();
+    console.log(this.state.data.postContent);
 
-    const data = this.state.data;
-    console.log(data);
-    const url = URI;
+    if (this.state.data.text == '' || this.state.data.title == '') {
+      Alert.warning('Please enter a valid post', {
+              position: 'top-right',
+              effect: 'scale',
+              beep: false,
+              timeout: 5000,
+              offset: 60
+          });
+    } else {
+      const data = this.state.data;
+      console.log(data);
+      const url = URI;
 
-    this.props.addPost({url , data});
-    this.setState({ postContent: "" });
+      this.props.addPost({url , data});
+      this.setState({ postContent: "" });
 
-    this.setState({
-      selectedTrackShowing: 'none',
-      data:{
-        author: "",
-        text: "",
-        _id: "",
-        title: "",
-        artist: "",
-        imageUrl: "",
-        date: "",
-        likes: 0,
-        likedBy: [],
-        comments: []
-      }
-    });
+      this.setState({
+        selectedTrackShowing: 'none',
+        data:{
+          author: "",
+          text: "",
+          _id: "",
+          title: "",
+          artist: "",
+          imageUrl: "",
+          date: "",
+          likes: 0,
+          likedBy: [],
+          comments: []
+        }
+      });
 
-    this.refs.postContent.reset();
-    this.refs.searchContent.reset();
-
+      this.refs.postContent.reset();
+      this.refs.searchContent.reset();
+    }
   }
 
   handleChange(event) {
