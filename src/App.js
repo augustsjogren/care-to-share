@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import { Router, Route, Switch } from 'react-router-dom';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { setAccessToken, setUser } from './actions/index';
 import './App.css';
 
@@ -12,7 +12,7 @@ import { Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink} from 'mdbreact';
 
 import Auth from './Authentication/Auth.js';
-import history from './history.js'
+import history from './history.js';
 
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -31,17 +31,17 @@ const auth = new Auth();
    return { user: state.user };
  };
 
- const handleAuthentication = (nextState, replace) => {
+ const handleAuthentication = (nextState) => {
    if (/access_token|id_token|error/.test(nextState.location.hash)) {
      auth.handleAuthentication();
    }
- }
+ };
 
 
 class ConnectedApp extends Component {
 
   goTo(route) {
-    this.props.history.replace(`/${route}`)
+    this.props.history.replace(`/${route}`);
   }
 
   login() {
@@ -50,18 +50,18 @@ class ConnectedApp extends Component {
 
   logout() {
     auth.logout();
-    this.props.setUser("");
+    this.props.setUser('');
     this.forceUpdate();
   }
 
   getParameterByName(name, url) {
     if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    name = name.replace(/[[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
     results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
   componentDidMount(){
@@ -69,7 +69,7 @@ class ConnectedApp extends Component {
     if (auth.isAuthenticated()) {
       auth.getProfile((err, profile) => {
         if (err) {
-          console.log("Error loading the Profile", err);
+          // console.log('Error loading the Profile', err);
           return;
         }
         this.props.setUser({profile});
@@ -93,8 +93,8 @@ class ConnectedApp extends Component {
   }
 
   setSpotifyAccessToken(token, expires_in) {
-  	localStorage.setItem('spotify_access_token', token);
-  	localStorage.setItem('spotify_token_expires', (new Date()).getTime() + expires_in);
+    localStorage.setItem('spotify_access_token', token);
+    localStorage.setItem('spotify_token_expires', (new Date()).getTime() + expires_in);
   }
 
 
@@ -133,11 +133,11 @@ class ConnectedApp extends Component {
              <Switch>
                <Route exact path='/' component={Feed}/>
                <Route path='/profile' render={(props) => {
-                   return <Profile auth={auth} {...props} />
+                   return <Profile auth={auth} {...props} />;
                  }}/>
                <Route path="/callback" render={(props) => {
                    handleAuthentication(props);
-                   return <Callback {...props} />
+                   return <Callback {...props} />;
                    }}/>
              </Switch>
 

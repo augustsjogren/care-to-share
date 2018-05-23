@@ -1,17 +1,12 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-
-var querystring = require('querystring');
-
-var bodyParser = require('body-parser');
 var Post = require('./model/posts');
 
 require('dotenv').config({path: './secrets.env'});
 var cors = require('cors');
 
-var axios = require('axios');
-let request = require('request')
+let request = require('request');
 
 //Create instances
 var app = express();
@@ -21,21 +16,11 @@ app.use(cors());
 
 var port = process.env.PORT || 3001;
 
-console.log(port);
-
-const option = {
-    socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000
-};
-
 //db config
 var mongoDB = 'mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@ds227199.mlab.com:27199/care-to-share';
-// var mongoDB = 'mongodb://localhost/test';
-// mongoose.connect(mongoDB, option)
-mongoose.connect(mongoDB)
+mongoose.connect(mongoDB);
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); // eslint-disable-line
 db.once('open', function() {
   // we're connected!
 });
@@ -71,7 +56,7 @@ router.route('/posts')
       if (err)
         res.send(err);
       //responds with a json object of our database posts.
-      res.json(posts)
+      res.json(posts);
     });
   })
   //Add new post to the database
@@ -88,8 +73,6 @@ router.route('/posts')
     post.likedBy = [];
     post.comments = [];
 
-    console.log(post);
-
     post.save(function(err) {
       if (err)
         res.send(err);
@@ -97,8 +80,6 @@ router.route('/posts')
     });
   })
   .put(function(req, res) {
-
-    console.log(req.body);
 
     Post.findByIdAndUpdate(
       // the id of the item to find
@@ -119,7 +100,7 @@ router.route('/posts')
         if (err) return res.status(500).send(err);
         return res.json(todo);
       }
-    )
+    );
 
   });
 
@@ -130,12 +111,11 @@ router.route('/posts')
       req.params.id,
 
       function (err, post) {
-        if (err) return res.status(500).send("There was a problem finding the post.");
-        if (!post) return res.status(404).send("No post found.");
+        if (err) return res.status(500).send('There was a problem finding the post.');
+        if (!post) return res.status(404).send('No post found.');
         res.status(200).send(post);
     });
 });
-
 router.put('/posts/:id', function (req, res) {
 
     Post.findByIdAndUpdate(
@@ -143,7 +123,7 @@ router.put('/posts/:id', function (req, res) {
       req.body.change,
       {new: true},
       function (err, post) {
-        if (err) return res.status(500).send("There was a problem updating the post.");
+        if (err) return res.status(500).send('There was a problem updating the post.');
         res.status(200).send(post);
     });
 });
@@ -152,22 +132,19 @@ router.put('/posts/:id', function (req, res) {
 
 // ----------------Spotify--------------
 
-var client_id = process.env.CLIENT_ID; // Your client id
-var client_secret = process.env.CLIENT_SECRET; // Your secret
-
-var os = require("os");
+var os = require('os');
 var hostname = os.hostname();
 
 // Use localhost if developing
 if (hostname == 'august-laptop') {
   var redirect_uri = 'http://localhost:'+port+'/api/callback'; // Your redirect uri
 } else {
-  var redirect_uri = 'http://shareatune.herokuapp.com/callback'; // Your redirect uri
+  redirect_uri = 'http://shareatune.herokuapp.com/callback'; // Your redirect uri
 }
 
 router.route('/login')
 .get(function(req, res) {
-  let code = req.query.code || null
+  let code = req.query.code || null;
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     form: {
@@ -181,15 +158,14 @@ router.route('/login')
       ).toString('base64'))
     },
     json: true
-  }
+  };
 
-  console.log('posting');
   request.post(authOptions, function(error, response, body) {
-    var access_token = body.access_token
-    let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
-    res.redirect(uri + '?spotify_access_token=' + access_token)
-  })
-})
+    var access_token = body.access_token;
+    let uri = process.env.FRONTEND_URI || 'http://localhost:3000';
+    res.redirect(uri + '?spotify_access_token=' + access_token);
+  });
+});
 
 //-------------------------------------
 
@@ -198,5 +174,5 @@ app.use('/api', router);
 
 //starts the server and listens for requests
 app.listen(port, function() {
-  console.log(`api running on port ${port}`);
+  console.log(`api running on port ${port}`); // eslint-disable-line
 });

@@ -1,7 +1,7 @@
 // @flow
-import React, {Component} from 'react';
-import { connect } from "react-redux";
-import uuidv1 from "uuid";
+import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
+import { connect } from 'react-redux';
+import uuidv1 from 'uuid';
 import { addPost } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, ListGroupItem, Media, Fa} from 'mdbreact';
@@ -23,51 +23,32 @@ const mapStateToProps = state => {
   };
 };
 
-type Props = {
-  addPost: ''
-};
-
-type State = {
-  data: {
-    text: string,
-    author: string,
-    title: string,
-    artist: string,
-    imageUrl: string,
-    _id: string
-  },
-  searchQuery: string,
-  searchResult: object,
-  selectedItem: object,
-  searchListShowing: string
-};
-
-var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts" : "https://shareatune.herokuapp.com/api/posts");
+var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
 
-class ConnectedPostCreator extends Component<Props, State> {
+class ConnectedPostCreator extends Component{
   constructor(){
     super();
     this.state = {
       data: {
-        postContent: "",
-        text: "",
-        title: "",
-        artist: "",
-        author: "",
-        _id: "",
-        imageUrl: "",
-        date: "",
+        postContent: '',
+        text: '',
+        title: '',
+        artist: '',
+        author: '',
+        _id: '',
+        imageUrl: '',
+        date: '',
         likes: 0,
         likedBy: [],
         comments: []
       },
-      searchQuery: "",
-      searchResult: "",
-      selectedItem: "",
+      searchQuery: '',
+      searchResult: '',
+      selectedItem: '',
       searchListShowing: 'none',
-      selectedTrackShowing: "none",
-      textInput: ""
+      selectedTrackShowing: 'none',
+      textInput: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -80,8 +61,6 @@ class ConnectedPostCreator extends Component<Props, State> {
 
   handleSubmit(event){
     event.preventDefault();
-    console.log(this.state.data.postContent);
-
     if (this.state.data.text == '' || this.state.data.title == '') {
       Alert.warning('Please enter a valid post', {
               position: 'top-right',
@@ -95,18 +74,18 @@ class ConnectedPostCreator extends Component<Props, State> {
       const url = URI;
 
       this.props.addPost({url , data});
-      this.setState({ postContent: "" });
+      this.setState({ postContent: '' });
 
       this.setState({
         selectedTrackShowing: 'none',
         data:{
-          author: "",
-          text: "",
-          _id: "",
-          title: "",
-          artist: "",
-          imageUrl: "",
-          date: "",
+          author: '',
+          text: '',
+          _id: '',
+          title: '',
+          artist: '',
+          imageUrl: '',
+          date: '',
           likes: 0,
           likedBy: [],
           comments: []
@@ -142,7 +121,7 @@ class ConnectedPostCreator extends Component<Props, State> {
 
       });
     } catch (e) {
-      console.log(e);
+      // console.error(e);
     }
   }
 
@@ -155,7 +134,7 @@ class ConnectedPostCreator extends Component<Props, State> {
     return token;
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot){
+  componentDidUpdate(){
 
     let token = this.getAccessToken();
 
@@ -165,7 +144,6 @@ class ConnectedPostCreator extends Component<Props, State> {
     else {
       //console.log("Please refresh access token.");
     }
-
 
   }
 
@@ -187,11 +165,11 @@ class ConnectedPostCreator extends Component<Props, State> {
       this.setState({searchListShowing: 'block'});
       spotifyApi.searchTracks(event.target.value)
       .then((response) =>{
-        this.setState({searchResult: response.tracks.items})
+        this.setState({searchResult: response.tracks.items});
       })
       .catch((err) => {
-        console.log(err);
-      })
+        console.error(err); // eslint-disable-line
+      });
     }
     else {
       this.setState({
@@ -206,11 +184,11 @@ class ConnectedPostCreator extends Component<Props, State> {
     event.preventDefault();
     spotifyApi.searchTracks(this.state.searchQuery)
     .then((response) =>{
-      this.setState({searchResult: response.tracks.items})
+      this.setState({searchResult: response.tracks.items});
     })
     .catch((err) => {
-      console.log(err);
-    })
+      console.error(err); // eslint-disable-line
+    });
   }
 
   handleListClick(content){
@@ -242,23 +220,23 @@ class ConnectedPostCreator extends Component<Props, State> {
     this.setState({
       selectedTrackShowing: 'none',
       data:{
-        author: "",
-        text: "",
-        _id: "",
-        title: "",
-        artist: "",
-        imageUrl: "",
-        date: "",
+        author: '',
+        text: '',
+        _id: '',
+        title: '',
+        artist: '',
+        imageUrl: '',
+        date: '',
         likes: 0,
         likedBy: [],
         comments: []
       },
       searchResult: ''
     });
-  }
+  };
 
   showSelectedItem = () => {
-    if (this.state.selectedItem != "") {
+    if (this.state.selectedItem != '') {
       return <Media>
         <Media left className="mr-3">
           <Media object src={this.state.selectedItem.album.images[2].url} alt="Image not found" />
@@ -269,11 +247,11 @@ class ConnectedPostCreator extends Component<Props, State> {
           </Media>
           {this.state.selectedItem.artists[0].name}
         </Media>
-      </Media>
+      </Media> // eslint-disable-line
     } else {
-      return "";
+      return '';
     }
-  }
+  };
 
 
   render(){
@@ -283,12 +261,12 @@ class ConnectedPostCreator extends Component<Props, State> {
 
     const listStyle = {
       display: this.state.searchListShowing
-    }
+    };
 
     const trackStyle = {
       display: this.state.selectedTrackShowing,
       margin: 10
-    }
+    };
 
     return(
       <Grid>
@@ -335,7 +313,7 @@ class ConnectedPostCreator extends Component<Props, State> {
                 <Col md={12}>
                   <ListGroup style={listStyle} className="w-100 mw-100">
 
-                    {Object.keys(content).map((item, index) =>(
+                    {Object.keys(content).map((item) =>(
                       <ListGroupItem onClick={() => this.handleListClick(content[item])} key={uuidv1()}>
                         <Row className="searchResultRow">
 

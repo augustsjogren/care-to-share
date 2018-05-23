@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import {Card, Button, Fa} from 'mdbreact';
 import {Row, Col, FormGroup, FormControl} from 'react-bootstrap';
 import { toggleLike, addComment } from '../actions/index';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import Comment from './Comment';
-import uuidv1 from "uuid";
+import uuidv1 from 'uuid';
 import Alert from 'react-s-alert';
 
 const mapDispatchToProps = dispatch => {
@@ -27,7 +27,7 @@ class ConnectedPost extends Component {
     super();
     this.state = {
       displayComments: false,
-      pendingComment: ""
+      pendingComment: ''
     };
   }
 
@@ -76,10 +76,10 @@ class ConnectedPost extends Component {
         content: this.state.pendingComment,
         user: this.props.user.profile.name,
         _id: uuidv1()
-      }
+      };
 
       this.props.addComment(this.props.id, comment, this.getUserID(), this.props.posts[index].comments);
-      this.setState({pendingComment: ""});
+      this.setState({pendingComment: ''});
 
       this.refs.commentForm.reset();
     }
@@ -96,11 +96,6 @@ class ConnectedPost extends Component {
   render(){
 
     const date = new Date(this.props.date).toLocaleString('sv');
-
-    let numberOfLikes = 0;
-    if (this.props.likes) {
-      numberOfLikes = this.props.likes;
-    }
 
     const {text} = this.state.pendingComment;
     const comments = this.props.comments;

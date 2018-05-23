@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import PostCreator from './PostCreator';
 import List from './List';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
@@ -13,7 +13,7 @@ class ConnectedFeed extends Component {
   render(){
     return(
       <div>
-        { this.props.user != "" &&
+        { this.props.user != '' &&
           <PostCreator />
         }
         <List />

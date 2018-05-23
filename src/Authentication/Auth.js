@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
-var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3000/callback" : "https://shareatune.herokuapp.com/callback");
+var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3000/callback' : 'https://shareatune.herokuapp.com/callback');
 
 export default class Auth {
 
@@ -38,7 +38,6 @@ export default class Auth {
   }
 
   handleAuthentication() {
-    console.log('Handled auth');
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -58,10 +57,9 @@ export default class Auth {
             window.location = 'https://shareatune.herokuapp.com/login';
           }
         }
-
       } else if (err) {
         history.replace('/');
-        console.log(err);
+        // console.log(err);
       }
     });
   }

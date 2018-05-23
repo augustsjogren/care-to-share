@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { connect } from "react-redux";
+import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
+import { connect } from 'react-redux';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 
@@ -9,20 +9,19 @@ const mapStateToProps = state => {
   return {
     token: state.access_token.token,
     user: state.user
-    };
+  };
 };
 
 class ConnectedProfile extends Component {
   constructor(){
     super();
     this.state = {
-      profile: ""
+      profile: ''
     };
   }
 
   getAccessToken(){
     var expires = localStorage.getItem('spotify_token_expires', '0');
-    console.log(expires);
     if ((new Date()).getTime() > expires) {
       return '';
     }
@@ -38,24 +37,16 @@ class ConnectedProfile extends Component {
       spotifyApi.setAccessToken(token);
     }
     else {
-      console.log("Please refresh access token.");
+      // console.log('Please refresh access token.');
     }
-
-
   }
 
   render(){
-
-    console.log(this.props.user);
     return(
       <div>
-
         <div className="row">
-
           <div className="col-8  pt-5 m-auto">
-
             <div className="row">
-
               <div className="col-3">
                 <img src={this.props.user.profile.picture} className="img-fluid" alt=""></img>
               </div>
@@ -64,12 +55,11 @@ class ConnectedProfile extends Component {
 
                 <p>
                   <strong>User:</strong>  <br /> {this.props.user.profile.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> <br /> Email
-                    </p>
+                </p>
+                <p>
+                  <strong>Email:</strong> <br /> Email
+                </p>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -78,5 +68,5 @@ class ConnectedProfile extends Component {
       }
     }
 
-const Profile = connect(mapStateToProps, null)(ConnectedProfile);
-export default Profile;
+    const Profile = connect(mapStateToProps, null)(ConnectedProfile);
+    export default Profile;

@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 import { fetchPosts } from '../actions/index';
-import Post from './Post.js'
+import Post from './Post.js';
 
 const mapStateToProps = state => {
   return { posts: state.posts };
@@ -15,16 +15,16 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts" : "https://shareatune.herokuapp.com/api/posts");
+var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
-class ConnectedList extends React.Component<Props, State> {
+class ConnectedList extends React.Component {
   constructor() {
     super();
     this.state = { data: [] };
-  };
+  }
 
   componentDidMount() {
-    if (this.props.posts == "") {
+    if (this.props.posts == '') {
       const url = URI;
       this.props.fetchPosts({url});
     }

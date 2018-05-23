@@ -2,7 +2,7 @@ import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMM
 
 import axios from 'axios';
 
-var URI = (window.location.host == 'localhost:3000' ? "http://localhost:3100/api/posts/" : "https://shareatune.herokuapp.com/api/posts");
+var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts/' : 'https://shareatune.herokuapp.com/api/posts');
 
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 export const setUser = user => ({ type: SET_USER, payload: user });
@@ -54,15 +54,13 @@ export function toggleLike (postID, userID, likes, likedBy){
 
   return dispatch =>{
     dispatch({type: TOGGLE_LIKE, payload: {postID, newLikes, userID, likedBy}});
-  }
+  };
 
 }
 
 export function addComment(postID, comment, userID, comments){
 
   const urlString = URI + postID;
-
-  console.log(comments);
 
   try {
     comments.push(comment);
@@ -74,12 +72,12 @@ export function addComment(postID, comment, userID, comments){
     });
 
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 
   return dispatch =>{
     dispatch({type: ADD_COMMENT, payload: {postID, comments}});
-  }
+  };
 
 }
 
@@ -87,7 +85,7 @@ export function postSuccess (post){
 
   return dispatch =>{
     dispatch({type: POST_SUCCESS, payload: post});
-  }
+  };
 }
 
 export function fetchSuccess(posts) {
@@ -108,9 +106,9 @@ export  function fetchPosts(url) {
         dispatch(fetchSuccess(data[i]));
       }
 
-    })
-  }
-};
+    });
+  };
+}
 
 export function addPost(post){
 
@@ -129,11 +127,11 @@ export function addPost(post){
       likedBy: [],
       comments: []
     })
-    .then( function (response) {
+    .then( function () {
       dispatch(postSuccess(data));
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch(function (error) { // eslint-disable-line
+      // console.log(error);
     });
-  }
+  };
 }

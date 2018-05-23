@@ -1,10 +1,10 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT } from "../constants/action-types";
+import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT } from '../constants/action-types';
 import update from 'immutability-helper';
 
 const initialState = {
   posts: [],
-  access_token: "",
-  user: ""
+  access_token: '',
+  user: ''
 };
 
 const rootReducer = (state = initialState, action) => {
