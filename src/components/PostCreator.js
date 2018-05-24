@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    token: state.access_token.token,
+    token: state.access_token,
     user: state.user
   };
 };

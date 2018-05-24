@@ -1,4 +1,4 @@
-import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT } from '../constants/action-types';
+import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST } from '../constants/action-types';
 
 import axios from 'axios';
 
@@ -135,4 +135,17 @@ export function addPost(post){
       // console.log(error);
     });
   };
+}
+
+export function deletePost(postID) {
+  const urlString = URI + postID;
+
+  axios.delete(urlString, {
+    postID: postID
+  });
+
+  return dispatch => {
+    dispatch({type: DELETE_POST, payload: {postID}});
+  };
+
 }

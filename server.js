@@ -83,21 +83,12 @@ router.route('/posts')
   .put(function(req, res) {
 
     Post.findByIdAndUpdate(
-      // the id of the item to find
       req.body.id,
-
-      // the change to be made. Mongoose will smartly combine your existing
-      // document with this change, which allows for partial updates too
       req.body.change,
-
-      // an option that asks mongoose to return the updated version
-      // of the document instead of the pre-updated one.
       {new: true},
-
-      // the callback function
+      
       (err, todo) => {
-        // console.log(res.);
-        // Handle any possible database errors
+        // Handle possible database errors
         if (err) return res.status(500).send(err);
         return res.json(todo);
       }
@@ -128,7 +119,15 @@ router.put('/posts/:id', function (req, res) {
         res.status(200).send(post);
     });
 });
-
+router.delete('/posts/:id', function (req, res) {
+  Post.findByIdAndRemove(
+    req.params.id,
+    function (err) {
+      if (err) return res.status(500).send('There was a problem deleting the post.');
+      res.status(200).send();
+    }
+  );
+});
 
 
 // ----------------Spotify--------------
