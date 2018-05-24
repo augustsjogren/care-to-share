@@ -116,13 +116,13 @@ class ConnectedPost extends Component {
     return(
       <Card>
 
-        <Row className="">
-          <Col sm={3}>
+        <Row className="mx-0 ">
+          <Col sm={3} className="pl-0">
             <img className="feed-img" src={this.props.imageUrl} alt="" />
           </Col>
 
-          <Col sm={9} className="align-bottom">
-            <Row>
+          <Col sm={9} className="align-bottom pr-1 ">
+            <Row className="w-100">
               <Col sm={9}>
                 <h2>
                   {this.props.title}
@@ -137,9 +137,9 @@ class ConnectedPost extends Component {
             <p className="pr-1">
               {this.props.content}
             </p>
-            <Row className="justify-content-between bottomRow w-100 m-0">
+            <Row className="justify-content-between bottomRow w-100 m-0 ">
               <Col>
-                <p>
+                <p className="m-0">
                   Posted by: {this.props.author} <br/>
                 {date}
               </p>
