@@ -80,6 +80,7 @@ class ConnectedPostCreator extends Component{
         selectedTrackShowing: 'none',
         data:{
           author: '',
+          userID: '',
           text: '',
           _id: '',
           title: '',
@@ -97,6 +98,12 @@ class ConnectedPostCreator extends Component{
     }
   }
 
+  getUserID = () => {
+    let userID = this.props.user.profile.sub;
+    userID = userID.split('|');
+    return userID[1];
+  }
+
   handleChange(event) {
 
     try {
@@ -107,6 +114,7 @@ class ConnectedPostCreator extends Component{
       this.setState({
         data:{
           author: this.props.user.profile.name,
+          userID: this.getUserID(),
           text: event.target.value,
           _id: id,
           title: this.state.selectedItem.name,
@@ -200,6 +208,7 @@ class ConnectedPostCreator extends Component{
       selectedTrackShowing: 'flex',
       data:{
         author: this.props.user.profile.name,
+        userID: this.getUserID,
         _id: id,
         text: this.state.textInput,
         title: content.name,
@@ -221,6 +230,7 @@ class ConnectedPostCreator extends Component{
       selectedTrackShowing: 'none',
       data:{
         author: '',
+        userID: '',
         text: '',
         _id: '',
         title: '',

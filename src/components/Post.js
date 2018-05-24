@@ -32,9 +32,15 @@ class ConnectedPost extends Component {
   }
 
   getUserID = () => {
-    let userID = this.props.user.profile.sub;
-    userID = userID.split('|');
-    return userID[1];
+    if (this.props.user) {
+      let userID = this.props.user.profile.sub;
+      userID = userID.split('|');
+      return userID[1];
+    }
+    else {
+      return -1;
+    }
+
   }
 
   handleLike = () => {
@@ -85,6 +91,10 @@ class ConnectedPost extends Component {
     }
   }
 
+  deletePost = () => {
+    // console.log('delete');
+  }
+
   setLikeColor = () => {
     if (!this.props.likedBy || !this.props.likedBy.includes(this.getUserID())) {
       return('primary');
@@ -109,9 +119,18 @@ class ConnectedPost extends Component {
           </Col>
 
           <Col sm={9} className="align-bottom">
-            <h2>
-              {this.props.title}
-            </h2>
+            <Row>
+              <Col sm={11}>
+                <h2>
+                  {this.props.title}
+                </h2>
+              </Col>
+              { this.getUserID() == this.props.userID &&
+              <Col sm={1}>
+                <Fa className=""  icon="trash-o" onClick={this.deletePost} />
+              </Col>
+            }
+          </Row>
 
             <h5>
               {this.props.artist}

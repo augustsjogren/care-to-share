@@ -64,6 +64,7 @@ router.route('/posts')
     var post = new Post();
     //body parser lets us use the req.body
     post.author = req.body.author;
+    post.userID = req.body.userID;
     post.text = req.body.text;
     post.title = req.body.title;
     post.artist = req.body.artist;

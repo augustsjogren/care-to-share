@@ -117,6 +117,7 @@ export function addPost(post){
   return dispatch => {
     axios.post(post.url, {
       author: data.author,
+      userID: data.userID,
       text: data.text,
       _id: data.id,
       title: data.title,
