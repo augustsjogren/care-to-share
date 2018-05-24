@@ -7,6 +7,7 @@ require('dotenv').config({path: './secrets.env'});
 var cors = require('cors');
 
 let request = require('request');
+let axios = require('axios');
 
 //Create instances
 var app = express();
@@ -86,7 +87,7 @@ router.route('/posts')
       req.body.id,
       req.body.change,
       {new: true},
-      
+
       (err, todo) => {
         // Handle possible database errors
         if (err) return res.status(500).send(err);
@@ -166,6 +167,57 @@ router.route('/login')
     res.redirect(uri + '?spotify_access_token=' + access_token);
   });
 });
+
+
+// Auth0 user metadata
+// TODO: Make it work
+router.route('/user/:id')
+.post(function (req,res) {
+
+  let url = 'https://augustsjogren.eu.auth0.com/api/v2/users/'+req.params.id;
+
+  var tokenOptions = { method: 'post',
+  url: 'https://augustsjogren.eu.auth0.com/oauth/token',
+  headers: { 'content-type': 'application/json' },
+  body:
+   { grant_type: 'client_credentials',
+     client_id: process.env.A0_CLIENT_ID,
+     client_secret: process.env.A0_CLIENT_SECRET,
+     audience: 'https://api.caretoshare.com' },
+  json: true };
+
+  axios(tokenOptions)
+  .then(function (response) {
+    // console.log('Token: ');
+    // console.log(response);
+  })
+  .catch(function (error) {
+    // console.log(error);
+  });
+
+
+  var options = {
+    method: 'get',
+    url: url,
+    qs: { fields: 'user_metadata', include_fields: 'true' },
+    headers:
+     { 'content-type': 'application/json',
+       authorization: 'Bearer '+ req.body.token } };
+
+  axios(options)
+  .then(function (response) {
+    console.log(response);
+    res.send(response);
+  })
+  .catch(function (error) {
+    // console.log(error);
+  });
+
+  // console.log(res);
+
+});
+
+
 
 //-------------------------------------
 
