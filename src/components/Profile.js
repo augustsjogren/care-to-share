@@ -44,7 +44,7 @@ class ConnectedProfile extends Component {
   render(){
     return(
       <div>
-        <div className="row">
+        <div className="row w-100">
           <div className="col-8  pt-5 m-auto">
             <div className="row">
               <div className="col-3">
