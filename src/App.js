@@ -9,7 +9,7 @@ import Profile from './components/Profile';
 import Callback from './components/Callback';
 
 import { Navbar, NavbarBrand, NavbarNav,
-   NavItem, NavLink, NavbarToggler, Collapse} from 'mdbreact';
+   NavItem, NavLink, NavbarToggler, Collapse, Container} from 'mdbreact';
 
 import Auth from './Authentication/Auth.js';
 import history from './history.js';
@@ -116,35 +116,38 @@ class ConnectedApp extends Component {
     return (
       <Router history={history}>
       <div className="App">
-      <Navbar color="blue" dark expand="md" static="true" sticky="top">
-                 <NavbarBrand href="/">
-                     <strong>Care To Share</strong>
-                 </NavbarBrand>
-                 { !this.state.isWideEnough && <NavbarToggler onClick = { this.onNavMenuClick } />}
-                 <Collapse isOpen = { this.state.collapse } navbar>
-                 <NavbarNav className="ml-auto" right>
-                   <NavItem >
-                     <NavLink className="nav-link" to="/">Home</NavLink>
-                   </NavItem>
-                   { auth.isAuthenticated() &&
-                     <NavItem >
-                       <NavLink className="nav-link" to="/profile">Profile</NavLink>
-                     </NavItem>
-                   }
-                   { !auth.isAuthenticated() && (
-                       <NavItem >
-                         <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
-                       </NavItem>
-                     )}
-                   { auth.isAuthenticated() && (
-                       <NavItem >
-                         <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
-                       </NavItem>
-                     )}
+        <Navbar color="blue" dark expand="md" static="true" sticky="top">
+          <Container className="py-0">
+            <NavbarBrand href="/">
+              <strong>Care To Share</strong>
+            </NavbarBrand>
+            { !this.state.isWideEnough && <NavbarToggler onClick = { this.onNavMenuClick } />}
+            <Collapse isOpen = { this.state.collapse } navbar>
+              <NavbarNav className="ml-auto" right>
+                <NavItem >
+                  <NavLink className="nav-link" to="/">Home</NavLink>
+                </NavItem>
+                { auth.isAuthenticated() &&
+                  <NavItem >
+                    <NavLink className="nav-link" to="/profile">Profile</NavLink>
+                  </NavItem>
+                }
+                { !auth.isAuthenticated() && (
+                  <NavItem >
+                    <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
+                  </NavItem>
+                )}
+                { auth.isAuthenticated() && (
+                  <NavItem >
+                    <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
+                  </NavItem>
+                )}
 
-                 </NavbarNav>
-               </Collapse>
-             </Navbar>
+              </NavbarNav>
+            </Collapse>
+          </Container>
+        </Navbar>
+
 
              <Alert stack={{limit: 3}} />
 

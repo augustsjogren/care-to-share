@@ -281,7 +281,7 @@ class ConnectedPostCreator extends Component{
     return(
       <Grid>
         <Row className="show-grid">
-          <Col xs={12} sm={12} md={8} lg={8} className="formBox" >
+          <Col xs={12} sm={12} md={12} lg={8} className="formBox" >
 
             <form onSubmit={this.handleSubmit} ref="postContent">
               <FormGroup
