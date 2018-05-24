@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
 
+html{
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
 .App {
   font-family: 'Open Sans', sans-serif;
 }
@@ -12,6 +17,9 @@
   font-size: large;
 }
 
+.feed{
+  background-color: #f5f5f5;
+}
 
 .commentForm{
   border-radius: 5px;
@@ -39,8 +47,10 @@
 }
 
 .formBox{
+  width: 100%;
+  max-width: 800px;
   box-sizing: border-box;
-  padding: 20px;
+
 }
 
 .buttonCol{
@@ -49,7 +59,8 @@
 }
 
 .container{
-  padding-top: 20px;
+  /* padding-top: 20px; */
+  max-width: 800px !important;
 }
 
 /*The feed, a list of cards*/
@@ -89,8 +100,17 @@
 }
 
 .card{
-  margin-top: 40px;
+  margin-top: 20px;
   font-weight: lighter !important;
+}
+
+.profile{
+  background-color: #f5f5f5;
+}
+
+.profileCard{
+  width: 100%;
+  max-width: 800px;
 }
 
 .postButton{

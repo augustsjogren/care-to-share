@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 import { addPost } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup, ListGroupItem, Media, Fa} from 'mdbreact';
+import { Button, ListGroup, ListGroupItem, Media, Fa, Card} from 'mdbreact';
 import Alert from 'react-s-alert';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -281,7 +281,9 @@ class ConnectedPostCreator extends Component{
     return(
       <Grid>
         <Row className="show-grid">
-          <Col xs={12} sm={12} md={12} lg={8} className="formBox" >
+          <Col className="formBox" >
+
+            <Card className="p-3 mt-3">
 
             <form onSubmit={this.handleSubmit} ref="postContent">
               <FormGroup
@@ -354,7 +356,7 @@ class ConnectedPostCreator extends Component{
             <Col sm={6} xs={12} className="buttonCol w-100">
               <Button className="submitButton" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
             </Col>
-
+            </Card>
           </Col>
         </Row>
       </Grid>

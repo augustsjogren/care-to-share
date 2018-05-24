@@ -1,5 +1,6 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
+import {Card} from 'mdbreact';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 
@@ -43,25 +44,27 @@ class ConnectedProfile extends Component {
 
   render(){
     return(
-      <div>
-        <div className="row w-100">
-          <div className="col-8  pt-5 m-auto">
+      <div className="profile">
+        <div className="row w-100 ">
+          <Card className="profileCard mt-3 mx-auto ">
+            {this.props.user &&
             <div className="row">
               <div className="col-3">
                 <img src={this.props.user.profile.picture} className="img-fluid" alt=""></img>
               </div>
 
-              <div className="col-8">
+              <div className="col-8 py-2">
 
                 <p>
-                  <strong>User:</strong>  <br /> {this.props.user.profile.name}
+                  <strong>User:</strong>  {this.props.user.profile.name}
                 </p>
                 <p>
-                  <strong>Email:</strong> <br /> Email
+                  <strong>Email:</strong> Email
                 </p>
                   </div>
                 </div>
-              </div>
+              }
+              </Card>
             </div>
           </div>
         );

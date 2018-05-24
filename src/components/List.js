@@ -39,7 +39,7 @@ class ConnectedList extends React.Component {
     var reversedArray = this.props.posts.slice().reverse();
 
     return(
-      <ul className="list-group list-group-flush">
+      <ul className="list-group list-group-flush pb-3">
           {reversedArray.map(el => (
             <Post title={el.title} artist={el.artist} content={el.text} likes={el.likes}
               imageUrl={el.imageUrl} author={el.author} userID={el.userID} date={el.date} likedBy={el.likedBy}

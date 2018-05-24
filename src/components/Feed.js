@@ -12,7 +12,7 @@ const mapStateToProps = state => {
 class ConnectedFeed extends Component {
   render(){
     return(
-      <div>
+      <div className="feed">
         { this.props.user != '' &&
           <PostCreator />
         }
