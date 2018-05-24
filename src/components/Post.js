@@ -159,6 +159,16 @@ class ConnectedPost extends Component {
               </Button>
             </Col>
           }
+          {!this.props.user &&
+            <Col className="float-right">
+              <Button className="postButton px-3 py-2" onClick={this.commentClick}>
+                <Fa className="fa-2x"  icon="comment-o" />
+              </Button>
+            <Button disabled color={this.setLikeColor()} className="likeButton postButton px-3 py-2 d-inline-flex align-items-center">
+              <Fa className="likeThumb fa-2x"  icon="thumbs-o-up" /> <span className=" pl-1 align-middle likesText ">({this.props.likes}) </span>
+            </Button>
+          </Col>
+        }
           </Row>
         </Col>
       </Row>
@@ -170,6 +180,8 @@ class ConnectedPost extends Component {
               <Comment user={el.user} content={el.content} key={ el['_id'] } />
             ))}
           </ul>
+
+          { this.props.user &&
 
           <Row className="addCommentRow w-100 mx-auto">
             <Col sm={9}>
@@ -192,6 +204,8 @@ class ConnectedPost extends Component {
               </Button>
             </Col>
           </Row>
+
+        }
       </Row>
     }
 
