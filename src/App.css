@@ -93,8 +93,14 @@
   font-weight: lighter !important;
 }
 
-.likeButton{
+.postButton{
   border-radius: 40px !important;
+
+}
+
+.likesText{
+  font-size: 16px;
+  
 }
 
 .submitButton{
