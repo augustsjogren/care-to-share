@@ -123,16 +123,12 @@ class ConnectedPost extends Component {
 
           <Col sm={9} className="align-bottom">
             <Row>
-              <Col sm={11}>
+              <Col sm={9}>
                 <h2>
                   {this.props.title}
                 </h2>
               </Col>
-              { this.getUserID() == this.props.userID &&
-              <Col sm={1}>
-                <Fa className=""  icon="trash-o" onClick={this.deletePost} />
-              </Col>
-            }
+
           </Row>
 
             <h5>
@@ -150,11 +146,16 @@ class ConnectedPost extends Component {
             </Col>
             { this.props.user &&
             <Col className="float-right">
-              <Button className="likeButton" onClick={this.commentClick}>
-                <Fa className=""  icon="comment-o" />
+              { this.getUserID() == this.props.userID &&
+                <Button color="deep-orange" className="removeButton postButton px-3 py-2" onClick={this.deletePost} >
+                  <Fa className="fa-2x"  icon="trash-o"/>
+                </Button>
+              }
+              <Button className="postButton px-3 py-2" onClick={this.commentClick}>
+                <Fa className="fa-2x"  icon="comment-o" />
               </Button>
-              <Button color={this.setLikeColor()} className="likeButton" onClick={this.handleLike}>
-                <Fa className="likeThumb"  icon="thumbs-o-up" /> <span className="align-middle">({this.props.likes}) </span>
+              <Button color={this.setLikeColor()} className="likeButton postButton px-3 py-2 d-inline-flex align-items-center" onClick={this.handleLike}>
+                <Fa className="likeThumb fa-2x"  icon="thumbs-o-up" /> <span className=" pl-1 align-middle likesText ">({this.props.likes}) </span>
               </Button>
             </Col>
           }
@@ -186,7 +187,7 @@ class ConnectedPost extends Component {
             </Col>
 
             <Col sm={3}>
-              <Button color="light-green" className="likeButton" onClick={this.submitComment}>
+              <Button color="light-green" className="postButton" onClick={this.submitComment}>
                 <Fa className="likeThumb" /> Comment
               </Button>
             </Col>
