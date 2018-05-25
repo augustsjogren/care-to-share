@@ -58,24 +58,30 @@ class ConnectedProfile extends Component {
 
   render(){
     return(
-      <div className="profile">
-        <div className="row w-100 ">
+      <div className="profile w-100">
+        <div className="row w-100 m-auto">
           <Card className="profileCard mt-3 mx-auto ">
+
+
             {this.props.user &&
-            <div className="row">
-              <div className="col-3">
-                <img src={this.props.user.profile.picture} className="img-fluid" alt=""></img>
+
+            <div className="">
+              <div className="row py-5 imageBackground w-100 m-auto">
+                <div className="col-10 m-auto d-inline-flex flex-row justify-content-center">
+                  <img src={this.props.user.profile.picture} className="mw-100 z-depth-3" alt=""></img>
+                </div>
               </div>
-
+              <div className="row w-100 m-auto">
               <div className="col-8 py-2">
+                <h1 className="pt-5 pb-3">Profile</h1>
 
-                <p>
-                  <strong>User:</strong>  {this.props.user.profile.name}
-                </p>
-                <p>
-                  <strong onClick={this.changeUserData}>Favourite genre:</strong> {this.props.user.data.favouriteGenre}
-                </p>
+                  <h3>User:</h3>
+                  <p>{this.props.user.profile.name}</p>
+
+                  <h3 onClick={this.changeUserData}>Favourite genre:</h3>
+                  <p>{this.props.user.data.favouriteGenre}</p>
                   </div>
+                </div>
                 </div>
               }
               </Card>

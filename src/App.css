@@ -113,6 +113,10 @@ html{
   max-width: 800px;
 }
 
+.imageBackground{
+  background-color: #f0f0f0;
+}
+
 .postButton{
   border-radius: 40px !important;
 
