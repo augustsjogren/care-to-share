@@ -13,7 +13,7 @@ class ConnectedFeed extends Component {
   render(){
     return(
       <div className="feed">
-        { this.props.user != '' &&
+        { this.props.user.profile &&
           <PostCreator />
         }
         <List />

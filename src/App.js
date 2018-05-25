@@ -7,7 +7,6 @@ import './App.css';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Callback from './components/Callback';
-import axios from 'axios';
 
 import { Navbar, NavbarBrand, NavbarNav,
    NavItem, NavLink, NavbarToggler, Collapse, Container} from 'mdbreact';
@@ -82,34 +81,12 @@ class ConnectedApp extends Component {
           return;
         }
 
-        // TODO: Solve this
-        let userID = profile.sub;
-        userID = userID.split('|')[1];
-
-        var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/user/' : 'https://shareatune.herokuapp.com/api/user/');
-        const urlString = URI + userID;
-
-        let token = localStorage.getItem('access_token');
-
-        // Make API-call to backend, then fetch user metadata
-        axios.post(urlString, {
-          token: token
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
         this.props.setUser({profile});
       });
     }
     else {
       //console.log('Not logged in');
     }
-
-
 
     // If a new token has been found
     if(this.getParameterByName('spotify_access_token')){

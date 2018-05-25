@@ -2,12 +2,12 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var Post = require('./model/posts');
+var User = require('./model/users');
 
 require('dotenv').config({path: './secrets.env'});
 var cors = require('cors');
 
 let request = require('request');
-let axios = require('axios');
 
 //Create instances
 var app = express();
@@ -168,53 +168,40 @@ router.route('/login')
   });
 });
 
+// ----------------End of spotify--------------
 
-// Auth0 user metadata
-// TODO: Make it work
-router.route('/user/:id')
-.post(function (req,res) {
-
-  let url = 'https://augustsjogren.eu.auth0.com/api/v2/users/'+req.params.id;
-
-  var tokenOptions = { method: 'post',
-  url: 'https://augustsjogren.eu.auth0.com/oauth/token',
-  headers: { 'content-type': 'application/json' },
-  body:
-   { grant_type: 'client_credentials',
-     client_id: process.env.A0_CLIENT_ID,
-     client_secret: process.env.A0_CLIENT_SECRET,
-     audience: 'https://api.caretoshare.com' },
-  json: true };
-
-  axios(tokenOptions)
-  .then(function (response) {
-    // console.log('Token: ');
-    // console.log(response);
-  })
-  .catch(function (error) {
-    // console.log(error);
+// Get a user
+router.route('/users/:id')
+.get(function (req,res) {
+  User.findOne({userID : req.params.id},
+  function (err, user) {
+    if (err) return res.status(500).send('There was a problem finding the user.');
+    if (!user) return res.status(404).send('No user found.');
+    res.status(200).send(user);
   });
+});
+// Add a user
+router.route('/users')
+.post(function(req, res) {
 
+  // Is the user already in the database?
+  User.count({userID: req.body.userID}, function (err, count){
+    if(count == 0){
+      var user = new User();
+      user.userID = req.body.userID;
+      user.favouriteGenre = req.body.favouriteGenre;
+      user.userPosts = [];
 
-  var options = {
-    method: 'get',
-    url: url,
-    qs: { fields: 'user_metadata', include_fields: 'true' },
-    headers:
-     { 'content-type': 'application/json',
-       authorization: 'Bearer '+ req.body.token } };
-
-  axios(options)
-  .then(function (response) {
-    console.log(response);
-    res.send(response);
-  })
-  .catch(function (error) {
-    // console.log(error);
+      user.save(function(err) {
+        if (err)
+          res.send(err);
+        res.json({ message: 'User successfully added!' });
+      });
+    }
+    else {
+      res.json({ message: 'User already exists.' });
+    }
   });
-
-  // console.log(res);
-
 });
 
 

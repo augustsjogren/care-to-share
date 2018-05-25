@@ -22,7 +22,11 @@ const rootReducer = (state = initialState, action) => {
     case SET_TOKEN:
       return { ...state, access_token: action.payload};
     case SET_USER:
-      return { ...state, user: action.payload};
+      var user = action.payload;
+      if (user) {
+        user.profile = user.profile.profile;
+      }
+      return { ...state, user: user};
     case TOGGLE_LIKE:
 
       // Find the index of the post in the posts array

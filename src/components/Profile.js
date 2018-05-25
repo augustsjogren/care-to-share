@@ -1,6 +1,7 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 import {Card} from 'mdbreact';
+import axios from 'axios';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 
@@ -59,7 +60,7 @@ class ConnectedProfile extends Component {
                   <strong>User:</strong>  {this.props.user.profile.name}
                 </p>
                 <p>
-                  <strong>Email:</strong> Email
+                  <strong>Favourite genre:</strong> {this.props.user.data.favouriteGenre}
                 </p>
                   </div>
                 </div>

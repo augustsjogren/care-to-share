@@ -33,7 +33,7 @@ class ConnectedPost extends Component {
   }
 
   getUserID = () => {
-    if (this.props.user) {
+    if (this.props.user.profile ) {
       let userID = this.props.user.profile.sub;
       userID = userID.split('|');
       return userID[1];
@@ -144,7 +144,7 @@ class ConnectedPost extends Component {
                 {date}
               </p>
             </Col>
-            { this.props.user &&
+            { this.props.user.profile &&
             <Col className="float-right">
               { this.getUserID() == this.props.userID &&
                 <Button color="deep-orange" className="removeButton postButton px-3 py-2" onClick={this.deletePost} >
@@ -159,7 +159,7 @@ class ConnectedPost extends Component {
               </Button>
             </Col>
           }
-          {!this.props.user &&
+          {!this.props.user.profile &&
             <Col className="float-right">
               <Button className="postButton px-3 py-2" onClick={this.commentClick}>
                 <Fa className="fa-2x"  icon="comment-o" />
@@ -181,7 +181,7 @@ class ConnectedPost extends Component {
             ))}
           </ul>
 
-          { this.props.user &&
+          { this.props.user.profile &&
 
           <Row className="addCommentRow w-100 mx-auto">
             <Col sm={9}>
