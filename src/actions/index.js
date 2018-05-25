@@ -1,4 +1,4 @@
-import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST } from '../constants/action-types';
+import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST, EDIT_USERDATA } from '../constants/action-types';
 
 import axios from 'axios';
 
@@ -197,4 +197,10 @@ export function deletePost(postID) {
     dispatch({type: DELETE_POST, payload: {postID}});
   };
 
+}
+
+export function editUserData(newUserData) {
+  return dispatch => {
+    dispatch({type: EDIT_USERDATA, payload: newUserData});
+  };
 }

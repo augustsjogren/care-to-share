@@ -1,4 +1,6 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST } from '../constants/action-types';
+import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS,
+  POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT,
+  DELETE_POST, EDIT_USERDATA } from '../constants/action-types';
 import update from 'immutability-helper';
 
 const initialState = {
@@ -63,7 +65,12 @@ const rootReducer = (state = initialState, action) => {
         // Filter out the posts not having the ID to remove
         var filteredPosts = state.posts.filter((item) => item._id !== action.payload.postID);
         return{...state, posts:[...filteredPosts ]};
-
+    case EDIT_USERDATA:
+    return update(state, {
+      user: {
+        data: {$set: action.payload.data}
+      }
+    });
 
     default:
       return state;

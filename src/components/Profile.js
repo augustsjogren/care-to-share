@@ -1,7 +1,7 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 import {Card} from 'mdbreact';
-import axios from 'axios';
+import { editUserData } from '../actions/index';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 
@@ -11,6 +11,12 @@ const mapStateToProps = state => {
   return {
     token: state.access_token.token,
     user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    editUserData: (userData) => dispatch(editUserData(userData))
   };
 };
 
@@ -43,6 +49,13 @@ class ConnectedProfile extends Component {
     }
   }
 
+  changeUserData = () => {
+    let data = this.props.user.data;
+    data.favouriteGenre = 'Metal';
+    this.props.editUserData({data});
+    this.forceUpdate();
+  }
+
   render(){
     return(
       <div className="profile">
@@ -60,7 +73,7 @@ class ConnectedProfile extends Component {
                   <strong>User:</strong>  {this.props.user.profile.name}
                 </p>
                 <p>
-                  <strong>Favourite genre:</strong> {this.props.user.data.favouriteGenre}
+                  <strong onClick={this.changeUserData}>Favourite genre:</strong> {this.props.user.data.favouriteGenre}
                 </p>
                   </div>
                 </div>
@@ -72,5 +85,5 @@ class ConnectedProfile extends Component {
       }
     }
 
-    const Profile = connect(mapStateToProps, null)(ConnectedProfile);
+    const Profile = connect(mapStateToProps, mapDispatchToProps)(ConnectedProfile);
     export default Profile;
