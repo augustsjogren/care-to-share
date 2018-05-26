@@ -121,7 +121,7 @@ class ConnectedPost extends Component {
             <img className="feed-img" src={this.props.imageUrl} alt="" />
           </Col>
 
-          <Col sm={9} className="align-bottom pr-1 ">
+          <Col sm={9} className="align-bottom pr-1 pt-2 ">
             <Row className="w-100">
               <Col sm={9}>
                 <h2>

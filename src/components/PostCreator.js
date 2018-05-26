@@ -315,8 +315,8 @@ class ConnectedPostCreator extends Component{
                   {this.showSelectedItem()}
                 </Col>
                 <Col sm={2}>
-                  <Button color="deep-orange" className="likeButton" onClick={this.handleTrash}>
-                    <Fa className="likeThumb"  icon="trash-o" />
+                  <Button color="deep-orange" className="postButton" onClick={this.handleTrash}>
+                    <Fa className=""  icon="trash-o" />
                   </Button>
                 </Col>
               </Row>

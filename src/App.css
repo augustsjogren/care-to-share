@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
 
 html{
   min-height: 100vh;
@@ -6,7 +7,7 @@ html{
 }
 
 .App {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .App-title {
@@ -102,6 +103,8 @@ html{
 .card{
   margin-top: 20px;
   font-weight: lighter !important;
+  border-radius: 0.50rem !important;
+  overflow: hidden;
 }
 
 .profile{
@@ -115,6 +118,25 @@ html{
 
 .imageBackground{
   background-color: #f0f0f0;
+  max-height: 400px;
+  background: #4285f4; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #4285f4 0%, #9fc2cc 70%, #9fc2cc 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #4285f4 0%,#9fc2cc 70%,#9fc2cc 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #4285f4 0%,#9fc2cc 70%,#9fc2cc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4285f4', endColorstr='#9fc2cc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.profilePicture{
+  display: block;
+  max-height: 200px;
+  max-width: 200px;
+  width: auto;
+  height: auto;
+  margin: auto;
+}
+
+.profileName h3{
+  color: white;
 }
 
 .postButton{
