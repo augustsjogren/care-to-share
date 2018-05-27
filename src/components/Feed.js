@@ -12,8 +12,8 @@ const mapStateToProps = state => {
 class ConnectedFeed extends Component {
   render(){
     return(
-      <div>
-        { this.props.user != '' &&
+      <div className="feed w-100">
+        { this.props.user.profile &&
           <PostCreator />
         }
         <List />

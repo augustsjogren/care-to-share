@@ -1,12 +1,61 @@
-import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST } from '../constants/action-types';
+import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST, EDIT_USERDATA } from '../constants/action-types';
 
 import axios from 'axios';
 
 var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts/' : 'https://shareatune.herokuapp.com/api/posts');
 
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
-export const setUser = user => ({ type: SET_USER, payload: user });
 
+export function setUser(profile){
+
+  if (profile != '') {
+    let userID = profile.profile.sub;
+    userID = userID.split('|')[1];
+    let urlString = 'http://localhost:3100/api/users/';
+
+    return dispatch =>{
+      // Add a user if the user doesn't exist
+      let data;
+      urlString = 'http://localhost:3100/api/users/' + userID;
+
+      // Get the user data from DB
+      axios.get(urlString)
+      .then(function (res) {
+        data = res.data;
+        // Set the user in redux
+        dispatch({type: SET_USER, payload: {profile, data }});
+      })
+      .catch(function (error) { // eslint-disable-line
+        // console.log(error);
+        // No user found, create one.
+        urlString = 'http://localhost:3100/api/users/';
+        axios.post(urlString, {
+          userID: userID,
+          favouriteGenre: 'Unspecified',
+          userPosts: []
+        })
+        .then(function (response) { // eslint-disable-line
+          data = {
+            userID: userID,
+            favouriteGenre: 'Unspecified',
+            userPosts: []
+          };
+          dispatch({type: SET_USER, payload: {profile, data }});
+        })
+        .catch(function (error) { // eslint-disable-line
+          // console.log(error);
+          // Couldn't create user
+        });
+
+      });
+    };
+  }
+  else {
+    return dispatch => {
+      dispatch({type: SET_USER, payload: {profile } });
+    };
+  }
+}
 
 export function toggleLike (postID, userID, likes, likedBy){
   // Add or remove like from a specific post
@@ -148,4 +197,27 @@ export function deletePost(postID) {
     dispatch({type: DELETE_POST, payload: {postID}});
   };
 
+}
+
+export function editUserData(newUserData) {
+
+  let data = newUserData.data;
+  var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/users/' : 'https://shareatune.herokuapp.com/api/users');
+  const urlString = URI + data.userID;
+
+  axios.put(urlString, {
+    userID: data.userID,
+    change: {
+      data: data
+    }
+  })
+  .then()
+  .catch(function (error) { // eslint-disable-line
+    // console.log(error);
+    // Couldn't create user
+  });
+
+  return dispatch => {
+    dispatch({type: EDIT_USERDATA, payload: newUserData});
+  };
 }

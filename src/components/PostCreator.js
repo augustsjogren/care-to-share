@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 import { addPost } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup, ListGroupItem, Media, Fa} from 'mdbreact';
+import { Button, ListGroup, ListGroupItem, Media, Fa, Card} from 'mdbreact';
 import Alert from 'react-s-alert';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -281,7 +281,9 @@ class ConnectedPostCreator extends Component{
     return(
       <Grid>
         <Row className="show-grid">
-          <Col xs={12} sm={12} md={8} lg={8} className="formBox" >
+          <Col className="formBox" >
+
+            <Card className="p-3 mt-3">
 
             <form onSubmit={this.handleSubmit} ref="postContent">
               <FormGroup
@@ -297,7 +299,7 @@ class ConnectedPostCreator extends Component{
               </FormGroup>
             </form>
 
-            <form onSubmit={this.handleSearch} ref="searchContent">
+            <form onSubmit={this.handleSearch} className="searchForm" ref="searchContent">
               <Row>
                 <Col md={12} >
                   <FormControl
@@ -308,13 +310,13 @@ class ConnectedPostCreator extends Component{
                 </Col>
 
               </Row>
-              <Row style={trackStyle} className="pt-2">
+              <Row style={trackStyle} className="pt-2 selectedTrackRow">
                 <Col sm={10}>
                   {this.showSelectedItem()}
                 </Col>
                 <Col sm={2}>
-                  <Button color="deep-orange" className="likeButton" onClick={this.handleTrash}>
-                    <Fa className="likeThumb"  icon="trash-o" />
+                  <Button  color="deep-orange" className="postButton removeButton py-2 px-4 trashButton m-auto" onClick={this.handleTrash}>
+                    <Fa className=" fa-2x"  icon="trash-o" />
                   </Button>
                 </Col>
               </Row>
@@ -354,7 +356,7 @@ class ConnectedPostCreator extends Component{
             <Col sm={6} xs={12} className="buttonCol w-100">
               <Button className="submitButton" onClick={this.handleSubmit} color="primary" type="submit" block> Submit </Button>
             </Col>
-
+            </Card>
           </Col>
         </Row>
       </Grid>

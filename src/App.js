@@ -9,7 +9,7 @@ import Profile from './components/Profile';
 import Callback from './components/Callback';
 
 import { Navbar, NavbarBrand, NavbarNav,
-   NavItem, NavLink} from 'mdbreact';
+   NavItem, NavLink, NavbarToggler, Collapse, Container} from 'mdbreact';
 
 import Auth from './Authentication/Auth.js';
 import history from './history.js';
@@ -39,6 +39,14 @@ const auth = new Auth();
 
 
 class ConnectedApp extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+        collapse: false,
+        isWideEnough: false,
+    };
+  }
 
   goTo(route) {
     this.props.history.replace(`/${route}`);
@@ -72,6 +80,7 @@ class ConnectedApp extends Component {
           // console.log('Error loading the Profile', err);
           return;
         }
+
         this.props.setUser({profile});
       });
     }
@@ -97,36 +106,49 @@ class ConnectedApp extends Component {
     localStorage.setItem('spotify_token_expires', (new Date()).getTime() + expires_in);
   }
 
+  onNavMenuClick = () => {
+      this.setState({
+          collapse: !this.state.collapse,
+      });
+  }
 
   render() {
 
     return (
       <Router history={history}>
       <div className="App">
-      <Navbar color="blue" dark expand="md" static="true">
-                 <NavbarBrand href="/">
-                     <strong>Care To Share</strong>
-                 </NavbarBrand>
-                 <NavbarNav className="ml-auto" right>
-                   { auth.isAuthenticated() &&
-                     <NavItem >
-                       <NavLink className="nav-link" to="/profile">Profile</NavLink>
-                     </NavItem>
-                   }
+        <Navbar color="blue" dark expand="md" static="true" sticky="top">
+          <Container className="py-0">
+            <NavbarBrand href="/">
+              <strong>Care To Share</strong>
+            </NavbarBrand>
+            { !this.state.isWideEnough && <NavbarToggler onClick = { this.onNavMenuClick } />}
+            <Collapse isOpen = { this.state.collapse } navbar>
+              <NavbarNav className="ml-auto" right>
+                <NavItem >
+                  <NavLink className="nav-link" to="/">Home</NavLink>
+                </NavItem>
+                { auth.isAuthenticated() &&
+                  <NavItem >
+                    <NavLink className="nav-link" to="/profile">Profile</NavLink>
+                  </NavItem>
+                }
+                { !auth.isAuthenticated() && (
+                  <NavItem >
+                    <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
+                  </NavItem>
+                )}
+                { auth.isAuthenticated() && (
+                  <NavItem >
+                    <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
+                  </NavItem>
+                )}
 
-                   { !auth.isAuthenticated() && (
-                       <NavItem >
-                         <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
-                       </NavItem>
-                     )}
-                   { auth.isAuthenticated() && (
-                       <NavItem >
-                         <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
-                       </NavItem>
-                     )}
+              </NavbarNav>
+            </Collapse>
+          </Container>
+        </Navbar>
 
-                 </NavbarNav>
-             </Navbar>
 
              <Alert stack={{limit: 3}} />
 

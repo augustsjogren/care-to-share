@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var Post = require('./model/posts');
+var User = require('./model/users');
 
 require('dotenv').config({path: './secrets.env'});
 var cors = require('cors');
@@ -86,7 +87,7 @@ router.route('/posts')
       req.body.id,
       req.body.change,
       {new: true},
-      
+
       (err, todo) => {
         // Handle possible database errors
         if (err) return res.status(500).send(err);
@@ -109,7 +110,6 @@ router.route('/posts')
     });
 });
 router.put('/posts/:id', function (req, res) {
-
     Post.findByIdAndUpdate(
       req.params.id,
       req.body.change,
@@ -166,6 +166,56 @@ router.route('/login')
     res.redirect(uri + '?spotify_access_token=' + access_token);
   });
 });
+
+// ----------------End of spotify--------------
+
+// Get a user
+router.route('/users/:id')
+.get(function (req,res) {
+  User.findOne({userID : req.params.id},
+  function (err, user) {
+    if (err) return res.status(500).send('There was a problem finding the user.');
+    if (!user) return res.status(404).send('No user found.');
+    res.status(200).send(user);
+  });
+});
+// Add a user
+router.route('/users')
+.post(function(req, res) {
+
+  // Is the user already in the database?
+  User.count({userID: req.body.userID}, function (err, count){
+    if(count == 0){
+      var user = new User();
+      user.userID = req.body.userID;
+      user.favouriteGenre = req.body.favouriteGenre;
+      user.userPosts = [];
+
+      user.save(function(err) {
+        if (err)
+          res.send(err);
+        res.json({ message: 'User successfully added!' });
+      });
+    }
+    else {
+      res.json({ message: 'User already exists.' });
+    }
+  });
+});
+router.put('/users/:id', function (req, res) {
+// CAUTION: The mongoose model for a user is not the same as the redux counterpart,
+// this is just data without personal information. The "secret" data is handled by auth0
+    User.findOneAndUpdate(
+      {userID : req.params.id},
+      req.body.change.data,
+      {new: true},
+      function (err, user) {
+        if (err) return res.status(500).send('There was a problem updating the user.');
+        res.status(200).send(user);
+    });
+});
+
+
 
 //-------------------------------------
 
