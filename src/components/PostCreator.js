@@ -299,7 +299,7 @@ class ConnectedPostCreator extends Component{
               </FormGroup>
             </form>
 
-            <form onSubmit={this.handleSearch} ref="searchContent">
+            <form onSubmit={this.handleSearch} className="searchForm" ref="searchContent">
               <Row>
                 <Col md={12} >
                   <FormControl
@@ -310,13 +310,13 @@ class ConnectedPostCreator extends Component{
                 </Col>
 
               </Row>
-              <Row style={trackStyle} className="pt-2">
+              <Row style={trackStyle} className="pt-2 selectedTrackRow">
                 <Col sm={10}>
                   {this.showSelectedItem()}
                 </Col>
                 <Col sm={2}>
-                  <Button color="deep-orange" className="postButton" onClick={this.handleTrash}>
-                    <Fa className=""  icon="trash-o" />
+                  <Button  color="deep-orange" className="postButton removeButton py-2 px-4 trashButton m-auto" onClick={this.handleTrash}>
+                    <Fa className=" fa-2x"  icon="trash-o" />
                   </Button>
                 </Col>
               </Row>

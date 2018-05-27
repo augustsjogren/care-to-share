@@ -147,11 +147,11 @@ class ConnectedPost extends Component {
             { this.props.user.profile &&
             <Col className="float-right">
               { this.getUserID() == this.props.userID &&
-                <Button color="deep-orange" className="removeButton postButton px-3 py-2" onClick={this.deletePost} >
+                <Button color="deep-orange" className="removeButton postButton px-4 py-2" onClick={this.deletePost} >
                   <Fa className="fa-2x"  icon="trash-o"/>
                 </Button>
               }
-              <Button className="postButton px-3 py-2" onClick={this.commentClick}>
+              <Button color="info" className="postButton px-4 py-2" onClick={this.commentClick}>
                 <Fa className="fa-2x"  icon="comment-o" />
               </Button>
               <Button color={this.setLikeColor()} className="likeButton postButton px-3 py-2 d-inline-flex align-items-center" onClick={this.handleLike}>
@@ -161,7 +161,7 @@ class ConnectedPost extends Component {
           }
           {!this.props.user.profile &&
             <Col className="float-right">
-              <Button className="postButton px-3 py-2" onClick={this.commentClick}>
+              <Button color="info" className="postButton px-4 py-2" onClick={this.commentClick}>
                 <Fa className="fa-2x"  icon="comment-o" />
               </Button>
             <Button disabled color={this.setLikeColor()} className="likeButton postButton px-3 py-2 d-inline-flex align-items-center">
@@ -175,7 +175,7 @@ class ConnectedPost extends Component {
 
       {this.state.displayComments &&
       <Row className="commentRow pt-2">
-        <ul className="comment-list mb-3 ">
+        <ul className="comment-list mb-3 mt-2">
             {comments.map(el => (
               <Comment user={el.user} content={el.content} key={ el['_id'] } />
             ))}

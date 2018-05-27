@@ -107,7 +107,7 @@ class ConnectedProfile extends Component {
                   <ProfileField field="Number of posts" id="numPosts" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="13" />
                   <ProfileField field="Most popular post" id="popularPost" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="A post" />
                 </div>
-                <div className="col-5 py-2 m-auto">
+                <div className="col-8 col-md-5 py-2 m-auto">
                   <Button className="editProfileButton postButton" onClick={this.handleEditing} color="primary" block> {editButtonText} </Button>
                 </div>
               </div>
