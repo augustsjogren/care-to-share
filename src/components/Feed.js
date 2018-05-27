@@ -12,7 +12,7 @@ const mapStateToProps = state => {
 class ConnectedFeed extends Component {
   render(){
     return(
-      <div className="feed">
+      <div className="feed w-100">
         { this.props.user.profile &&
           <PostCreator />
         }

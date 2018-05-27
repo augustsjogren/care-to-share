@@ -200,6 +200,23 @@ export function deletePost(postID) {
 }
 
 export function editUserData(newUserData) {
+
+  let data = newUserData.data;
+  var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/users/' : 'https://shareatune.herokuapp.com/api/users');
+  const urlString = URI + data.userID;
+
+  axios.put(urlString, {
+    userID: data.userID,
+    change: {
+      data: data
+    }
+  })
+  .then()
+  .catch(function (error) { // eslint-disable-line
+    // console.log(error);
+    // Couldn't create user
+  });
+
   return dispatch => {
     dispatch({type: EDIT_USERDATA, payload: newUserData});
   };

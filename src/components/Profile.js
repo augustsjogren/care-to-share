@@ -1,8 +1,8 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
-import {Card} from 'mdbreact';
+import {Card, Button} from 'mdbreact';
 import { editUserData } from '../actions/index';
-
+import ProfileField from './ProfileField';
 import SpotifyWebApi from 'spotify-web-api-js';
 
 var spotifyApi = new SpotifyWebApi();
@@ -24,7 +24,9 @@ class ConnectedProfile extends Component {
   constructor(){
     super();
     this.state = {
-      profile: ''
+      profile: '',
+      isEditing: false,
+      editedGenre: '',
     };
   }
 
@@ -49,22 +51,44 @@ class ConnectedProfile extends Component {
     }
   }
 
-  changeUserData = () => {
-    let data = this.props.user.data;
-    data.favouriteGenre = 'Metal';
+  changeUserData = (data) => {
     this.props.editUserData({data});
     this.forceUpdate();
   }
 
+  handleEditing = () => {
+
+    if (this.state.isEditing) {
+      // Save the changes and dispatch
+      let data = this.props.user.data;
+      data.favouriteGenre = this.state.favouriteGenre;
+      this.props.editUserData({data});
+
+    }
+    else {
+      // Enter edit mode
+
+    }
+
+    this.setState({isEditing: !this.state.isEditing});
+  }
+
+  // Callback from child functions to update state
+  handleFormChange = (formID, event) => {
+    let stateObj = {};
+    stateObj[formID] = event.target.value;
+    this.setState(stateObj);
+  }
+
   render(){
+
+    const editButtonText = (this.state.isEditing ? 'Save' : 'Edit Profile');
+
     return(
       <div className="profile w-100">
         <div className="row w-100 m-auto">
           <Card className="profileCard mt-3 mx-auto ">
-
-
             {this.props.user &&
-
             <div className="">
               <div className="row pt-5 imageBackground w-100 m-auto">
                 <div className="col-10 m-auto">
@@ -76,16 +100,16 @@ class ConnectedProfile extends Component {
               </div>
 
               <div className="row p-3 w-100 m-auto">
-              <div className="col-8 py-2">
-                <h3 onClick={this.changeUserData}>Favourite genre:</h3>
-                <p>{this.props.user.data.favouriteGenre}</p>
-                <h3 onClick={this.changeUserData}>Favourite genre:</h3>
-                <p>{this.props.user.data.favouriteGenre}</p>
-                <h3 onClick={this.changeUserData}>Favourite genre:</h3>
-                <p>{this.props.user.data.favouriteGenre}</p>
+                <div className="col-8 py-2">
+                  <ProfileField field="Favourite genre" id="favouriteGenre" isEditable={true} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.favouriteGenre} />
+                  <ProfileField field="Number of posts" id="numPosts" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="13" />
+                  <ProfileField field="Most popular post" id="popularPost" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="A post" />
+                </div>
+                <div className="col-5 py-2 m-auto">
+                  <Button className="editProfileButton postButton" onClick={this.handleEditing} color="primary" block> {editButtonText} </Button>
+                </div>
               </div>
-                </div>
-                </div>
+            </div>
               }
               </Card>
             </div>

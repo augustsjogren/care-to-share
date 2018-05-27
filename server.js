@@ -110,7 +110,6 @@ router.route('/posts')
     });
 });
 router.put('/posts/:id', function (req, res) {
-
     Post.findByIdAndUpdate(
       req.params.id,
       req.body.change,
@@ -202,6 +201,18 @@ router.route('/users')
       res.json({ message: 'User already exists.' });
     }
   });
+});
+router.put('/users/:id', function (req, res) {
+// CAUTION: The mongoose model for a user is not the same as the redux counterpart,
+// this is just data without personal information. The "secret" data is handled by auth0
+    User.findOneAndUpdate(
+      {userID : req.params.id},
+      req.body.change.data,
+      {new: true},
+      function (err, user) {
+        if (err) return res.status(500).send('There was a problem updating the user.');
+        res.status(200).send(user);
+    });
 });
 
 
