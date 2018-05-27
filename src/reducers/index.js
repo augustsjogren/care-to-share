@@ -1,6 +1,6 @@
 import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS,
   POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT,
-  DELETE_POST, EDIT_USERDATA } from '../constants/action-types';
+  DELETE_POST, EDIT_USERDATA, ADD_USER_POST } from '../constants/action-types';
 import update from 'immutability-helper';
 
 const initialState = {

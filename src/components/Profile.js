@@ -27,6 +27,7 @@ class ConnectedProfile extends Component {
       profile: '',
       isEditing: false,
       editedGenre: '',
+      dataHasChanged: false
     };
   }
 
@@ -57,17 +58,17 @@ class ConnectedProfile extends Component {
   }
 
   handleEditing = () => {
-
     if (this.state.isEditing) {
       // Save the changes and dispatch
-      let data = this.props.user.data;
-      data.favouriteGenre = this.state.favouriteGenre;
-      this.props.editUserData({data});
-
+      if(this.state.dataHasChanged){
+        let data = this.props.user.data;
+        data.favouriteGenre = this.state.favouriteGenre;
+        this.props.editUserData({data});
+        this.setState({dataHasChanged: false});
+      }
     }
     else {
       // Enter edit mode
-
     }
 
     this.setState({isEditing: !this.state.isEditing});
@@ -75,6 +76,7 @@ class ConnectedProfile extends Component {
 
   // Callback from child functions to update state
   handleFormChange = (formID, event) => {
+    this.setState({dataHasChanged: true});
     let stateObj = {};
     stateObj[formID] = event.target.value;
     this.setState(stateObj);

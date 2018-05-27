@@ -9,3 +9,4 @@ export const SET_USER = 'SET_USER';
 export const TOGGLE_LIKE = 'TOGGLE_LIKE';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_USERDATA = 'EDIT_USERDATA';
+export const ADD_USER_POST = 'ADD_USER_POST';

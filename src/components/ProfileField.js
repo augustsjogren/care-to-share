@@ -2,7 +2,19 @@ import React from 'react';
 
 export default class ProfileField extends React.Component{
 
+  constructor(){
+    super();
+    this.state = {
+      fieldValue: ''
+    };
+  }
+
+  componentDidMount(){
+    this.setState({fieldValue: this.props.content});
+  }
+
   handleChange = (event) => {
+    this.setState({fieldValue: event.target.value});
     this.props.handleFormChange(this.props.id, event);
   }
 
@@ -11,7 +23,7 @@ export default class ProfileField extends React.Component{
       return (
         <div className="py-2">
           <h3>{this.props.field}</h3>
-          <input className="form-control" onChange={(event) => this.handleChange(event) } type="text" placeholder={this.props.content} />
+          <input className="form-control" onChange={(event) => this.handleChange(event)} type="text" value={this.state.fieldValue} />
         </div>
       );
     } else {
