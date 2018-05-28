@@ -2,7 +2,7 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
-import { addPost } from '../actions/index';
+import { addPost, editUserData } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, ListGroupItem, Media, Fa, Card} from 'mdbreact';
 import Alert from 'react-s-alert';
@@ -12,7 +12,8 @@ var spotifyApi = new SpotifyWebApi();
 
 const mapDispatchToProps = dispatch => {
   return {
-    addPost: (url, post) => dispatch(addPost(url, post))
+    addPost: (url, post) => dispatch(addPost(url, post)),
+    editUserData: (userData) => dispatch(editUserData(userData))
   };
 };
 
@@ -70,10 +71,16 @@ class ConnectedPostCreator extends Component{
               offset: 60
           });
     } else {
-      const data = this.state.data;
+      let data = this.state.data;
       const url = URI;
 
       this.props.addPost({url , data});
+
+      let post = this.state.data;
+      data = this.props.user.data;
+      data.userPosts.push(post);
+      this.props.editUserData({data});
+
       this.setState({ postContent: '' });
 
       this.setState({
