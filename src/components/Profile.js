@@ -53,6 +53,14 @@ class ConnectedProfile extends Component {
     }
   }
 
+  getUsername = () => {
+    if (this.props.user.profile.sub.includes('google')) {
+      return this.props.user.profile.name;
+    } else {
+      return this.props.user.profile.nickname;
+    }
+  }
+
   changeUserData = (data) => {
     this.props.editUserData({data});
     this.forceUpdate();
@@ -95,7 +103,7 @@ class ConnectedProfile extends Component {
                   <img src={this.props.user.profile.picture} className="profilePicture z-depth-3" alt=""></img>
                 </div>
                 <div className="row py-4 profileName m-auto">
-                  <h3>{this.props.user.profile.name}</h3>
+                  <h3>{this.getUsername()}</h3>
                 </div>
               </div>
 

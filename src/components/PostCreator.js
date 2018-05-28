@@ -109,6 +109,14 @@ class ConnectedPostCreator extends Component{
     return userID[1];
   }
 
+  getUsername = () => {
+    if (this.props.user.profile.sub.includes('google')) {
+      return this.props.user.profile.name;
+    } else {
+      return this.props.user.profile.nickname;
+    }
+  }
+
   handleChange(event) {
 
     try {
@@ -118,7 +126,7 @@ class ConnectedPostCreator extends Component{
 
       this.setState({
         data:{
-          author: this.props.user.profile.name,
+          author: this.getUsername(),
           userID: this.getUserID(),
           text: event.target.value,
           _id: id,
@@ -212,7 +220,7 @@ class ConnectedPostCreator extends Component{
       selectedItem: content,
       selectedTrackShowing: 'flex',
       data:{
-        author: this.props.user.profile.name,
+        author: this.getUsername(),
         userID: this.getUserID,
         _id: id,
         text: this.state.textInput,
