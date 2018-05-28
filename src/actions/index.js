@@ -2,7 +2,7 @@ import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMM
 
 import axios from 'axios';
 
-var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts/' : 'https://shareatune.herokuapp.com/api/posts');
+var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/' : 'https://shareatune.herokuapp.com/api/');
 
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 
@@ -11,12 +11,12 @@ export function setUser(profile){
   if (profile != '') {
     let userID = profile.profile.sub;
     userID = userID.split('|')[1];
-    let urlString = 'http://localhost:3100/api/users/';
+    let urlString = URI+'users/';
 
     return dispatch =>{
       // Add a user if the user doesn't exist
       let data;
-      urlString = 'http://localhost:3100/api/users/' + userID;
+      urlString = urlString + userID;
 
       // Get the user data from DB
       axios.get(urlString)
@@ -28,7 +28,7 @@ export function setUser(profile){
       .catch(function (error) { // eslint-disable-line
         // console.log(error);
         // No user found, create one.
-        urlString = 'http://localhost:3100/api/users/';
+        urlString = URI + 'users/';
         axios.post(urlString, {
           userID: userID,
           favouriteGenre: 'Unspecified',
@@ -60,7 +60,7 @@ export function setUser(profile){
 export function toggleLike (postID, userID, likes, likedBy){
   // Add or remove like from a specific post
 
-  const urlString = URI + postID;
+  const urlString = URI + 'posts/' + postID;
   let hasLiked = false;
   let newLikes;
 
@@ -109,7 +109,7 @@ export function toggleLike (postID, userID, likes, likedBy){
 
 export function addComment(postID, comment, userID, comments){
 
-  const urlString = URI + postID;
+  const urlString = URI + 'posts/' + postID;
 
   try {
     comments.push(comment);
@@ -190,7 +190,7 @@ export function addPost(post){
 }
 
 export function deletePost(postID) {
-  const urlString = URI + postID;
+  const urlString = URI + 'posts/' + postID;
 
   axios.delete(urlString, {
     postID: postID
@@ -205,8 +205,7 @@ export function deletePost(postID) {
 export function editUserData(newUserData) {
 
   let data = newUserData.data;
-  var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/users/' : 'https://shareatune.herokuapp.com/api/users');
-  const urlString = URI + data.userID;
+  const urlString = URI +'users/' + data.userID;
 
   axios.put(urlString, {
     userID: data.userID,

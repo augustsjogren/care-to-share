@@ -26,7 +26,6 @@ const mapStateToProps = state => {
 
 var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
-
 class ConnectedPostCreator extends Component{
   constructor(){
     super();
@@ -76,9 +75,8 @@ class ConnectedPostCreator extends Component{
 
       this.props.addPost({url , data});
 
-      let post = this.state.data;
       data = this.props.user.data;
-      data.userPosts.push(post);
+      data.userPosts++;
       this.props.editUserData({data});
 
       this.setState({ postContent: '' });

@@ -42,16 +42,13 @@ class ConnectedPost extends Component {
     else {
       return -1;
     }
-
   }
 
   handleLike = () => {
-
     const ID = this.props.id;
     const index = this.props.posts.findIndex(function(post){
       return post._id === ID;
     });
-
     this.props.toggleLike(this.props.id, this.getUserID(), this.props.likes, this.props.posts[index].likedBy);
   }
 
@@ -64,7 +61,6 @@ class ConnectedPost extends Component {
   }
 
   submitComment = () => {
-
     if (this.state.pendingComment == '') {
       Alert.warning('Please enter a valid comment', {
               position: 'top-right',
@@ -94,12 +90,11 @@ class ConnectedPost extends Component {
   }
 
   deletePost = () => {
-    // console.log('delete');
     const postID = this.props.id;
     this.props.deletePost(postID);
-    // let data = this.props.user.data;
-    // data.userPosts--;
-    // this.props.editUserData({data});
+    let data = this.props.user.data;
+    data.userPosts--;
+    this.props.editUserData({data});
   }
 
   setLikeColor = () => {
@@ -113,7 +108,6 @@ class ConnectedPost extends Component {
   render(){
 
     const date = new Date(this.props.date).toLocaleString('sv');
-
     const {text} = this.state.pendingComment;
     const comments = this.props.comments;
 
@@ -132,7 +126,6 @@ class ConnectedPost extends Component {
                   {this.props.title}
                 </h2>
               </Col>
-
           </Row>
 
             <h5>

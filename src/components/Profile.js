@@ -31,7 +31,8 @@ class ConnectedProfile extends Component {
     };
   }
 
-  getAccessToken(){
+  // Fetch token from local storage
+  getSpotifyAccessToken(){
     var expires = localStorage.getItem('spotify_token_expires', '0');
     if ((new Date()).getTime() > expires) {
       return '';
@@ -42,7 +43,7 @@ class ConnectedProfile extends Component {
 
   componentDidMount(){
 
-    let token = this.getAccessToken();
+    let token = this.getSpotifyAccessToken();
 
     if (token != '') {
       spotifyApi.setAccessToken(token);
@@ -70,11 +71,10 @@ class ConnectedProfile extends Component {
     else {
       // Enter edit mode
     }
-
     this.setState({isEditing: !this.state.isEditing});
   }
 
-  // Callback from child functions to update state
+  // Callback from child components to update state
   handleFormChange = (formID, event) => {
     this.setState({dataHasChanged: true});
     let stateObj = {};
@@ -83,9 +83,7 @@ class ConnectedProfile extends Component {
   }
 
   render(){
-
     const editButtonText = (this.state.isEditing ? 'Save' : 'Edit Profile');
-
     return(
       <div className="profile w-100">
         <div className="row w-100 m-auto">

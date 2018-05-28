@@ -10,7 +10,6 @@ export default class Auth {
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
-
     this.getProfile = this.getProfile.bind(this);
   }
 

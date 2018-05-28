@@ -8,14 +8,13 @@ const mapStateToProps = state => {
   return { posts: state.posts };
 };
 
-// Fetch posts from the DB and send to store
 const mapDispatchToProps = dispatch => {
   return {
     fetchPosts: url => dispatch(fetchPosts(url))
   };
 };
 
-var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
+var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
 class ConnectedList extends React.Component {
   constructor() {
