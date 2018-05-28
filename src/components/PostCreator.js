@@ -26,7 +26,6 @@ const mapStateToProps = state => {
 
 var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
-
 class ConnectedPostCreator extends Component{
   constructor(){
     super();
@@ -76,9 +75,8 @@ class ConnectedPostCreator extends Component{
 
       this.props.addPost({url , data});
 
-      let post = this.state.data;
       data = this.props.user.data;
-      data.userPosts.push(post);
+      data.userPosts++;
       this.props.editUserData({data});
 
       this.setState({ postContent: '' });
@@ -111,6 +109,14 @@ class ConnectedPostCreator extends Component{
     return userID[1];
   }
 
+  getUsername = () => {
+    if (this.props.user.profile.sub.includes('google')) {
+      return this.props.user.profile.name;
+    } else {
+      return this.props.user.profile.nickname;
+    }
+  }
+
   handleChange(event) {
 
     try {
@@ -120,7 +126,7 @@ class ConnectedPostCreator extends Component{
 
       this.setState({
         data:{
-          author: this.props.user.profile.name,
+          author: this.getUsername(),
           userID: this.getUserID(),
           text: event.target.value,
           _id: id,
@@ -214,7 +220,7 @@ class ConnectedPostCreator extends Component{
       selectedItem: content,
       selectedTrackShowing: 'flex',
       data:{
-        author: this.props.user.profile.name,
+        author: this.getUsername(),
         userID: this.getUserID,
         _id: id,
         text: this.state.textInput,

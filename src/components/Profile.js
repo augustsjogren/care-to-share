@@ -31,7 +31,8 @@ class ConnectedProfile extends Component {
     };
   }
 
-  getAccessToken(){
+  // Fetch token from local storage
+  getSpotifyAccessToken(){
     var expires = localStorage.getItem('spotify_token_expires', '0');
     if ((new Date()).getTime() > expires) {
       return '';
@@ -42,13 +43,21 @@ class ConnectedProfile extends Component {
 
   componentDidMount(){
 
-    let token = this.getAccessToken();
+    let token = this.getSpotifyAccessToken();
 
     if (token != '') {
       spotifyApi.setAccessToken(token);
     }
     else {
       // console.log('Please refresh access token.');
+    }
+  }
+
+  getUsername = () => {
+    if (this.props.user.profile.sub.includes('google')) {
+      return this.props.user.profile.name;
+    } else {
+      return this.props.user.profile.nickname;
     }
   }
 
@@ -70,11 +79,10 @@ class ConnectedProfile extends Component {
     else {
       // Enter edit mode
     }
-
     this.setState({isEditing: !this.state.isEditing});
   }
 
-  // Callback from child functions to update state
+  // Callback from child components to update state
   handleFormChange = (formID, event) => {
     this.setState({dataHasChanged: true});
     let stateObj = {};
@@ -83,9 +91,7 @@ class ConnectedProfile extends Component {
   }
 
   render(){
-
     const editButtonText = (this.state.isEditing ? 'Save' : 'Edit Profile');
-
     return(
       <div className="profile w-100">
         <div className="row w-100 m-auto">
@@ -97,7 +103,7 @@ class ConnectedProfile extends Component {
                   <img src={this.props.user.profile.picture} className="profilePicture z-depth-3" alt=""></img>
                 </div>
                 <div className="row py-4 profileName m-auto">
-                  <h3>{this.props.user.profile.name}</h3>
+                  <h3>{this.getUsername()}</h3>
                 </div>
               </div>
 

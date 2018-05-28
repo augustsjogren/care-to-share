@@ -37,7 +37,6 @@ const auth = new Auth();
    }
  };
 
-
 class ConnectedApp extends Component {
 
   constructor() {
@@ -46,10 +45,6 @@ class ConnectedApp extends Component {
         collapse: false,
         isWideEnough: false,
     };
-  }
-
-  goTo(route) {
-    this.props.history.replace(`/${route}`);
   }
 
   login() {
@@ -62,6 +57,7 @@ class ConnectedApp extends Component {
     this.forceUpdate();
   }
 
+  // Get value from the address bar
   getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[[\]]/g, '\\$&');
@@ -73,14 +69,13 @@ class ConnectedApp extends Component {
   }
 
   componentDidMount(){
-    // If user is loged in, store the user profile in redux store
+    // If user is logged in, store the user profile in redux store
     if (auth.isAuthenticated()) {
       auth.getProfile((err, profile) => {
         if (err) {
           // console.log('Error loading the Profile', err);
           return;
         }
-
         this.props.setUser({profile});
       });
     }
@@ -91,14 +86,12 @@ class ConnectedApp extends Component {
     // If a new token has been found
     if(this.getParameterByName('spotify_access_token')){
       let token = this.getParameterByName('spotify_access_token');
-      // this.props.setAccessToken({token})
       this.setSpotifyAccessToken(token, 3600000);
     }
     else {
       // No access token in the URL
       //console.log('No Access Token');
     }
-
   }
 
   setSpotifyAccessToken(token, expires_in) {
@@ -113,7 +106,6 @@ class ConnectedApp extends Component {
   }
 
   render() {
-
     return (
       <Router history={history}>
       <div className="App">
@@ -149,20 +141,17 @@ class ConnectedApp extends Component {
           </Container>
         </Navbar>
 
-
-             <Alert stack={{limit: 3}} />
-
-             <Switch>
-               <Route exact path='/' component={Feed}/>
-               <Route path='/profile' render={(props) => {
-                   return <Profile auth={auth} {...props} />;
-                 }}/>
-               <Route path="/callback" render={(props) => {
-                   handleAuthentication(props);
-                   return <Callback {...props} />;
-                   }}/>
-             </Switch>
-
+         <Alert stack={{limit: 3}} />
+         <Switch>
+           <Route exact path='/' component={Feed}/>
+           <Route path='/profile' render={(props) => {
+               return <Profile auth={auth} {...props} />;
+             }}/>
+           <Route path="/callback" render={(props) => {
+               handleAuthentication(props);
+               return <Callback {...props} />;
+               }}/>
+         </Switch>
       </div>
       </Router>
     );
