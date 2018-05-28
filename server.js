@@ -82,27 +82,21 @@ router.route('/posts')
     });
   })
   .put(function(req, res) {
-
     Post.findByIdAndUpdate(
       req.body.id,
       req.body.change,
       {new: true},
-
       (err, todo) => {
         // Handle possible database errors
         if (err) return res.status(500).send(err);
         return res.json(todo);
       }
     );
-
   });
 
   router.get('/posts/:id', function (req, res) {
-
     Post.findById(
-
       req.params.id,
-
       function (err, post) {
         if (err) return res.status(500).send('There was a problem finding the post.');
         if (!post) return res.status(404).send('No post found.');
@@ -137,9 +131,9 @@ var hostname = os.hostname();
 
 // Use localhost if developing
 if (hostname == 'august-laptop') {
-  var redirect_uri = 'http://localhost:'+port+'/api/callback'; // Your redirect uri
+  var redirect_uri = 'http://localhost:'+port+'/api/callback';
 } else {
-  redirect_uri = 'http://shareatune.herokuapp.com/callback'; // Your redirect uri
+  redirect_uri = 'http://shareatune.herokuapp.com/callback';
 }
 
 router.route('/login')
@@ -182,18 +176,17 @@ router.route('/users/:id')
 // Add a user
 router.route('/users')
 .post(function(req, res) {
-
   // Is the user already in the database?
   User.count({userID: req.body.userID}, function (err, count){
     if(count == 0){
       var user = new User();
       user.userID = req.body.userID;
       user.favouriteGenre = req.body.favouriteGenre;
-      user.userPosts = [];
-
+      user.userPosts = 0;
       user.save(function(err) {
-        if (err)
-          res.send(err);
+        if (err){
+          return res.status(500).send('There was a problem adding the user.');
+        }
         res.json({ message: 'User successfully added!' });
       });
     }
@@ -203,8 +196,8 @@ router.route('/users')
   });
 });
 router.put('/users/:id', function (req, res) {
-// CAUTION: The mongoose model for a user is not the same as the redux counterpart,
-// this is just data without personal information. The "secret" data is handled by auth0
+    // CAUTION: The mongoose model for a user is not the same as the redux counterpart,
+    // this is just data without personal information. The "secret" data is handled by auth0
     User.findOneAndUpdate(
       {userID : req.params.id},
       req.body.change.data,
@@ -214,10 +207,6 @@ router.put('/users/:id', function (req, res) {
         res.status(200).send(user);
     });
 });
-
-
-
-//-------------------------------------
 
 //Use our router configuration when we call /api
 app.use('/api', router);

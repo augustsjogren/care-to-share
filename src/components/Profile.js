@@ -104,7 +104,7 @@ class ConnectedProfile extends Component {
               <div className="row p-3 w-100 m-auto">
                 <div className="col-8 py-2">
                   <ProfileField field="Favourite genre" id="favouriteGenre" isEditable={true} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.favouriteGenre} />
-                  <ProfileField field="Number of posts" id="numPosts" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.userPosts.length} />
+                  <ProfileField field="Number of posts" id="numPosts" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.userPosts} />
                   <ProfileField field="Most popular post" id="popularPost" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="A post" />
                 </div>
                 <div className="col-8 col-md-5 py-2 m-auto">

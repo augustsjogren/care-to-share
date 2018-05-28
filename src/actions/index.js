@@ -32,13 +32,13 @@ export function setUser(profile){
         axios.post(urlString, {
           userID: userID,
           favouriteGenre: 'Unspecified',
-          userPosts: []
+          userPosts: 0
         })
         .then(function (response) { // eslint-disable-line
           data = {
             userID: userID,
             favouriteGenre: 'Unspecified',
-            userPosts: []
+            userPosts: 0
           };
           dispatch({type: SET_USER, payload: {profile, data }});
         })
@@ -155,6 +155,9 @@ export  function fetchPosts(url) {
         dispatch(fetchSuccess(data[i]));
       }
 
+    })
+    .catch(function (error) { //eslint-disable-line
+      // console.log(error);
     });
   };
 }

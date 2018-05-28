@@ -1,7 +1,7 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 import {Card, Button, Fa} from 'mdbreact';
 import {Row, Col, FormGroup, FormControl} from 'react-bootstrap';
-import { toggleLike, addComment, deletePost } from '../actions/index';
+import { toggleLike, addComment, deletePost, editUserData } from '../actions/index';
 import { connect } from 'react-redux';
 import Comment from './Comment';
 import uuidv1 from 'uuid';
@@ -11,7 +11,8 @@ const mapDispatchToProps = dispatch => {
   return {
     toggleLike: (id, userID, change, likedBy) => dispatch(toggleLike( id, userID, change, likedBy)),
     addComment: (postID, comment, userID, comments) => dispatch(addComment( postID, comment, userID, comments)),
-    deletePost: (postID) => dispatch(deletePost(postID))
+    deletePost: (postID) => dispatch(deletePost(postID)),
+    editUserData: (userData) => dispatch(editUserData(userData))
   };
 };
 
@@ -96,6 +97,9 @@ class ConnectedPost extends Component {
     // console.log('delete');
     const postID = this.props.id;
     this.props.deletePost(postID);
+    // let data = this.props.user.data;
+    // data.userPosts--;
+    // this.props.editUserData({data});
   }
 
   setLikeColor = () => {

@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var PostsSchema = new Schema({
   author: String,
-  userID: Number,
+  userID: String,
   text: String,
   title: String,
   artist: String,
