@@ -5,8 +5,8 @@ class Callback extends Component {
   render() {
 
     return (
-      <div>
-        <img src={loading} alt="loading"/>
+      <div className="calllbackDiv">
+        <img className="m-auto loadingIndicator p-5" src={loading} alt="loading"/>
       </div>
     );
   }

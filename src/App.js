@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setAccessToken, setUser } from './actions/index';
+import { setAccessToken, setUser, fetchPosts } from './actions/index';
 import './App.css';
 
 import Feed from './components/Feed';
@@ -23,12 +23,16 @@ const auth = new Auth();
  const mapDispatchToProps = dispatch => {
    return {
      setAccessToken: (token) => dispatch(setAccessToken(token)),
-     setUser: (user) => dispatch(setUser(user))
+     setUser: (user) => dispatch(setUser(user)),
+     fetchPosts: url => dispatch(fetchPosts(url))
    };
  };
 
  const mapStateToProps = state => {
-   return { user: state.user };
+   return {
+     user: state.user,
+     loading: state.loading
+    };
  };
 
  const handleAuthentication = (nextState) => {
@@ -37,6 +41,8 @@ const auth = new Auth();
    }
  };
 
+var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
+
 class ConnectedApp extends Component {
 
   constructor() {
@@ -44,6 +50,7 @@ class ConnectedApp extends Component {
     this.state = {
         collapse: false,
         isWideEnough: false,
+        hasCheckedAuth: false
     };
   }
 
@@ -69,19 +76,12 @@ class ConnectedApp extends Component {
   }
 
   componentDidMount(){
-    // If user is logged in, store the user profile in redux store
-    if (auth.isAuthenticated()) {
-      auth.getProfile((err, profile) => {
-        if (err) {
-          // console.log('Error loading the Profile', err);
-          return;
-        }
-        this.props.setUser({profile});
-      });
-    }
-    else {
-      //console.log('Not logged in');
-    }
+
+    this.checkAuthentication();
+
+    // Fetch the posts
+    const url = URI;
+    this.props.fetchPosts({url});
 
     // If a new token has been found
     if(this.getParameterByName('spotify_access_token')){
@@ -89,8 +89,27 @@ class ConnectedApp extends Component {
       this.setSpotifyAccessToken(token, 3600000);
     }
     else {
-      // No access token in the URL
+      // No spotify access token in the URL
       //console.log('No Access Token');
+    }
+  }
+
+  checkAuthentication = () => {
+    // If user is logged in, store the user profile in redux store
+    let authenticated = auth.isAuthenticated();
+    if (authenticated) {
+      auth.getProfile((err, profile) => {
+        if (err) {
+          // console.log('Error loading the Profile', err);
+          return;
+        }
+        this.props.setUser({profile});
+        this.setState({hasCheckedAuth: true});
+      });
+    }
+    else {
+      // Not logged in;
+      this.setState({hasCheckedAuth: true});
     }
   }
 
@@ -103,6 +122,15 @@ class ConnectedApp extends Component {
       this.setState({
           collapse: !this.state.collapse,
       });
+  }
+
+  renderRouter = () => {
+    if (!this.props.loading && this.state.hasCheckedAuth) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   render() {
@@ -120,17 +148,17 @@ class ConnectedApp extends Component {
                 <NavItem >
                   <NavLink className="nav-link" to="/">Home</NavLink>
                 </NavItem>
-                { auth.isAuthenticated() &&
+                { this.props.user.profile &&
                   <NavItem >
                     <NavLink className="nav-link" to="/profile">Profile</NavLink>
                   </NavItem>
                 }
-                { !auth.isAuthenticated() && (
+                { !this.props.user.profile && (
                   <NavItem >
                     <a className="nav-link" onClick={this.login.bind(this)}> Log in </a>
                   </NavItem>
                 )}
-                { auth.isAuthenticated() && (
+                { this.props.user.profile && (
                   <NavItem >
                     <a className="nav-link" onClick={this.logout.bind(this)}> Log out </a>
                   </NavItem>
@@ -142,19 +170,28 @@ class ConnectedApp extends Component {
         </Navbar>
 
          <Alert stack={{limit: 3}} />
-         <Switch>
-           <Route exact path='/' component={Feed}/>
-           <Route path='/profile' render={(props) => {
-               return <Profile auth={auth} {...props} />;
-             }}/>
-           <Route path="/callback" render={(props) => {
-               handleAuthentication(props);
-               return <Callback {...props} />;
+
+         {this.renderRouter() ? (
+           <Switch>
+             <Route exact path='/' component={Feed}/>
+             <Route path='/profile' render={(props) => {
+                 return <Profile auth={auth} {...props} />;
                }}/>
-         </Switch>
-      </div>
-      </Router>
-    );
+               <Route path="/callback" render={(props) => {
+                   handleAuthentication(props);
+                   return <Callback {...props} />;
+                 }}/>
+               </Switch>
+             ):(
+               // <Callback />
+               // Render empty div because it looks better than a spinner
+               <div>
+               </div>
+             )
+           }
+         </div>
+       </Router>
+     );
   }
 }
 

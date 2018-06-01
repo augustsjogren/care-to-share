@@ -168,3 +168,11 @@ html{
 .img-fluid{
 padding: 5px;
 }
+
+.calllbackDiv{
+  background-color: #f5f5f5;
+}
+
+.loadingIndicator{
+  display: block;
+}

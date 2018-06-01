@@ -1,12 +1,13 @@
 import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS,
   POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT,
-  DELETE_POST, EDIT_USERDATA, ADD_USER_POST } from '../constants/action-types';
+  DELETE_POST, EDIT_USERDATA, ADD_USER_POST, SET_LOADING } from '../constants/action-types';
 import update from 'immutability-helper';
 
 const initialState = {
   posts: [],
   access_token: '',
-  user: ''
+  user: '',
+  loading: true
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -18,7 +19,9 @@ const rootReducer = (state = initialState, action) => {
     case FETCH_POSTS:
       return { ...state, posts: [...state.posts, action.payload] };
     case FETCH_SUCCESS:
-      return { ...state, posts: [...state.posts, action.payload] };
+      return { ...state, posts: [...state.posts, ...action.payload] };
+    case SET_LOADING:
+      return { ...state, loading: action.payload };
     case POST_SUCCESS:
       return { ...state, posts: [...state.posts, action.payload] };
     case SET_TOKEN:

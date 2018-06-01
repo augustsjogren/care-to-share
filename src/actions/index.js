@@ -1,4 +1,4 @@
-import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST, EDIT_USERDATA } from '../constants/action-types';
+import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT, DELETE_POST, EDIT_USERDATA, SET_LOADING } from '../constants/action-types';
 
 import axios from 'axios';
 
@@ -141,6 +141,7 @@ export function fetchSuccess(posts) {
   // Dispatch posts to database
   return dispatch => {
     dispatch({ type: FETCH_SUCCESS, payload: posts });
+    dispatch({ type: SET_LOADING, payload: false });
   };
 }
 
@@ -150,11 +151,7 @@ export  function fetchPosts(url) {
     axios.get(url.url)
     .then( function (response){
       let data = response.data;
-
-      for (var i = 0; i < data.length; i++) {
-        dispatch(fetchSuccess(data[i]));
-      }
-
+      dispatch(fetchSuccess(data));
     })
     .catch(function (error) { //eslint-disable-line
       // console.log(error);

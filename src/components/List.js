@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { fetchPosts } from '../actions/index';
 import Post from './Post.js';
 
@@ -19,32 +18,18 @@ var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/ap
 class ConnectedList extends React.Component {
   constructor() {
     super();
-    this.state = { data: [] };
-  }
-
-  componentDidMount() {
-    if (this.props.posts == '') {
-      const url = URI;
-      this.props.fetchPosts({url});
-    }
-  }
-
-  // Update the state when the component recieves new props (posts)
-  componentWillReceiveProps(nextProps){
-    this.setState({data: nextProps.posts});
   }
 
   render(){
-    var reversedArray = this.props.posts.slice().reverse();
-
+    const reversedArray = this.props.posts.slice().reverse();
     return(
       <ul className="list-group list-group-flush pb-3">
-          {reversedArray.map(el => (
-            <Post title={el.title} artist={el.artist} content={el.text} likes={el.likes}
-              imageUrl={el.imageUrl} author={el.author} userID={el.userID} date={el.date} likedBy={el.likedBy}
-              comments={el.comments} id={el['_id']} key={ el['_id'] }/>
-          ))}
-        </ul>
+        {reversedArray.map(el => (
+          <Post title={el.title} artist={el.artist} content={el.text} likes={el.likes}
+            imageUrl={el.imageUrl} author={el.author} userID={el.userID} date={el.date} likedBy={el.likedBy}
+            comments={el.comments} id={el['_id']} key={ el['_id'] }/>
+        ))}
+      </ul>
     );
   }
 }
