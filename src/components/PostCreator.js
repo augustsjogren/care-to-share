@@ -6,6 +6,7 @@ import { addPost, editUserData } from '../actions/index';
 import { FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, ListGroupItem, Media, Fa, Card} from 'mdbreact';
 import Alert from 'react-s-alert';
+import update from 'immutability-helper';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 var spotifyApi = new SpotifyWebApi();
@@ -24,25 +25,13 @@ const mapStateToProps = state => {
   };
 };
 
-var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
+var url = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
 
 class ConnectedPostCreator extends Component{
   constructor(){
     super();
     this.state = {
-      data: {
-        postContent: '',
-        text: '',
-        title: '',
-        artist: '',
-        author: '',
-        _id: '',
-        imageUrl: '',
-        date: '',
-        likes: 0,
-        likedBy: [],
-        comments: []
-      },
+      data: {},
       searchQuery: '',
       searchResult: '',
       selectedItem: '',
@@ -54,14 +43,13 @@ class ConnectedPostCreator extends Component{
     this.handleChange = this.handleChange.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.handleListClick = this.handleListClick.bind(this);
-
   }
 
+  // The user submits a post
   handleSubmit(event){
     event.preventDefault();
-    if (this.state.data.text == '' || this.state.data.title == '') {
+    if (this.state.data.text === '' || this.state.data.title === '') {
       Alert.warning('Please enter a valid post', {
               position: 'top-right',
               effect: 'scale',
@@ -71,33 +59,19 @@ class ConnectedPostCreator extends Component{
           });
     } else {
       let data = this.state.data;
-      const url = URI;
-
       this.props.addPost({url , data});
 
+      // Increment the user's post count
       data = this.props.user.data;
       data.userPosts++;
       this.props.editUserData({data});
 
-      this.setState({ postContent: '' });
-
       this.setState({
         selectedTrackShowing: 'none',
-        data:{
-          author: '',
-          userID: '',
-          text: '',
-          _id: '',
-          title: '',
-          artist: '',
-          imageUrl: '',
-          date: '',
-          likes: 0,
-          likedBy: [],
-          comments: []
-        }
+        data:{}
       });
 
+      // Clear the forms
       this.refs.postContent.reset();
       this.refs.searchContent.reset();
     }
@@ -118,35 +92,24 @@ class ConnectedPostCreator extends Component{
   }
 
   handleChange(event) {
-
-    try {
       const id = uuidv1();
-
       let theDate = new Date().toJSON();
-
       this.setState({
         data:{
           author: this.getUsername(),
           userID: this.getUserID(),
           text: event.target.value,
           _id: id,
-          title: this.state.selectedItem.name,
-          artist: this.state.selectedItem.artists[0].name,
-          imageUrl: this.state.selectedItem.album.images[1].url,
           date: theDate,
           likes: 0,
           likedBy: [],
           comments: []
         },
         textInput: event.target.value
-
       });
-    } catch (e) {
-      // console.error(e);
-    }
   }
 
-  getAccessToken(){
+  getSpotifyAccessToken(){
     var expires = localStorage.getItem('spotify_token_expires', '0');
     if ((new Date()).getTime() > expires) {
       return '';
@@ -155,23 +118,9 @@ class ConnectedPostCreator extends Component{
     return token;
   }
 
-  componentDidUpdate(){
-
-    let token = this.getAccessToken();
-
-    if (token != '') {
-      spotifyApi.setAccessToken(token);
-    }
-    else {
-      //console.log("Please refresh access token.");
-    }
-
-  }
-
   componentDidMount(){
-    let token = this.getAccessToken();
-
-    if (token != '') {
+    let token = this.getSpotifyAccessToken();
+    if (token !== '') {
       spotifyApi.setAccessToken(token);
     }
     else {
@@ -182,6 +131,8 @@ class ConnectedPostCreator extends Component{
   handleSearchChange(event) {
     this.setState({searchQuery: event.target.value});
 
+    // Make a search using the spotify web API
+    // when the text in the search field changes
     if (event.target.value.length > 0) {
       this.setState({searchListShowing: 'block'});
       spotifyApi.searchTracks(event.target.value)
@@ -200,66 +151,36 @@ class ConnectedPostCreator extends Component{
     }
   }
 
-  // Fetch tracks from spotify API based on search
-  handleSearch(event){
-    event.preventDefault();
-    spotifyApi.searchTracks(this.state.searchQuery)
-    .then((response) =>{
-      this.setState({searchResult: response.tracks.items});
-    })
-    .catch((err) => {
-      console.error(err); // eslint-disable-line
-    });
-  }
-
   handleListClick(content){
-    const id = uuidv1();
-    let theDate = new Date().toJSON();
-
     this.setState({
       selectedItem: content,
       selectedTrackShowing: 'flex',
-      data:{
-        author: this.getUsername(),
-        userID: this.getUserID,
-        _id: id,
-        text: this.state.textInput,
-        title: content.name,
-        artist: content.artists[0].name,
-        imageUrl: content.album.images[1].url,
-        date: theDate,
-        likes: 0,
-        likedBy: [],
-        comments: []
-      }
-
+      searchListShowing: 'none'
     });
-    this.setState({searchListShowing: 'none'});
+
+    // Only update the needed state changes and do so immutably
+    this.setState({
+      data: update(this.state.data,
+        {
+          title: {$set: content.name },
+          artist: {$set: content.artists[0].name },
+          imageUrl: {$set: content.album.images[1].url },
+        }
+      )
+    });
     this.refs.searchContent.reset();
   }
 
   handleTrash = () => {
     this.setState({
       selectedTrackShowing: 'none',
-      data:{
-        author: '',
-        userID: '',
-        text: '',
-        _id: '',
-        title: '',
-        artist: '',
-        imageUrl: '',
-        date: '',
-        likes: 0,
-        likedBy: [],
-        comments: []
-      },
+      data:{},
       searchResult: ''
     });
   };
 
   showSelectedItem = () => {
-    if (this.state.selectedItem != '') {
+    if (this.state.selectedItem !== '') {
       return <Media>
         <Media left className="mr-3">
           <Media object src={this.state.selectedItem.album.images[2].url} alt="Image not found" />
@@ -278,8 +199,7 @@ class ConnectedPostCreator extends Component{
 
 
   render(){
-    const {text} = this.state.data.text;
-
+    const {text} = this.state.data.text ? this.state.data.text : '' ;
     const content = this.state.searchResult;
 
     const listStyle = {
@@ -312,7 +232,7 @@ class ConnectedPostCreator extends Component{
               </FormGroup>
             </form>
 
-            <form onSubmit={this.handleSearch} className="searchForm" ref="searchContent">
+            <form className="searchForm" ref="searchContent">
               <Row>
                 <Col md={12} >
                   <FormControl

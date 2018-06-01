@@ -1,25 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/index';
 import Post from './Post.js';
 
 const mapStateToProps = state => {
   return { posts: state.posts };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchPosts: url => dispatch(fetchPosts(url))
-  };
-};
-
-var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/api/posts' : 'https://shareatune.herokuapp.com/api/posts');
-
 class ConnectedList extends React.Component {
-  constructor() {
-    super();
-  }
-
   render(){
     const reversedArray = this.props.posts.slice().reverse();
     return(
@@ -34,6 +21,6 @@ class ConnectedList extends React.Component {
   }
 }
 
-const List = connect(mapStateToProps, mapDispatchToProps)(ConnectedList);
+const List = connect(mapStateToProps, null)(ConnectedList);
 
 export default List;

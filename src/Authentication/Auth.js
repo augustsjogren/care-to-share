@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
-var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3000/callback' : 'https://shareatune.herokuapp.com/callback');
+var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3000/callback' : 'https://shareatune.herokuapp.com/callback');
 
 export default class Auth {
 
@@ -49,7 +49,7 @@ export default class Auth {
           window.location.reload();
         } else {
           // Get a spotify access token
-          if (window.location.host == 'localhost:3000') {
+          if (window.location.host === 'localhost:3000') {
             window.location = 'http://localhost:3100/api/login';
           }
           else{

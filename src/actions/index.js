@@ -2,13 +2,13 @@ import { FETCH_SUCCESS, POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMM
 
 import axios from 'axios';
 
-var URI = (window.location.host == 'localhost:3000' ? 'http://localhost:3100/api/' : 'https://shareatune.herokuapp.com/api/');
+var URI = (window.location.host === 'localhost:3000' ? 'http://localhost:3100/api/' : 'https://shareatune.herokuapp.com/api/');
 
 export const setAccessToken = token => ({ type: SET_TOKEN, payload: token });
 
 export function setUser(profile){
 
-  if (profile != '') {
+  if (profile !== '') {
     let userID = profile.profile.sub;
     userID = userID.split('|')[1];
     let urlString = URI+'users/';
@@ -87,7 +87,7 @@ export function toggleLike (postID, userID, likes, likedBy){
     // Remove like, user has already liked the post
 
     likedBy = likedBy.filter(function(item){
-      return item != userID;
+      return item !== userID;
     });
 
     newLikes = likes - 1;

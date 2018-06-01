@@ -61,7 +61,7 @@ class ConnectedPost extends Component {
   }
 
   submitComment = () => {
-    if (this.state.pendingComment == '') {
+    if (this.state.pendingComment === '') {
       Alert.warning('Please enter a valid comment', {
               position: 'top-right',
               effect: 'scale',
@@ -143,7 +143,7 @@ class ConnectedPost extends Component {
             </Col>
             { this.props.user.profile &&
             <Col className="float-right">
-              { this.getUserID() == this.props.userID &&
+              { this.getUserID() === this.props.userID &&
                 <Button color="deep-orange" className="removeButton postButton px-4 py-2" onClick={this.deletePost} >
                   <Fa className="fa-2x"  icon="trash-o"/>
                 </Button>

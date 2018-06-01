@@ -3,13 +3,9 @@ import { connect } from 'react-redux';
 import {Card, Button} from 'mdbreact';
 import { editUserData } from '../actions/index';
 import ProfileField from './ProfileField';
-import SpotifyWebApi from 'spotify-web-api-js';
-
-var spotifyApi = new SpotifyWebApi();
 
 const mapStateToProps = state => {
   return {
-    token: state.access_token.token,
     user: state.user,
     posts: state.posts
   };
@@ -32,33 +28,11 @@ class ConnectedProfile extends Component {
     };
   }
 
-  // Fetch token from local storage
-  getSpotifyAccessToken(){
-    var expires = localStorage.getItem('spotify_token_expires', '0');
-    if ((new Date()).getTime() > expires) {
-      return '';
-    }
-    var token = localStorage.getItem('spotify_access_token', '');
-    return token;
-  }
-
-  componentDidMount(){
-
-    let token = this.getSpotifyAccessToken();
-
-    if (token != '') {
-      spotifyApi.setAccessToken(token);
-    }
-    else {
-      // console.log('Please refresh access token.');
-    }
-  }
-
   // Get the post with the most likes and comments belonging
   // to the logged in user
   getPopularPost = () => {
     if (this.props.posts) {
-      let userPosts = this.props.posts.filter(post => post.userID == this.props.user.data.userID);
+      let userPosts = this.props.posts.filter(post => post.userID === this.props.user.data.userID);
       let largest = -1;
       let popularPost = {};
 
