@@ -10,7 +10,8 @@ var spotifyApi = new SpotifyWebApi();
 const mapStateToProps = state => {
   return {
     token: state.access_token.token,
-    user: state.user
+    user: state.user,
+    posts: state.posts
   };
 };
 
@@ -53,6 +54,29 @@ class ConnectedProfile extends Component {
     }
   }
 
+  // Get the post with the most likes and comments belonging
+  // to the logged in user
+  getPopularPost = () => {
+    if (this.props.posts) {
+      let userPosts = this.props.posts.filter(post => post.userID == this.props.user.data.userID);
+      let largest = -1;
+      let popularPost = {};
+
+      if (userPosts.length > 0) {
+        for (var post in userPosts) {
+          if (userPosts[post].likes + userPosts[post].comments.length > largest) {
+            popularPost = userPosts[post];
+            largest = userPosts[post].likes + userPosts[post].comments.length;
+          }
+        }
+        return popularPost.artist + ' - ' + popularPost.title;
+      }
+      return 'No tracks posted yet!';
+    }
+  }
+
+  // Return the user's full name if logged in through google,
+  // otherwise use nickname
   getUsername = () => {
     if (this.props.user.profile.sub.includes('google')) {
       return this.props.user.profile.name;
@@ -111,7 +135,7 @@ class ConnectedProfile extends Component {
                 <div className="col-8 py-2">
                   <ProfileField field="Favourite genre" id="favouriteGenre" isEditable={true} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.favouriteGenre} />
                   <ProfileField field="Number of posts" id="numPosts" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.props.user.data.userPosts} />
-                  <ProfileField field="Most popular post" id="popularPost" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content="A post" />
+                  <ProfileField field="Most popular post" id="popularPost" isEditable={false} handleFormChange={this.handleFormChange} isEditing={this.state.isEditing} content={this.getPopularPost()} />
                 </div>
                 <div className="col-8 col-md-5 py-2 m-auto">
                   <Button className="editProfileButton postButton" onClick={this.handleEditing} color="primary" block> {editButtonText} </Button>
