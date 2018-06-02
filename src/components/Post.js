@@ -115,7 +115,7 @@ class ConnectedPost extends Component {
       <Card>
 
         <Row className="mx-0 ">
-          <Col sm={3} className="pl-0">
+          <Col sm={3} className="px-0">
             <img className="feed-img" src={this.props.imageUrl} alt="" />
           </Col>
 
@@ -171,15 +171,17 @@ class ConnectedPost extends Component {
       </Row>
 
       {this.state.displayComments &&
-      <Row className="commentRow pt-2">
-        <ul className="comment-list mb-3 mt-2">
+        <Row className="commentRow pt-2">
+          <ul className="comment-list mb-3 mt-2">
             {comments.map(el => (
               <Comment user={el.user} content={el.content} key={ el['_id'] } />
             ))}
           </ul>
-
+          {comments.length === 0 &&
+            // No comments to show
+            <p className="m-auto pb-3">No comments!</p>
+          }
           { this.props.user.profile &&
-
           <Row className="addCommentRow w-100 mx-auto">
             <Col sm={9}>
               <form onSubmit={this.submitComment} ref="commentForm" className='comment-area'>

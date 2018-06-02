@@ -12,9 +12,6 @@ let request = require('request');
 //Create instances
 var app = express();
 var router = express.Router();
-
-app.use(cors());
-
 var port = process.env.PORT || 3001;
 
 //db config
@@ -26,6 +23,7 @@ db.once('open', function() {
   // we're connected!
 });
 
+app.use(cors());
 
 //Configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -123,46 +121,6 @@ router.delete('/posts/:id', function (req, res) {
   );
 });
 
-
-// ----------------Spotify--------------
-
-var os = require('os');
-var hostname = os.hostname();
-
-// Use localhost if developing
-if (hostname == 'august-laptop') {
-  var redirect_uri = 'http://localhost:'+port+'/api/callback';
-} else {
-  redirect_uri = 'http://shareatune.herokuapp.com/callback';
-}
-
-router.route('/login')
-.get(function(req, res) {
-  let code = req.query.code || null;
-  let authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    form: {
-      code: code,
-      redirect_uri,
-      grant_type: 'client_credentials'
-    },
-    headers: {
-      'Authorization': 'Basic ' + (new Buffer(
-        process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET
-      ).toString('base64'))
-    },
-    json: true
-  };
-
-  request.post(authOptions, function(error, response, body) {
-    var access_token = body.access_token;
-    let uri = process.env.FRONTEND_URI || 'http://localhost:3000';
-    res.redirect(uri + '?spotify_access_token=' + access_token);
-  });
-});
-
-// ----------------End of spotify--------------
-
 // Get a user
 router.route('/users/:id')
 .get(function (req,res) {
@@ -208,10 +166,48 @@ router.put('/users/:id', function (req, res) {
     });
 });
 
-//Use our router configuration when we call /api
+// ----------------Spotify--------------
+
+var os = require('os');
+var hostname = os.hostname();
+
+// Use localhost if developing
+if (hostname == 'august-laptop') {
+  var redirect_uri = 'http://localhost:'+port+'/api/callback';
+} else {
+  redirect_uri = 'http://shareatune.herokuapp.com/callback';
+}
+
+router.route('/login')
+.get(function(req, res) {
+  let code = req.query.code || null;
+  let authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      code: code,
+      redirect_uri,
+      grant_type: 'client_credentials'
+    },
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer(
+        process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET
+      ).toString('base64'))
+    },
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    var access_token = body.access_token;
+    let uri = process.env.FRONTEND_URI || 'http://localhost:3000';
+    res.redirect(uri + '?spotify_access_token=' + access_token);
+  });
+});
+
+// ----------------End of spotify--------------
+
+//Use router configuration when we call /api
 app.use('/api', router);
 
-//starts the server and listens for requests
 app.listen(port, function() {
   console.log(`api running on port ${port}`); // eslint-disable-line
 });
