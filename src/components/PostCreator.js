@@ -95,16 +95,18 @@ class ConnectedPostCreator extends Component{
       const id = uuidv1();
       let theDate = new Date().toJSON();
       this.setState({
-        data:{
-          author: this.getUsername(),
-          userID: this.getUserID(),
-          text: event.target.value,
-          _id: id,
-          date: theDate,
-          likes: 0,
-          likedBy: [],
-          comments: []
-        },
+        data: update(this.state.data,
+          {
+            author:   { $set: this.getUsername() },
+            userID:   { $set: this.getUserID() },
+            text:     { $set: event.target.value},
+            _id:      { $set: id },
+            date:     { $set: theDate },
+            likes:    { $set: 0 },
+            likedBy:  { $set: [] },
+            comments: { $set: [] },
+          }
+        ),
         textInput: event.target.value
       });
   }
@@ -153,17 +155,17 @@ class ConnectedPostCreator extends Component{
 
   handleListClick(content){
     this.setState({
-      selectedItem: content,
+      selectedItem:         content,
       selectedTrackShowing: 'flex',
-      searchListShowing: 'none'
+      searchListShowing:    'none'
     });
 
     // Only update the needed state changes and do so immutably
     this.setState({
       data: update(this.state.data,
         {
-          title: {$set: content.name },
-          artist: {$set: content.artists[0].name },
+          title:    {$set: content.name },
+          artist:   {$set: content.artists[0].name },
           imageUrl: {$set: content.album.images[1].url },
         }
       )

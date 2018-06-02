@@ -1,43 +1,38 @@
-import { ADD_ARTICLE, ADD_POST, FETCH_POSTS, FETCH_SUCCESS,
-  POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE, ADD_COMMENT,
-  DELETE_POST, EDIT_USERDATA, SET_LOADING } from '../constants/action-types';
+import { ADD_POST, FETCH_POSTS, FETCH_SUCCESS,
+  POST_SUCCESS, SET_TOKEN, SET_USER, TOGGLE_LIKE,
+  ADD_COMMENT, DELETE_POST, EDIT_USERDATA, SET_LOADING } from '../constants/action-types';
+
+// This helper will help to not mutate the state when changing sub-elements
 import update from 'immutability-helper';
 
-const initialState = {
-  posts: [],
-  access_token: '',
-  user: '',
-  loading: true
-};
+  const initialState = {
+    posts: [],
+    user: '',
+    loading: true
+  };
 
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_ARTICLE:
-      return { ...state, articles: [...state.articles, action.payload] };
-    case ADD_POST:
+  const rootReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case ADD_POST:
       return { ...state, posts: [...state.posts, action.payload] };
-    case FETCH_POSTS:
+
+      case FETCH_POSTS:
       return { ...state, posts: [...state.posts, action.payload] };
-    case FETCH_SUCCESS:
+
+      case FETCH_SUCCESS:
       return { ...state, posts: [...state.posts, ...action.payload] };
-    case SET_LOADING:
+
+      case SET_LOADING:
       return { ...state, loading: action.payload };
-    case POST_SUCCESS:
+
+      case POST_SUCCESS:
       return { ...state, posts: [...state.posts, action.payload] };
-    case SET_TOKEN:
-      return { ...state, access_token: action.payload};
-    case SET_USER:
-      var user = action.payload;
-      if (user) {
-        user.profile = user.profile.profile;
-      }
-      return { ...state, user: user};
-    case TOGGLE_LIKE:
+
+      case TOGGLE_LIKE:
       // Find the index of the post in the posts array
       var index = state.posts.findIndex(function(post){
         return post._id === action.payload.postID;
       });
-
       return update(state, {
         posts: {
           [index]:{
@@ -48,34 +43,40 @@ const rootReducer = (state = initialState, action) => {
       });
 
       case ADD_COMMENT:
-        // Find the index of the post in the posts array
-        index = state.posts.findIndex(function(post){
-          return post._id === action.payload.postID;
-        });
-
-        return update(state, {
-          posts: {
-            [index]:{
-              comments: {$set: action.payload.comments}
-            }
+      // Find the index of the post in the posts array
+      index = state.posts.findIndex(function(post){
+        return post._id === action.payload.postID;
+      });
+      return update(state, {
+        posts: {
+          [index]:{
+            comments: {$set: action.payload.comments}
           }
-        });
+        }
+      });
 
       case DELETE_POST:
-        // Filter out the posts not having the ID to remove
-        var filteredPosts = state.posts.filter((item) => item._id !== action.payload.postID);
-        return{...state, posts:[...filteredPosts ]};
-    case EDIT_USERDATA:
-    return update(state, {
-      user: {
-        data: {$set: action.payload.data}
+      // Filter out the posts not having the ID to remove
+      var filteredPosts = state.posts.filter((item) => item._id !== action.payload.postID);
+      return{...state, posts:[...filteredPosts ]};
+
+      case SET_USER:
+      var user = action.payload;
+      if (user) {
+        user.profile = user.profile.profile;
       }
-    });
+      return { ...state, user: user};
 
-    default:
+      case EDIT_USERDATA:
+      return update(state, {
+        user: {
+          data: {$set: action.payload.data}
+        }
+      });
+
+      default:
       return state;
-  }
-};
+    }
+  };
 
-
-export default rootReducer;
+  export default rootReducer;

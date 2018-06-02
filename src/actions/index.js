@@ -70,9 +70,7 @@ export function toggleLike (postID, userID, likes, likedBy){
 
   if (!hasLiked) {
     // Add a like
-
     likedBy.push(userID);
-
     newLikes = likes + 1;
 
     axios.put(urlString, {
@@ -85,7 +83,6 @@ export function toggleLike (postID, userID, likes, likedBy){
   }
   else{
     // Remove like, user has already liked the post
-
     likedBy = likedBy.filter(function(item){
       return item !== userID;
     });
