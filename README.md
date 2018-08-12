@@ -1,8 +1,4 @@
 # Care To Share - TDDD27 project
-
-# Screencast
-https://vimeo.com/273091559
-
 # Functional specs
 
 The idea for the application is a service for recommending and sharing music with friends and other people. The primary view for the app will be a feed, kind of like a twitter feed, where users can publish posts. These posts can be song or album recommendations which users also can tag with things like emotion.
